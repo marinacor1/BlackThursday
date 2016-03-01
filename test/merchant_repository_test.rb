@@ -11,7 +11,15 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "CJsDecor", merchant
   end
 
-  def test_merchant_through_id
-    
+  def test_item_can_be_found_by_id
+    skip
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv"
+    })
+    merchant = se.merchants.find_by_id(10)
+    assert_equal [], merchant.items
+  end
+
 
 end
