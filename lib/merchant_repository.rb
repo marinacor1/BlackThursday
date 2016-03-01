@@ -1,9 +1,11 @@
 require 'pry'
 require 'csv'
-class MerchantRepository
-  attr_accessor :data
+require_relative 'sales_engine'
 
-  def initialize(hash)
+class MerchantRepository
+  attr_accessor :data, :merchants
+
+  def initialize(path)
     @merchants
   end
 
@@ -30,7 +32,7 @@ class MerchantRepository
   def find_by_name(query_name)
     if @name.downcase == query_name.downcase
       @name
-    else 
+    else
       nil
     end
     #returns nil if no name found (case insensitive)
@@ -43,7 +45,6 @@ class MerchantRepository
     #case insensitive
   end
 
-  def
 
 end
 
