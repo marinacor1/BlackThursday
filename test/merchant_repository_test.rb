@@ -30,4 +30,12 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal all, merchant
   end
 
+  def test_merchant_find_id_works
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_by_id('12334105')
+    assert_equal "Shopin1901", merchant
+  end
+
 end

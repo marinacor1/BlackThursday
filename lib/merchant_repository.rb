@@ -4,7 +4,7 @@ require_relative 'sales_engine'
 
 class MerchantRepository
   attr_reader :name
-  attr_accessor :data, :merchants
+  attr_accessor :data, :merchants, :loaded_merchants
 
   def initialize(path)
     @merchants = load_data(path)
@@ -12,11 +12,12 @@ class MerchantRepository
 
   def load_data(path)
     @merchant_contents = CSV.open path, headers: true, header_converters: :symbol
-    loaded_merchants = @merchant_contents.to_a.map {|row| row.to_h}
+    @loaded_merchants = @merchant_contents.to_a.map {|row| row.to_h}
     contents = CSV.open './data/merchants.csv', headers: true, header_converters: :symbol
     @all_names = []
+    @all_ids = []
     contents.each do |row|
-      @id = row[:id]
+      @all_ids << @id = row[:id]
       @all_names << @name = row[:name]
       @created_at = row[:created_at]
       @updated_at = row[:updated_at]
@@ -31,10 +32,13 @@ class MerchantRepository
 
   def all
     @all_names
-    #returns array of all known merchant instances
   end
 
-  def find_by_id
+  def find_by_id(id_query)
+    @loaded_merchants.find do |merchant|
+      id_query == merchant[:id]
+    end[:name]
+
     #returns nil if no merchant found with id
     #else returns instance of merchant with matching id
   end
