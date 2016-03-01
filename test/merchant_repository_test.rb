@@ -3,6 +3,12 @@ require 'minitest/pride'
 require_relative '../lib/merchant_repository'
 
 class MerchantRepositoryTest < Minitest::Test
+
+  def test_it_instantiates_a_merchant_repo
+    merchants = MerchantRepository.new
+    assert_equal MerchantRepository, merchants.class
+  end
+
   def test_merchants_are_accessed_and_found_in_find_by_name
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
@@ -61,5 +67,10 @@ class MerchantRepositoryTest < Minitest::Test
     merchant = mr.find_all_by_name('xxxyx')
     assert_equal [], merchant
   end
+
+  def test_it_instantiates_with_merchant_subclass
+    skip
+  end
+
 
 end

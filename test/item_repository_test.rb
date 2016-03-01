@@ -1,11 +1,16 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require_relative '../lib/sales_engine'
 require_relative '../lib/item_repository'
-
 
 class ItemRepositoryTest < Minitest::Test
 
   def test_it_instantiates_an_item_repo
+    items = ItemRepository.new
+    assert_equal ItemRepository, items.class
+  end
+
+  def test_item_repo_can_find_by_name
     skip
     items = ItemRepository
     assert_equal ItemRepository, items.class

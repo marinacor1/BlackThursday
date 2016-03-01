@@ -1,29 +1,42 @@
 require 'pry'
 require 'csv'
+require_relative 'item'
 
 class ItemRepository
-  attr_accessor :data, :items, :contents
+  attr_accessor :data
 
-  def initialize(path)
-    @items
-  end
+def initialize
 
-  def load_data(path)
-    @item_contents = CSV.open data[:items], headers: true, header_converters: :symbol
-    @loaded_items = @item_contents.to_a.map {|row| row.to_h}
 end
 
-  def self.from_csv(path)
-    @contents = CSV.open '../data/items.csv', headers: true, header_converters: :symbol
-    contents.each do |row|
-      binding.pry
-      name = row[:name]
-      id = row[:id]
-      description = row[:description]
-      unit_price = row[:unit_price]
-      puts name
-    end
-  end
+def populate_items_with_data_from_csv(path)
+@data = []
+CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
+
+  i = Item.new
+  i.id = row[:id]
+  i.name = row[:name]
+  i.description = row[:description]
+  i.unit_price = row[:unit_price]
+  i.merchant_id = row[:merchant_id]
+  i.created_at = row[:created_at]
+  i.updated_at = row[:updated_at]
+  @data << i
+
+end
+
+end
+
+
+
+end
+
+
+if __FILE__ == $0
+
+item_repo = ItemRepository.new("../data/items.csv")
+
+end
 
 end
 
