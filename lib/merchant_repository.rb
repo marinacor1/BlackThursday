@@ -1,30 +1,30 @@
 require 'pry'
 require 'csv'
 require_relative 'sales_engine'
+require_relative 'merchant'
 
 class MerchantRepository
   attr_reader :name, :id
   attr_accessor :data, :loaded_merchants
 
   def initialize(path)
-    merchants  = populate_items_with_data_from_csv(path)
+    merchants  = Merchant.new.populate_items_with_data_from_csv(path)
   end
 
   def populate_items_with_data_from_csv(path)
-    @data = []
-    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
-
-      i = Item.new
-      i.id = row[:id]
-      i.name = row[:name]
-      i.description = row[:description]
-      i.unit_price = row[:unit_price]
-      i.merchant_id = row[:merchant_id]
-      i.created_at = row[:created_at]
-      i.updated_at = row[:updated_at]
-      @data << i
+    @all_merchants = []
+  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
+    binding.pry
+      merchant = Merchant.new
+      @id = row[:id]
+      merchant.name = row[:name]
+      merchant.created_at = row[:created_at]
+      merchant.updated_at = row[:updated_at]
+      merchant
+      @all_merchants << merchant
     end
   end
+
   # def load_data(path)
   #   merchant_contents = CSV.open path, headers: true, header_converters: :symbol
   #   @loaded_merchants = merchant_contents.to_a.map {|row| row.to_h}

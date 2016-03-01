@@ -18,7 +18,6 @@ class ItemRepositoryTest < Minitest::Test
 
 
   def test_merchant_can_be_found_by_id
-    skip
     se = SalesEngine.from_csv({
     :items     => "./data/items.csv",
     :merchants => "./data/merchants.csv"

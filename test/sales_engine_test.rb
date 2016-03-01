@@ -43,5 +43,7 @@ class SalesEngineTest < Minitest::Test
       :items     => "./data/items.csv",
       :merchants => "./data/merchants.csv",
       })
+    assert_equal 1 , se.merchants.count
+    assert_equal 4, se.items.count 
   end
 end

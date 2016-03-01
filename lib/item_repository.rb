@@ -5,14 +5,15 @@ require_relative 'item'
 class ItemRepository
   attr_accessor :data
 
-  def initialize(path)
 
+  def initialize(path)
+    items  = populate_items_with_data_from_csv(path)
   end
 
   def populate_items_with_data_from_csv(path)
   @data = []
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
-
+# binding.pry
     i = Item.new
     i.id = row[:id]
     i.name = row[:name]
@@ -25,7 +26,9 @@ class ItemRepository
   end
 end
 
-
+data.select do |item|
+  it.unit_price == 1200
+end
 
 end
 
