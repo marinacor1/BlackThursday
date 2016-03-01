@@ -10,6 +10,9 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal ItemRepository, items.class
   end
 
+  def test_it_instantiates_with_item_subclass
+  end
+
 
 
 end

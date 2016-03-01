@@ -10,5 +10,7 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal MerchantRepository, merchants.class
   end
 
+  def test_it_instantiates_with_merchant_subclass
+  end
 
 end

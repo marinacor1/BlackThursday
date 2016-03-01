@@ -3,6 +3,7 @@ require 'minitest/pride'
 require_relative '../lib/sales_engine'
 
 
+
 class SalesEngineTest < Minitest::Test
 
   def test_it_instantiates_a_sales_engine
@@ -16,4 +17,12 @@ class SalesEngineTest < Minitest::Test
     assert_equal MerchantRepository, se.merchants.class
   end
 
+  def test_it_loads_items_and_merchants_from_csv
+    se = SalesEngine.new
+    se.from_csv({
+      :items     => "./data/items.csv",
+      :merchants => "./data/merchants.csv",
+      })
+      assert_equal se.items
+      assert_equal se.merchants 
 end
