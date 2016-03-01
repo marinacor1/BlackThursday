@@ -50,10 +50,6 @@ class MerchantRepository
     @all_names.find_all do |name|
       name.downcase.include?(query_name.downcase)
     end
-    # all_matching
-    #returns either []
-    #or returns one or more matches which contain supplied name fragment
-    #case insensitive
   end
 
   def self.from_csv(path)
