@@ -45,7 +45,6 @@ class MerchantRepository
     end
   end
 
-
   def find_all_by_name(query_name)
     all_matching = []
     @all_names.find_all do |name|
