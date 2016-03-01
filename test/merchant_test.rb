@@ -14,4 +14,12 @@ class MerchantTest < Minitest::Test
     assert_equal "Buffalo Exchange", m.name
   end
 
+  def test_merchant_returns_nil_info_for_nil_data_passed_in
+    m = Merchant.new({:id => nil, :name => nil })
+    assert_equal nil, m.id
+    assert_equal nil, m.name
+  end
+
+
+
 end
