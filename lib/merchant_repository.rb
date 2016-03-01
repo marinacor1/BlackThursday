@@ -3,6 +3,10 @@ require 'csv'
 class MerchantRepository
   attr_accessor :data
 
+  def initialize(hash)
+    @merchants
+  end
+
  def self.from_csv(path)
     contents = CSV.open '../data/merchants.csv', headers: true, header_converters: :symbol
     contents.each do |row|

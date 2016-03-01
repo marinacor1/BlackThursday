@@ -5,7 +5,7 @@ require_relative 'merchant_repository'
 class SalesEngine
   attr_accessor :items, :merchants
 
-  def initialize
+  def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
   end
