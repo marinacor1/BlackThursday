@@ -8,7 +8,6 @@ class ItemRepository
     @items
   end
 
-
   def self.from_csv(path)
     self.new.data = CSV.open '../data/items.csv', headers: true, header_converters: :symbol
     # contents.each do |row|
