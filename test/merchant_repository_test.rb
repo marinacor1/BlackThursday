@@ -11,4 +11,7 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "CJsDecor", merchant
   end
 
+  def test_merchant_through_id
+    
+
 end

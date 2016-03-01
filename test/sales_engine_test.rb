@@ -10,12 +10,6 @@ class SalesEngineTest < Minitest::Test
       se.instance_of? SalesEngine
   end
 
-  def test_method_find_name_exists
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.from_csv(hash)
-    assert SalesEngine.method_defined? :find_by_name
-    assert MerchantRepository.method_defined? :find_by_name
-  end
 
 
 end

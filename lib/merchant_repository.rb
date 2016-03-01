@@ -20,12 +20,10 @@ class MerchantRepository
       @all_names << @name = row[:name]
       @created_at = row[:created_at]
       @updated_at = row[:updated_at]
-  end
-
+    end
   end
 
   def find_by_name(query_name)
-    # binding.pry
     @all_names.find do |merchant_name|
       merchant_name.downcase == query_name.downcase
     end
