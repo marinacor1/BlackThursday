@@ -4,23 +4,23 @@ require_relative 'sales_engine'
 
 class MerchantRepository
   attr_reader :name, :id
-  attr_accessor :data, :merchants, :loaded_merchants
+  attr_accessor :data, :loaded_merchants
 
   def initialize(path)
-    @merchants = load_data(path)
+    merchants = load_data(path)
   end
 
   def load_data(path)
-    @merchant_contents = CSV.open path, headers: true, header_converters: :symbol
-    @loaded_merchants = @merchant_contents.to_a.map {|row| row.to_h}
+    merchant_contents = CSV.open path, headers: true, header_converters: :symbol
+    @loaded_merchants = merchant_contents.to_a.map {|row| row.to_h}
     contents = CSV.open './data/merchants.csv', headers: true, header_converters: :symbol
     @all_names = []
     @all_ids = []
     contents.each do |row|
       @all_ids << @id = row[:id]
       @all_names << @name = row[:name]
-      @created_at = row[:created_at]
-      @updated_at = row[:updated_at]
+      created_at = row[:created_at]
+      updated_at = row[:updated_at]
     end
   end
 
