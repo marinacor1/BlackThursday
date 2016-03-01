@@ -1,34 +1,21 @@
 require 'pry'
+require 'csv'
 require_relative 'item_repository'
 require_relative 'merchant_repository'
 
 class SalesEngine
-attr_accessor :items, :merchants
-def initialize
+  attr_accessor :items, :merchants
 
-end
+  def initialize(data)
+    @items = ItemRepository.new(data[:items])
+    @merchants = MerchantRepository.new(data[:merchants])
+  end
 
-def self.from_csv(hash)
+  def self.from_csv(data)
+    all_instances = self.new(data)
+      # items = ItemRepository.new
+      # items.populate_items_with_data_from_csv(hash[:items])
+      # @items = items
+  end
 
-  items = ItemRepository.new
-  items.populate_items_with_data_from_csv(hash[:items])
-  @items = items
-binding.pry
-  # @merchants = MerchantRepository.new
-  # @merchants.populate_items_with_data_from_csv(hash[:merchants])
-
-  self
-
-end
-
-
-end
-
-if __FILE__ == $0
-se = SalesEngine.new
-se = SalesEngine.from_csv({
-  :items     => "../data/items.csv",
-  :merchants => "../data/merchants.csv"
-})
-binding.pry
 end
