@@ -2,14 +2,14 @@ require 'pry'
 require 'csv'
 
 class ItemRepository
-  attr_accessor :data
+  attr_accessor :data, :items, :contents
 
   def initialize(hash)
-    @items
+    @items 
   end
 
   def self.from_csv(path)
-    self.new.data = CSV.open '../data/items.csv', headers: true, header_converters: :symbol
+    @contents = CSV.open '../data/items.csv', headers: true, header_converters: :symbol
     # contents.each do |row|
     #   binding.pry
     #   name = row[:name]
