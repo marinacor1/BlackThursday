@@ -30,6 +30,7 @@ class MerchantRepository
   end
 
   def all
+    @all_names
     #returns array of all known merchant instances
   end
 
