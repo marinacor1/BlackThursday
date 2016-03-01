@@ -23,6 +23,6 @@ class SalesEngineTest < Minitest::Test
       :items     => "./data/items.csv",
       :merchants => "./data/merchants.csv",
       })
-      assert_equal se.items
-      assert_equal se.merchants 
+      
+    end
 end
