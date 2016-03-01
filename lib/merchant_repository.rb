@@ -3,7 +3,7 @@ require 'csv'
 require_relative 'sales_engine'
 
 class MerchantRepository
-  attr_reader :name
+  attr_reader :name, :id
   attr_accessor :data, :merchants, :loaded_merchants
 
   def initialize(path)
@@ -35,16 +35,23 @@ class MerchantRepository
   end
 
   def find_by_id(id_query)
-    @loaded_merchants.find do |merchant|
-      id_query == merchant[:id]
-    end[:name]
-
-    #returns nil if no merchant found with id
-    #else returns instance of merchant with matching id
+    find_id = @loaded_merchants.find do |merchant|
+        id_query == merchant[:id]
+      end
+    if find_id.nil?
+      nil
+    else
+      find_id[:name]
+    end
   end
 
 
   def find_all_by_name(query_name)
+    all_matching = []
+    @all_names.find_all do |name|
+      name.downcase.include?(query_name.downcase)
+    end
+    # all_matching
     #returns either []
     #or returns one or more matches which contain supplied name fragment
     #case insensitive

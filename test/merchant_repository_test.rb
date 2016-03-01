@@ -11,14 +11,13 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "CJsDecor", merchant
   end
 
-  def test_item_can_be_found_by_id
-    skip
+  def test_item_can_be_found_by_id_or_nil
     se = SalesEngine.from_csv({
     :items     => "./data/items.csv",
     :merchants => "./data/merchants.csv"
     })
     merchant = se.merchants.find_by_id(10)
-    assert_equal [], merchant.items
+    assert_equal nil, merchant
   end
 
   def test_merchants_all_works
@@ -36,6 +35,23 @@ class MerchantRepositoryTest < Minitest::Test
     mr = se.merchants
     merchant = mr.find_by_id('12334105')
     assert_equal "Shopin1901", merchant
+  end
+
+  def test_merchant_find_id_returns_nil_for_wrong_id
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_by_id('12335')
+    assert_equal nil, merchant
+  end
+
+  def test_merchant_repo_finds_all_fragments_in_search
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_all_by_name('Mar')
+    matches = ["LolaMarleys", "byMarieinLondon", "esellermart", "2MAKERSMARKET", "MariQKdes", "GrandmaRootHomesewn", "MARTinaNOcreations", "MardiGras2016", "MarkThomasJewelry", "cirinosbloodymary", "CAMsCustomArt", "JillMariedesigns51", "cardsbymarykate"]
+    assert_equal matches, merchant
   end
 
 end
