@@ -7,10 +7,8 @@ class MerchantRepositoryTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
-    # merchant = mr.find_by_name("CJsDecor")
-    merchant2 = mr.find_by_name("Free standing Woden letters")
-    # assert_equal "CJsDecor", merchant
-    assert_equal "Free standing Woden letters", merchant2
+    merchant = mr.find_by_name("CJsDecor")
+    assert_equal "CJsDecor", merchant
   end
 
 end

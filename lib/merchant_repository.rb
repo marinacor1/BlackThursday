@@ -13,7 +13,7 @@ class MerchantRepository
   def load_data(path)
     @merchant_contents = CSV.open path, headers: true, header_converters: :symbol
     loaded_merchants = @merchant_contents.to_a.map {|row| row.to_h}
-    contents = CSV.open './data/items.csv', headers: true, header_converters: :symbol
+    contents = CSV.open './data/merchants.csv', headers: true, header_converters: :symbol
     @all_names = []
     contents.each do |row|
       @id = row[:id]
@@ -25,15 +25,11 @@ class MerchantRepository
   end
 
   def find_by_name(query_name)
+    # binding.pry
     @all_names.find do |merchant_name|
-      # binding.pry
       merchant_name.downcase == query_name.downcase
     end
-    #returns nil if no name found (case insensitive)
-    #returns instance of merchant if name matches (case insensitive)
   end
-
-
 
   def all
     #returns array of all known merchant instances
@@ -43,7 +39,6 @@ class MerchantRepository
     #returns nil if no merchant found with id
     #else returns instance of merchant with matching id
   end
-
 
 
   def find_all_by_name(query_name)
