@@ -54,4 +54,12 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal matches, merchant
   end
 
+  def test_merchant_repo_finds_empty_array_if_wrong_fragment
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_all_by_name('xxxyx')
+    assert_equal [], merchant
+  end
+
 end
