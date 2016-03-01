@@ -4,19 +4,25 @@ require 'csv'
 class ItemRepository
   attr_accessor :data, :items, :contents
 
-  def initialize(hash)
-    @items 
+  def initialize(path)
+    @items
   end
+
+  def load_data(path)
+    @item_contents = CSV.open data[:items], headers: true, header_converters: :symbol
+    @loaded_items = @item_contents.to_a.map {|row| row.to_h}
+end
 
   def self.from_csv(path)
     @contents = CSV.open '../data/items.csv', headers: true, header_converters: :symbol
-    # contents.each do |row|
-    #   binding.pry
-    #   name = row[:name]
-    #   id = row[:id]
-    #   description = row[:description]
-    #   unit_price = row[:unit_price]
-    #   puts name
+    contents.each do |row|
+      binding.pry
+      name = row[:name]
+      id = row[:id]
+      description = row[:description]
+      unit_price = row[:unit_price]
+      puts name
+    end
   end
 
 end

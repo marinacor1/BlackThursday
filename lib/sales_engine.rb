@@ -4,7 +4,7 @@ require_relative 'item_repository'
 require_relative 'merchant_repository'
 
 class SalesEngine
-  attr_accessor :items, :merchants
+  attr_accessor :items, :merchants, :loaded_items, :loaded_merchants
 
   def initialize(data)
     @items = ItemRepository.new(data[:items])
@@ -12,9 +12,8 @@ class SalesEngine
   end
 
   def self.from_csv(data)
-    self.new(data)
-    contents = CSV.open data, headers: true, header_converters: :symbol
-    contents.to_a.map {|row| row.to_h}
+    all_instances = self.new(data)
   end
+
 
 end
