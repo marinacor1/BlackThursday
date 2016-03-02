@@ -31,7 +31,7 @@ class SalesEngineTest < Minitest::Test
   end
 #TODO this isnt working
   def test_sales_engine_assigns_items_to_their_merchants
-    skip 
+    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     assert_equal ['item1', 'item2'], merchant.items
