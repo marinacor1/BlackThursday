@@ -93,7 +93,7 @@ class MerchantRepositoryTest < Minitest::Test
         :merchants => "./data/merchants.csv"
         })
       item = se.items.find_by_id(263395237)
-      item.merchant
+      assert item.merchant.instance_of? Merchant
     end
 
 end

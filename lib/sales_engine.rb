@@ -12,8 +12,6 @@ class SalesEngine
     @items.all = @merchants.merchants_and_items_linked(@items)
   end
 
-
-
   def self.from_csv(data)
     all_instances = self.new(data)
   end
