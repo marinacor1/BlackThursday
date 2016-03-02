@@ -17,8 +17,10 @@ class MerchantRepository
   end
 
   def populate_merchant_repo_with_data_from_csv(path)
+    merchant_contents = CSV.open path, headers: true, header_converters: :symbol
+    loaded_merchants = merchant_contents.to_a.map {|row| row.to_h}
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
-      merchant = Merchant.new(hash)
+      merchant = Merchant.new(loaded_merchants)
       merchant.id = row[:id]
       merchant.name = row[:name]
       merchant.created_at = row[:created_at]

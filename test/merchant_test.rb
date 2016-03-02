@@ -6,7 +6,7 @@ require_relative '../lib/sales_engine'
 class MerchantTest < Minitest::Test
   def test_merchant_instantiates
     m = Merchant.new({:id => 5, :name => 'Payless'})
-    m.instance_of? Merchant
+    assert m.instance_of? Merchant
   end
 
   def test_merchant_access_name_from_data
