@@ -5,7 +5,7 @@ require_relative '../lib/sales_engine'
 
 class MerchantTest < Minitest::Test
   def test_merchant_instantiates
-    m = Merchant.new
+    m = Merchant.new({:id => 5, :name => 'Payless'})
     m.instance_of? Merchant
   end
 
