@@ -19,8 +19,6 @@ class MerchantRepository
 def populate_merchant_repo_with_data_from_csv(path)
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
     merchant = Merchant.new(data_row)
-    # merchant.items = []
-    # merchant.items << @all_items.find_by_id(merchant.id)
     @all_merchants << merchant
   end
 end
