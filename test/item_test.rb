@@ -4,9 +4,9 @@ require_relative '../lib/item'
 
 class ItemTest < Minitest::Test
 
-def it_instantiates_an_item_object
+def test_it_instantiates_an_item_object
   item = Item.new
-  assert_equal Item, item.class
+  assert item.instance_of? Item
 end
 
 

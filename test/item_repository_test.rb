@@ -6,19 +6,11 @@ require_relative '../lib/item_repository'
 class ItemRepositoryTest < Minitest::Test
 
   def test_it_instantiates_an_item_repo
-    items = ItemRepository.new
-    assert_equal ItemRepository, items.class
+    items = ItemRepository.new("./data/items.csv")
+    assert items.instance_of? ItemRepository
   end
-
-  def test_item_repo_can_find_by_name
-    skip
-    items = ItemRepository
-    assert_equal ItemRepository, items.class
-  end
-
 
   def test_merchant_can_be_found_by_id
-    skip
     se = SalesEngine.from_csv({
     :items     => "./data/items.csv",
     :merchants => "./data/merchants.csv"

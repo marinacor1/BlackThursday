@@ -9,13 +9,19 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
+    #merchants.items
+    #merchants.each do |
   end
 
   def self.from_csv(data)
     all_instances = self.new(data)
-      # items = ItemRepository.new
-      # items.populate_items_with_data_from_csv(hash[:items])
-      # @items = items
   end
 
+end
+
+if __FILE__ == $0
+se = SalesEngine.from_csv({
+  :items => "./data/items.csv",
+  :merchants => "./data/merchants.csv"
+  })
 end
