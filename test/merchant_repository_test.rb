@@ -17,6 +17,16 @@ class MerchantRepositoryTest < Minitest::Test
     mr = se.merchants
     merchant = mr.find_by_name("CJsDecor")
     assert_equal "CJsDecor", merchant.name
+    #TODO check spec harness to see if merchant.name is right
+  end
+
+  def test_find_by_name_returns_nil_if_name_wrong
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_by_name("Marinas Shop")
+    assert_equal nil, merchant
+    #TODO check spec harness to see if merchant is right
   end
 
   def test_find_by_id_returns_nil_for_wrong_id
@@ -38,10 +48,17 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchants_all_works
+    skip
     hash = {:id => 1, :name => 'yankee candle', :created_at => 1, :update_at => 1}
     merchant_repo = MerchantRepository.new(hash)
     assert_equal 'yankee candle', merchant_repo.all.name
+  end
 
+  def test_merchant_all_returns_empty_array_for_no_info
+    skip
+    hash = {:id => '', :name => '', :created_at => '', :update_at => ''}
+    merchant_repo = MerchantRepository.new(hash)
+    assert_equal [], merchant_repo.all
   end
 
   def test_merchants_all_works_with_first
@@ -76,13 +93,22 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal nil, merchant
   end
 
-  def test_merchant_repo_finds_all_fragments_in_search
+  def test_merchant_repo_finds_all_matching_from_fragments_in_search
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
     merchant = mr.find_all_by_name('Mark')
     results = merchant.map {|merchant| merchant.name}
     assert_equal ["2MAKERSMARKET", "MarkThomasJewelry"], results
+  end
+
+  def test_merchant_repo_finds_all_matching_from_fragments_in_search_with_diff_fragment
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_all_by_name('Tim')
+    results = merchant.map {|merchant| merchant.name}
+    assert_equal ["ShopTimeCreations", "sparetimecrocheter", "funtimeworkshop"], results
   end
 
   def test_merchant_repo_finds_empty_array_if_wrong_fragment
@@ -92,7 +118,5 @@ class MerchantRepositoryTest < Minitest::Test
     merchant = mr.find_all_by_name('xxxyx')
     assert_equal [], merchant
   end
-
-
 
 end
