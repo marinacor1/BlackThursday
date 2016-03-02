@@ -3,17 +3,15 @@ require 'csv'
 require_relative 'item'
 
 class ItemRepository
-  attr_accessor :data
-
+  attr_reader :all
 
   def initialize(path)
-    items  = populate_items_with_data_from_csv(path)
+    @all_items = []
+    populate_item_repo_with_data_from_csv(path)
   end
 
-  def populate_items_with_data_from_csv(path)
-  @data = []
+  def populate_item_repo_with_data_from_csv(path)
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
-# binding.pry
     i = Item.new
     i.id = row[:id]
     i.name = row[:name]
@@ -22,45 +20,73 @@ class ItemRepository
     i.merchant_id = row[:merchant_id]
     i.created_at = row[:created_at]
     i.updated_at = row[:updated_at]
-    @data << i
+    @all_items << i
   end
+end
 
   def count
-    @data.count
+    @all_items.count
   end
 
+  def all
+    @all_items
+  end
+
+  def find_by_name(query_name)
+    finder = @all_items.find do |item|
+      item.name.downcase == query_name.downcase
+    end
+  end
+
+  def find_by_id(query_id)
+    finder = @all_items.find do |item|
+      item.id == query_id
+    end
+  end
+
+  def find_all_by_merchant_id(query_merch_id)
+    @all_items.select do |item|
+      item.merchant_id == query_merch_id
+    end
+  end
+
+  def find_all_with_description(query_description)
+    @all_items.select do |item|
+      item.description.downcase.include?(query_description.downcase)
+    end
+  end
+
+  def find_all_by_price(query_price)
+    @all_items.select do |item|
+      (item.unit_price) == query_price
+      #this price needs to be converted to dollars
+    end
+  end
+
+  def find_all_by_price_in_range(query_range)
+    @all_items.select do |item|
+      query_range.include?(item.unit_price) ? item : nil
+      #this price needs to be converted to dollars
+    end
+  end
+
+
 end
 
-# data.select do |item|
-#   it.unit_price == 1200
-# end
 
+
+
+if __FILE__ == $0
+
+  se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv"
+  })
+
+  ir   = se.items
+  item = ir.find_by_name("Item Repellat Dolorum")
+  binding.pry
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
