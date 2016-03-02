@@ -5,19 +5,6 @@ require_relative '../lib/sales_engine'
 
 class SalesEngineTest < Minitest::Test
 
-  def test_it_instantiates_a_sales_engine
-    skip
-    se = SalesEngine.new
-    assert_equal SalesEngine, se.class
-  end
-
-  def test_it_instantiates_with_item_and_merchant_repos
-    skip
-    se = SalesEngine.new({:items => 'wallet', :merchants => 'mcdonalds'})
-    assert_equal ItemRepository, se.items.class
-    assert_equal MerchantRepository, se.merchants.class
-  end
-
   def test_sales_engine_instantiates_from_csv
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
