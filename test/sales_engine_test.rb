@@ -30,17 +30,4 @@ class SalesEngineTest < Minitest::Test
     assert_equal 1367, se.items.count
   end
 
-  def test_sales_engine_assigns_items_to_their_merchants
-    se = SalesEngine.from_csv({
-  :items     => "./data/items.csv",
-  :merchants => "./data/merchants.csv",
-  })
-  binding.pry
-  merchant = se.merchants.find_by_id(10)
-  merchant.items
-  item = se.items.find_by_id(20)
-  item.merchant
-# => <merchant>
-  end
-
 end
