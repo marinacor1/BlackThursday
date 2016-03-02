@@ -1,12 +1,17 @@
+require 'pry'
+require 'bigdecimal'
 require_relative 'merchant_repository'
 require_relative 'item'
 class SalesAnalyst
 
   def initialize(se_data)
+  @merchants = se_data.merchants
+  @items = se_data.items
   end
 
   def average_items_per_merchant
-    #total_number_of_merchants/ #total_number_of_items
+    #this might not work with larger numbers
+    BigDecimal.new((@items.count.to_f/ @merchants.count), 3).to_f
   end
 
   def average_items_per_merchant_standard_deviation
