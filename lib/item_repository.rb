@@ -26,9 +26,9 @@ class ItemRepository
   end
 end
 
-data.select do |item|
-  it.unit_price == 1200
-end
+# data.select do |item|
+#   it.unit_price == 1200
+# end
 
 end
 

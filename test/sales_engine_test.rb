@@ -37,13 +37,10 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_loads_items_and_merchants_from_csv
-    skip
-    se = SalesEngine.new
-    se.from_csv({
-      :items     => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      })
-    assert_equal 1 , se.merchants.count
-    assert_equal 4, se.items.count 
+  hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+  se = SalesEngine.from_csv(hash)
+      binding.pry
+    # assert_equal 1 , se.merchants
+    # assert_equal 4, se.items.count
   end
 end

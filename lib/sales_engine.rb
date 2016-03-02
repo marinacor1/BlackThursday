@@ -9,6 +9,8 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
+    #merchants.items
+    #merchants.each do |
   end
 
   def self.from_csv(data)
@@ -22,5 +24,4 @@ se = SalesEngine.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv"
   })
-  se.merchants
 end
