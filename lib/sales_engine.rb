@@ -9,8 +9,15 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
-    #merchants.items
-    #merchants.each do |
+    merchant_assignments_by_id
+  end
+
+  def merchant_assignments_by_id
+    binding.pry
+    @merchants = @merchants.all_merchants.map do |merchant|
+      merchant.items = @items.find_by_merchant_id(merchant.id)
+      merchant
+    end
   end
 
   def self.from_csv(data)

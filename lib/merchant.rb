@@ -1,5 +1,5 @@
 class Merchant
-  attr_accessor :id, :name, :created_at, :updated_at
+  attr_accessor :id, :name, :created_at, :updated_at, :items, :item_count
 
   def initialize
     # @id = data[:id]
