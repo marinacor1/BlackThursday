@@ -10,9 +10,8 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
+    #this might not work with larger numbers
     BigDecimal.new((@items.count.to_f/ @merchants.count), 3).to_f
-    # binding.pry
-    #total_number_of_merchants/ #total_number_of_items
   end
 
   def average_items_per_merchant_standard_deviation
