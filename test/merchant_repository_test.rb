@@ -8,7 +8,7 @@ class MerchantRepositoryTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
-    assert_equal MerchantRepository, mr.class
+    assert mr.instance_of? MerchantRepository
   end
 
   def test_merchants_are_accessed_and_found_in_find_by_name
@@ -19,13 +19,29 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "CJsDecor", merchant.name
   end
 
-  def test_item_can_be_found_by_id_or_nil
+  def test_find_by_id_returns_nil_for_wrong_id
     se = SalesEngine.from_csv({
     :items     => "./data/items.csv",
     :merchants => "./data/merchants.csv"
     })
     merchant = se.merchants.find_by_id(10)
     assert_equal nil, merchant
+  end
+
+  def test_find_by_id_returns_nil_for_wrong_character_id
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv"
+    })
+    merchant = se.merchants.find_by_id('&kw')
+    assert_equal nil, merchant
+  end
+
+  def test_merchants_all_works
+    hash = {:id => 1, :name => 'yankee candle', :created_at => 1, :update_at => 1}
+    merchant_repo = MerchantRepository.new(hash)
+    assert_equal 'yankee candle', merchant_repo.all.name
+
   end
 
   def test_merchants_all_works_with_first

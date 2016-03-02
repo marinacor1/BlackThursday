@@ -5,11 +5,15 @@ require_relative 'merchant'
 require_relative 'item_repository'
 
 class MerchantRepository
-  attr_reader :all
+  attr_accessor :all_merchants, :name
 
   def initialize(path)
     @all_merchants = []
-    populate_merchant_repo_with_data_from_csv(path)
+    if path.include?'.csv'
+      populate_merchant_repo_with_data_from_csv(path)
+    else
+      populate_merchant_repo_with_hash(path)
+    end
   end
 
   def populate_merchant_repo_with_data_from_csv(path)
@@ -23,6 +27,15 @@ class MerchantRepository
       # merchant.items << @all_items.find_by_id(merchant.id)
       @all_merchants << merchant
     end
+  end
+
+  def populate_merchant_repo_with_hash(path)
+    merchant = Merchant.new
+    merchant.id = path[:id]
+    merchant.name = path[:name]
+    merchant.created_at = path[:created_at]
+    merchant.updated_at = path[:updated_at]
+    @all_merchants << merchant
   end
 
   def all
