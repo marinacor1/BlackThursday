@@ -12,8 +12,9 @@ class SalesAnalystTest < Minitest::Test
     sa.instance_of? SalesAnalyst
   end
 
-  def test_sales_analyst_tells_how_many_products_merchants_sell
-    skip
+  def test_sales_analyst_tells_how_avg_products_merchants_sell
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert_equal 2.88, sa.average_items_per_merchant
   end
