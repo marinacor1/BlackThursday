@@ -23,9 +23,13 @@ class SalesAnalystTest < Minitest::Test
 
   def test_sales_analyst_tells_how_many_products_merchants_sell_with_subset
     skip
-    #pass in small subset
+    #change subset
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    assert_equal 2.88, sa.average_items_per_merchant
+    answer = 2.88
+    assert_equal answer, sa.average_items_per_merchant
+    assert_equal Float, answer.class
   end
 
   def test_sales_analyst_returns_avg_item_std_deviation
