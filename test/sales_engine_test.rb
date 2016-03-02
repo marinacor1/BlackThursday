@@ -40,6 +40,6 @@ class SalesEngineTest < Minitest::Test
   hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
   se = SalesEngine.from_csv(hash)
     assert_equal 475 , se.merchants.count
-    assert_equal 1367h, se.items.count
+    assert_equal 1367, se.items.count
   end
 end
