@@ -18,8 +18,22 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 2.88, sa.average_items_per_merchant
   end
 
+  def test_sales_analyst_tells_how_many_products_merchants_sell_with_subset
+    skip
+    #pass in small subset
+    sa = SalesAnalyst.new(se)
+    assert_equal 2.88, sa.average_items_per_merchant
+  end
+
   def test_sales_analyst_returns_avg_item_std_deviation
     skip
+    sa = SalesAnalyst.new(se)
+    assert_equal 3.26, sa.average_items_per_merchant_standard_deviation
+  end
+
+  def test_sales_analyst_returns_avg_item_std_deviation_from_subset
+    skip
+    #test using subset 
     sa = SalesAnalyst.new(se)
     assert_equal 3.26, sa.average_items_per_merchant_standard_deviation
   end
@@ -49,7 +63,7 @@ class SalesAnalystTest < Minitest::Test
     skip
     sa = SalesAnalyst.new(se)
     golden_array = [<item>, <item>, <item>]
-    assert_equal golden_array, sa.golden_items 
+    assert_equal golden_array, sa.golden_items
   end
 
 
