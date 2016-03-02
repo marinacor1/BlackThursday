@@ -33,7 +33,8 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sales_analyst_returns_avg_item_std_deviation
-    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = 3.26
     assert_equal answer, sa.average_items_per_merchant_standard_deviation

@@ -3,7 +3,7 @@ require 'bigdecimal'
 require_relative 'merchant_repository'
 require_relative 'item'
 class SalesAnalyst
-
+attr_reader :average_items
   def initialize(se_data)
   @merchants = se_data.merchants
   @items = se_data.items
@@ -11,11 +11,17 @@ class SalesAnalyst
 
   def average_items_per_merchant
     #this might not work with larger numbers
-    BigDecimal.new((@items.count.to_f/ @merchants.count), 3).to_f
+    @average_items = BigDecimal.new((@items.count.to_f/ @merchants.count), 3).to_f
   end
 
   def average_items_per_merchant_standard_deviation
-
+    total = 0
+    @merchants.all.map do |merchant|
+      dev_sq = (merchant.item_count - (@items.count.to_f/ @merchants.count))**2
+      total += dev_sq
+    end
+    std_dev = Math.sqrt(total/(@merchants.count-1))
+    @std_dev = BigDecimal.new(std_dev, 3).to_f
   end
 
   def merchants_with_high_item_count
