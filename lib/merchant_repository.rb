@@ -16,20 +16,7 @@ class MerchantRepository
     end
   end
 
-  def populate_merchant_repo_with_data_from_csv(path)
-    merchant_contents = CSV.open path, headers: true, header_converters: :symbol
-    loaded_merchants = merchant_contents.to_a.map {|row| row.to_h}
-    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
-      merchant = Merchant.new(loaded_merchants)
-      merchant.id = row[:id]
-      merchant.name = row[:name]
-      merchant.created_at = row[:created_at]
-      merchant.updated_at = row[:updated_at]
-      # merchant.items = []
-      # merchant.items << @all_items.find_by_id(merchant.id)
-      @all_merchants << merchant
-    end
-  end
+
 
   def populate_merchant_repo_with_hash(path)
     merchant = Merchant.new(path)

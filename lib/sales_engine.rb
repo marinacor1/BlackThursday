@@ -24,11 +24,13 @@ class SalesEngine
     all_instances = self.new(data)
   end
 
-end
-
-if __FILE__ == $0
-  se = SalesEngine.from_csv({
-    :items => "./data/items.csv",
-    :merchants => "./data/merchants.csv"
-    })
+  def self.items
+    @items
   end
+
+  def self.merchants
+    @merchants 
+  end
+
+
+end
