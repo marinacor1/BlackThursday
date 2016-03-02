@@ -33,7 +33,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_sales_analyst_returns_avg_item_std_deviation_from_subset
     skip
-    #test using subset 
+    #test using subset
     sa = SalesAnalyst.new(se)
     assert_equal 3.26, sa.average_items_per_merchant_standard_deviation
   end
@@ -62,7 +62,7 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_finds_all_golden_items
     skip
     sa = SalesAnalyst.new(se)
-    golden_array = [<item>, <item>, <item>]
+    # golden_array = [<item>, <item>, <item>]
     assert_equal golden_array, sa.golden_items
   end
 

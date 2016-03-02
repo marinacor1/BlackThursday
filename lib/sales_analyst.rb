@@ -28,4 +28,5 @@ class SalesAnalyst
 
   def golden_items
     #returns an array with all items that are two standard-devs above avg item price
+  end
 end
