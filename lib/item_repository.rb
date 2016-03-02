@@ -3,7 +3,7 @@ require 'csv'
 require_relative 'item'
 
 class ItemRepository
-  attr_reader :all
+  attr_accessor :all
 
   def initialize(path)
     @all_items = []

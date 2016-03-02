@@ -29,11 +29,11 @@ class MerchantRepository
       merchant.item_count = merchant.items.count
       merchant
     end
+
     item_repository.all.map do |item|
       item.merchant = self.find_by_id(item.merchant_id)
     end
   end
-
 
   def populate_merchant_repo_with_hash(path)
     merchant = Merchant.new(path)

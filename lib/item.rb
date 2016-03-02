@@ -1,5 +1,5 @@
 class Item
-attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at
+attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
   def initialize(attributes)
     @id = attributes[:id]
     @name = attributes[:name]
