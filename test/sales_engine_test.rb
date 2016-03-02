@@ -29,11 +29,12 @@ class SalesEngineTest < Minitest::Test
     assert_equal 475 , se.merchants.count
     assert_equal 1367, se.items.count
   end
-
+#TODO this isnt working 
   def test_sales_engine_assigns_items_to_their_merchants
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
-    assert_equal [], merchant.items 
+    binding.pry
+    assert_equal [], merchant.items
     # assert merchant(with x id #) returns all items with x merchant id #
   end
 

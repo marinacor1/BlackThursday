@@ -4,7 +4,7 @@ require_relative 'item_repository'
 require_relative 'merchant_repository'
 
 class SalesEngine
-  attr_accessor :items, :merchants
+  attr_accessor :items, :merchants, :merchant
 
   def initialize(data)
     @items = ItemRepository.new(data[:items])
@@ -16,8 +16,8 @@ class SalesEngine
      @merchants.all.map do |merchant|
       merchant.items = @items.find_all_by_merchant_id(merchant.id)
       merchant.item_count = merchant.items.count
-      merchant
     end
+    @merchant
   end
 
   def self.from_csv(data)
@@ -31,5 +31,4 @@ if __FILE__ == $0
     :items => "./data/items.csv",
     :merchants => "./data/merchants.csv"
     })
-    binding.pry
   end
