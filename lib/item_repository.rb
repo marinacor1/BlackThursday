@@ -11,15 +11,8 @@ class ItemRepository
   end
 
   def populate_item_repo_with_data_from_csv(path)
-  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |row|
-    i = Item.new
-    i.id = row[:id]
-    i.name = row[:name]
-    i.description = row[:description]
-    i.unit_price = row[:unit_price]
-    i.merchant_id = row[:merchant_id]
-    i.created_at = row[:created_at]
-    i.updated_at = row[:updated_at]
+  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+    i = Item.new(data_row)
     @all_items << i
   end
 end
