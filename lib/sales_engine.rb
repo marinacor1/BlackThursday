@@ -9,13 +9,13 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
-    # merchant_assignments_by_id
+    @merchants = merchant_items_assigned_by_id(@merchants)
   end
 
-  def merchant_assignments_by_id
-    binding.pry
-    @merchants = @merchants.all.map do |merchant|
-      merchant.items = @items.find_by_merchant_id(merchant.id)
+  def merchant_items_assigned_by_id(merchants)
+     merchants.all.map do |merchant|
+      merchant.items = @items.find_all_by_merchant_id(merchant.id)
+      merchant.item_count = merchant.items.count
       merchant
     end
   end
@@ -27,9 +27,9 @@ class SalesEngine
 end
 
 if __FILE__ == $0
-se = SalesEngine.from_csv({
-  :items => "./data/items.csv",
-  :merchants => "./data/merchants.csv"
-  })
-  binding.pry
-end
+  se = SalesEngine.from_csv({
+    :items => "./data/items.csv",
+    :merchants => "./data/merchants.csv"
+    })
+    # binding.pry
+  end
