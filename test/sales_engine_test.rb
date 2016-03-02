@@ -29,24 +29,5 @@ class SalesEngineTest < Minitest::Test
     assert_equal 475 , se.merchants.count
     assert_equal 1367, se.items.count
   end
-meta wow: true
-  def test_item_references_its_merchant_as_merchant_object
-      se = SalesEngine.from_csv({
-        :items => "./data/items.csv",
-        :merchants => "./data/merchants.csv"
-        })
-      item = se.items.find_by_id(263395237)
-      assert item.merchant.instance_of? Merchant
-    end
-
-  def test_merchant_references_items_as_array_of_item_objects
-    se = SalesEngine.from_csv({
-      :items => "./data/items.csv",
-      :merchants => "./data/merchants.csv"
-      })
-      merchant = se.merchants.find_by_id(12334141)
-      assert merchant.items.instance_of? Array
-      assert merchant.items[0].instance_of? Item
-    end
 
 end

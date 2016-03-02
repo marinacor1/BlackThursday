@@ -5,7 +5,7 @@ require_relative 'merchant'
 require_relative 'item_repository'
 
 class MerchantRepository
-  attr_accessor :all_merchants, :name
+  attr_accessor :all, :name
 
   def initialize(path)
     @all_merchants = []
@@ -16,13 +16,24 @@ class MerchantRepository
     end
   end
 
-def populate_merchant_repo_with_data_from_csv(path)
-  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-    merchant = Merchant.new(data_row)
-    @all_merchants << merchant
+  def populate_merchant_repo_with_data_from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      merchant = Merchant.new(data_row)
+      @all_merchants << merchant
+    end
   end
-end
 
+  def merchants_and_items_linked(item_repository)
+     @all_merchants.map do |merchant|
+      merchant.items = item_repository.find_all_by_merchant_id(merchant.id)
+      merchant.item_count = merchant.items.count
+      merchant
+    end
+
+    item_repository.all.map do |item|
+      item.merchant = self.find_by_id(item.merchant_id)
+    end
+  end
 
   def populate_merchant_repo_with_hash(path)
     merchant = Merchant.new(path)
