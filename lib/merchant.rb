@@ -6,8 +6,8 @@ class Merchant
     @name = attributes[:name]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
-    binding.pry
+    @items = []
+    @item_count = 0
   end
-
 
 end
