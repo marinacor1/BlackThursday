@@ -9,7 +9,6 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
-    # binding.pry
     @items.all = @merchants.merchants_and_items_linked(@items)
   end
 
@@ -17,12 +16,15 @@ class SalesEngine
     all_instances = self.new(data)
   end
 
-  if __FILE__ == $0
-    se = SalesEngine.from_csv({
-      :items => "./data/items.csv",
-      :merchants => "./data/merchants.csv"
-      })
-  end
 
+end
 
+if __FILE__ == $0
+
+  se = SalesEngine.from_csv({
+    :items => "./data/items.csv",
+    :merchants => "./data/merchants.csv"
+    })
+
+    binding.pry
 end

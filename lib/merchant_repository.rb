@@ -5,7 +5,7 @@ require_relative 'merchant'
 require_relative 'item_repository'
 
 class MerchantRepository
-  attr_accessor :all_merchants, :name
+  attr_accessor :all, :name
 
   def initialize(path)
     @all_merchants = []
