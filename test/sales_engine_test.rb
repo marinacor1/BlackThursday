@@ -29,6 +29,7 @@ class SalesEngineTest < Minitest::Test
     assert_equal 475 , se.merchants.count
     assert_equal 1367, se.items.count
   end
+<<<<<<< HEAD
 meta wow: true
   def test_item_references_its_merchant_as_merchant_object
       se = SalesEngine.from_csv({
@@ -48,5 +49,7 @@ meta wow: true
       assert merchant.items.instance_of? Array
       assert merchant.items[0].instance_of? Item
     end
+=======
+>>>>>>> 0978c987354224fa810cb1da0b0c0341834ada13
 
 end
