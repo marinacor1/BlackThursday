@@ -4,7 +4,7 @@ require_relative 'sales_engine'
 require_relative 'merchant'
 
 class MerchantRepository
-  attr_reader :name, :id
+  attr_reader :name, :id, :count
   attr_accessor :data, :loaded_merchants
 
   def initialize(path)
@@ -24,6 +24,9 @@ class MerchantRepository
     end
   end
 
+  def count
+    @all_merchants.count
+  end
   # def load_data(path)
   #   merchant_contents = CSV.open path, headers: true, header_converters: :symbol
   #   @loaded_merchants = merchant_contents.to_a.map {|row| row.to_h}

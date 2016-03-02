@@ -24,6 +24,11 @@ class ItemRepository
     i.updated_at = row[:updated_at]
     @data << i
   end
+
+  def count
+    @data.count
+  end
+
 end
 
 # data.select do |item|
