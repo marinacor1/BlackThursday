@@ -31,10 +31,16 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_sales_engine_assigns_items_to_their_merchants
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.from_csv(hash)
-    assert_equal [], merchant.items 
-    # assert merchant(with x id #) returns all items with x merchant id #
+    se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+  })
+  binding.pry
+  merchant = se.merchants.find_by_id(10)
+  merchant.items
+  item = se.items.find_by_id(20)
+  item.merchant
+# => <merchant>
   end
 
 end
