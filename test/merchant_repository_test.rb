@@ -29,6 +29,14 @@ class MerchantRepositoryTest < Minitest::Test
     #TODO check spec harness to see if merchant is right
   end
 
+  def test_find_by_name_works_regardless_of_case
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_by_name("cjSdECOR")
+    assert_equal "CJsDecor", merchant.name
+  end
+
   def test_find_by_id_returns_nil_for_wrong_id
     se = SalesEngine.from_csv({
     :items     => "./data/items.csv",
@@ -107,6 +115,15 @@ class MerchantRepositoryTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
     merchant = mr.find_all_by_name('Tim')
+    results = merchant.map {|merchant| merchant.name}
+    assert_equal ["ShopTimeCreations", "sparetimecrocheter", "funtimeworkshop"], results
+  end
+
+  def test_merchant_repo_finds_all_matching_from_fragments_regardless_of_case
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_all_by_name('TIM')
     results = merchant.map {|merchant| merchant.name}
     assert_equal ["ShopTimeCreations", "sparetimecrocheter", "funtimeworkshop"], results
   end
