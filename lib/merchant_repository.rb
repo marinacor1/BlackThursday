@@ -32,7 +32,7 @@ class MerchantRepository
   end
 
   def populate_merchant_repo_with_hash(path)
-    merchant = Merchant.new
+    merchant = Merchant.new(path)
     merchant.id = path[:id]
     merchant.name = path[:name]
     merchant.created_at = path[:created_at]
