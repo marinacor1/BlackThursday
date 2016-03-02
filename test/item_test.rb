@@ -16,7 +16,7 @@ def test_it_instantiates_an_item_object
   }
   item = Item.new(data)
   assert item.instance_of? Item
-  assert_equal "Fluffernutter", item.name
+  assert_equal "Pencil", item.name
 end
 
 def test_it_instantiates_an_item_object_with_parameters_from_spec
