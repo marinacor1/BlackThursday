@@ -3,14 +3,14 @@ require 'bigdecimal'
 require_relative 'merchant_repository'
 require_relative 'item'
 class SalesAnalyst
-attr_reader :average_items
+  attr_reader :average_items
+
   def initialize(se_data)
   @merchants = se_data.merchants
   @items = se_data.items
   end
 
   def average_items_per_merchant
-    #this might not work with larger numbers
     @average_items = BigDecimal.new((@items.count.to_f/ @merchants.count), 3).to_f
   end
 
@@ -30,9 +30,7 @@ attr_reader :average_items
   end
 
   def average_item_price_for_merchant(id_num)
-    merchant = @merchants.all.find do |merchant|
-      id_num == merchant.id
-    end
+    merchant = @merchants.all.find {|merchant| id_num == merchant.id}
     merchant_prices = merchant.items.map do |item|
       item.unit_price
     end
@@ -62,6 +60,7 @@ attr_reader :average_items
     end
     all_ids.uniq!
   end
+
   def golden_items
     #returns an array with all items that are two standard-devs above avg item price
   end

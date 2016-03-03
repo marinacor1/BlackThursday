@@ -66,7 +66,7 @@ class SalesAnalystTest < Minitest::Test
     assert_equal big_decimal_num, sa.average_item_price_for_merchant(12334105)
     assert_equal BigDecimal, big_decimal_num.class
   end
-meta a: true
+
   def test_sa_can_find_average_price_across_all_merchants
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
