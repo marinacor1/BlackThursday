@@ -56,17 +56,11 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchants_all_works
-    skip
-    hash = {:id => 1, :name => 'yankee candle', :created_at => 1, :update_at => 1}
-    merchant_repo = MerchantRepository.new(hash)
-    assert_equal 'yankee candle', merchant_repo.all.name
-  end
-
-  def test_merchant_all_returns_empty_array_for_no_info
-    skip
-    hash = {:id => '', :name => '', :created_at => '', :update_at => ''}
-    merchant_repo = MerchantRepository.new(hash)
-    assert_equal [], merchant_repo.all
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/merchants.csv"
+    })
+    assert_equal 'Shopin1901', se.merchants.all[0].name
   end
 
   def test_merchants_all_works_with_first

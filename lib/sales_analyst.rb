@@ -2,8 +2,6 @@ require 'pry'
 require 'bigdecimal'
 require_relative 'sales_engine'
 
-
-
 class SalesAnalyst
 
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items

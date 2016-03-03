@@ -1,9 +1,11 @@
 require 'pry'
 require 'csv'
 require_relative 'item'
+require_relative 'repository'
 
 class ItemRepository
-  attr_accessor :all
+  include Repository
+  attr_accessor :all, :item
 
   def initialize(path)
     @all_items = []
@@ -11,11 +13,11 @@ class ItemRepository
   end
 
   def populate_item_repo(path)
-  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-    i = Item.new(data_row)
-    @all_items << i
+    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      @item = Item.new(data_row)
+      @all_items << item
+    end
   end
-end
 
   def count
     @all_items.count
@@ -25,35 +27,25 @@ end
     @all_items
   end
 
+
   def find_by_name(query_name)
-    finder = @all_items.find do |item|
-      item.name.downcase == query_name.downcase
-    end
+    find_with_name(@all_items, query_name)
   end
 
-  def find_by_id(query_id)
-    finder = @all_items.find do |item|
-      item.id == query_id
-    end
+  def find_by_id(id_query)
+    find_with_id(@all_items, id_query)
   end
 
   def find_all_by_merchant_id(query_merch_id)
-    @all_items.select do |item|
-      item.merchant_id == query_merch_id
-    end
+    find_all_by_num(@all_items, query_merch_id, :merchant_id)
   end
 
   def find_all_with_description(query_description)
-    @all_items.select do |item|
-      item.description.downcase.include?(query_description.downcase)
-    end
+    find_all_by_string(@all_items, query_description, :description)
   end
 
   def find_all_by_price(query_price)
-    @all_items.select do |item|
-      (item.unit_price) == query_price
-      #this price needs to be converted to dollars
-    end
+    find_all_by_num(@all_items, query_price, :unit_price)
   end
 
   def find_all_by_price_in_range(query_range)
