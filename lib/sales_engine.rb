@@ -9,6 +9,7 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
+
     repositories_linked
   end
 
