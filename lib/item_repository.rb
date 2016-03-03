@@ -40,9 +40,7 @@ class ItemRepository
   end
 
   def find_all_with_description(query_description)
-    @all_items.select do |item|
-      item.description.downcase.include?(query_description.downcase)
-    end
+    find_all_by_string(@all_items, query_description, description)
   end
 
   def find_all_by_price(query_price)
