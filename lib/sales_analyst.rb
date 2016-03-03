@@ -31,9 +31,7 @@ class SalesAnalyst
 
   def average_item_price_for_merchant(id_num)
     merchant = @merchants.all.find {|merchant| id_num == merchant.id}
-    merchant_prices = merchant.items.map do |item|
-      item.unit_price
-    end
+    merchant_prices = merchant.items.map {|item| item.unit_price}
     avg = merchant_prices.inject(:+)/merchant_prices.count
     BigDecimal.new(avg, 4)
   end
