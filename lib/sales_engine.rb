@@ -11,7 +11,6 @@ class SalesEngine
     @items = ItemRepository.new(data[:items]) if data[:items] != nil
     @merchants = MerchantRepository.new(data[:merchants]) if data[:merchants] != nil
     @invoices = InvoiceRepository.new(data[:invoices]) if data[:invoices] != nil
-    repositories_linked
   end
 
   def repositories_linked
@@ -23,6 +22,8 @@ class SalesEngine
     @merchants.all.map do |merchant|
       merchant.items = @items.find_all_by_merchant_id(merchant.id)
       merchant.item_count = merchant.items.count
+      merchant.invoices = @invoices.find_all_by_merchant_id(merchant.id)
+      merchant.invoice_count = merchant.invoices.count
       merchant
     end
   end
@@ -31,7 +32,9 @@ class SalesEngine
     @items.all.map do |item|
       item.merchant = @merchants.find_by_id(item.merchant_id)
     end
-    # @invoices = InvoiceRepository.new(data[:invoices])
+    @invoices.all.map do |invoice|
+      invoice.merchant =  @merchants.find_by_id(invoice.merchant_id)
+    end
 
   end
 
@@ -48,6 +51,6 @@ if __FILE__ == $0
     :merchants => "./data/merchants.csv",
     :invoices => "./data/invoices.csv"
     })
-
+    se.repositories_linked
     binding.pry
-  end
+end

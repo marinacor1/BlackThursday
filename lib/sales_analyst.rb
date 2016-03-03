@@ -113,7 +113,7 @@ class SalesAnalyst
   end
 end
 
-end
+
 if __FILE__ == $0
 
   # se = SalesEngine.from_csv({:items => "./data/items.csv", :merchants => "./data/merchants.csv"})

@@ -6,26 +6,23 @@ require 'pry'
 
 class InvoiceRepositoryTest < Minitest::Test
   def test_invoice_repository_instantiates
-    skip
-    se = SalesEngine.from_csv({:invoices => '../data/invoices.csv'})
+    binding.pry
+    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
     se.invoices.instance_of? InvoiceRepository
   end
 
   def test_invoice_repository_contains_invoice_instances
-    skip
-    se = SalesEngine.from_csv({:invoices => '../data/invoices.csv'})
-    ir = InvoiceRepository.new
-    i.instance_of? InvoiceRepository
+    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
+    ir = se.invoices
+    ir.instance_of? InvoiceRepository
   end
 
   def test_all_returns_array_of_all_known_invoice_instances
-    skip
-    se = SalesEngine.from_csv({:invoices => '../data/invoices.csv'})
-    ir = InvoiceRepository.new
-    invoice_array = []
-    assert_equal invoice_array, ir.all
+    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
+    ir = se.invoices
     assert_equal Array, ir.all.class
     assert_equal Invoice, ir.all[0].class
+    assert_equal 4985, ir.count
   end
 
   def test_find_by_id_returns_correct_invoice
