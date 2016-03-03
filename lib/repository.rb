@@ -13,6 +13,7 @@ module Repository
   def find_by_id(all_contents, id_query)
     all_contents.find do |element|
       id_query == element.id
+      #needs to return nil for no match in invoice repo
     end
   end
 
