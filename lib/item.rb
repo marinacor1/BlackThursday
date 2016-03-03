@@ -1,3 +1,6 @@
+require 'bigdecimal'
+
+
 class Item
 attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
   def initialize(attributes)
@@ -6,8 +9,8 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     @description = attributes[:description]
     @unit_price = attributes[:unit_price].to_f
     @merchant_id = attributes[:merchant_id]
-    @created_at = Date.parse(attributes[:created_at].to_s)
-    @updated_at = Date.parse(attributes[:updated_at].to_s)
+    @created_at = attributes[:created_at].to_s
+    @updated_at = attributes[:updated_at].to_s
     unit_price_to_dollars
   end
 

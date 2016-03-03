@@ -3,8 +3,10 @@ require 'csv'
 require_relative 'sales_engine'
 require_relative 'merchant'
 require_relative 'item_repository'
+require_relative 'repository'
 
 class MerchantRepository
+  include Repository
   attr_accessor :all, :name
 
   def initialize(path)
@@ -39,21 +41,15 @@ class MerchantRepository
   end
 
   def find_by_name(query_name)
-    @all_merchants.find do |merchant|
-      merchant.name.downcase == query_name.downcase
-    end
+    find_with_name(@all_merchants, query_name)
   end
 
   def find_by_id(id_query)
-    @all_merchants.find do |merchant|
-      id_query == merchant.id
-    end
+    find_with_id(@all_merchants, id_query)
   end
 
   def find_all_by_name(query_name)
-    @all_merchants.select do |merchant|
-       merchant.name.downcase.include?(query_name.downcase) ? merchant : nil
-    end
+    find_all_by_string(@all_merchants, query_name, :name)
   end
 
 end

@@ -5,6 +5,7 @@ require_relative '../lib/sales_engine'
 require 'pry'
 
 class InvoiceRepositoryTest < Minitest::Test
+
   def test_invoice_repository_instantiates
     binding.pry
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})

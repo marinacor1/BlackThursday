@@ -2,8 +2,10 @@ require 'pry'
 require 'csv'
 require_relative 'invoice'
 require_relative 'sales_engine'
+require_relative 'repository'
 
 class InvoiceRepository
+  include Repository
   attr_accessor :all
 
   def initialize(path)
@@ -19,35 +21,35 @@ class InvoiceRepository
 end
 
   def count
-    @all_invoices.count
+    count(@all_invoices)
   end
 
   def all
     @all_invoices
   end
 
-  def find_by_id(query_id)
-    finder = @all_invoices.find do |invoice|
-      invoice.id == query_id
-    end
+  def customer_id
+    #no clue if this works
+    @all_invoices.customer_id
+  end
+
+  def find_by_id(id_query)
+      #returs nil if no match
+      #or returns instances of invoice with matching id
+    find_by_id(@all_invoices, id_query)
   end
 
   def find_all_by_customer_id(query_customer_id)
-    @all_invoices.select do |invoice|
-      invoice.customer_id == query_customer_id
-    end
+    find_all_by_num(@all_invoices, query_customer_id, customer_id)
+       #returns empty array if no match
+       #returns one or more matches with matching id
   end
 
-  def find_all_by_merchant_id(query_merchant_id)
-    @all_invoices.select do |invoice|
-      invoice.merchant_id == query_merchant_id
-    end
-  end
+  def find_all_by_status(id_num)
+    find_all_by_string(@all_invoices, id_num, status)
+   #returns empty array if no match
+   #returns one or more matches with matching id
 
-  def find_all_by_status(query_status)
-    @all_invoices.select do |invoice|
-      invoice.status == query_status
-    end
   end
 
 
