@@ -60,8 +60,6 @@ class SalesAnalystTest < Minitest::Test
     sa.average_items_per_merchant
     sa.average_items_per_merchant_standard_deviation
     sa.merchants_with_high_item_count
-
-
     example_count = sa.high_items[0].item_count
     assert sa.high_items.instance_of? Array
     assert_equal Merchant, sa.high_items[0].class

@@ -25,8 +25,6 @@ attr_reader :average_items, :std_dev, :high_items, :avg_item_price, :item_price_
   end
 
   def merchants_with_high_item_count
-    #returns an array of merchants who are more than one std dev
-    #above the average number of products offered
     @high_items = @merchants.all.map do |merchant|
         merchant if merchant.item_count > (@average_items+@std_dev)
     end.compact
@@ -34,7 +32,6 @@ attr_reader :average_items, :std_dev, :high_items, :avg_item_price, :item_price_
   end
 
   def average_item_price_for_merchant(id_num)
-    #returns the average price of a merchant's items (by supplying merchant id)
     merchant = @merchants.all.find {|merchant| id_num == merchant.id}
     merchant_prices = merchant.items.map {|item| item.unit_price}
     avg = merchant_prices.inject(:+)/merchant_prices.count
@@ -65,7 +62,6 @@ attr_reader :average_items, :std_dev, :high_items, :avg_item_price, :item_price_
   end
 
   def golden_items
-    #returns an array with all items that are two standard-devs above avg item price
     sum_item_prices = 0
     @items.all.map do |item|
       sum_item_prices += item.unit_price
