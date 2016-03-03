@@ -6,7 +6,7 @@ require 'pry'
 
 class InvoiceRepositoryTest < Minitest::Test
   def test_invoice_repository_instantiates
-    skip 
+    skip
     se = SalesEngine.from_csv({:invoices => '../data/invoices.csv'})
     se.invoices.instance_of? InvoiceRepository
   end
@@ -72,6 +72,30 @@ class InvoiceRepositoryTest < Minitest::Test
     status_array = []
     assert_equal status_array, ir.find_all_by_status('popcorn')
     assert_equal Array, ir.status_array.class
+  end
+
+  def test_merchants_have_invoices_relationship
+    skip
+    se = SalesEngine.from_csv({
+:items => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+  :invoices => "./data/invoices.csv"
+      })
+    merchant = se.merchants.find_by_id(12335938)
+    invoice_array = ['i', 'i']
+    assert_equal invoice_array, merchant.invoices
+    assert_equal Array, invoice_array.class
+  end
+
+  def test_invoices_have_merchants_relationshp
+    skip
+    se = SalesEngine.from_csv({
+:items => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+  :invoices => "./data/invoices.csv"
+      })
+      invoice.se.invoices.find_by_id(12335938)
+      assert_equal 'merchant', invoice.merchant
   end
 
 
