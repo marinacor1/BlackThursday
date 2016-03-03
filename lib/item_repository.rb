@@ -27,7 +27,6 @@ class ItemRepository
     @all_items
   end
 
-
   def find_by_name(query_name)
     find_with_name(@all_items, query_name)
   end

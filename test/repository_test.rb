@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/repository'
 require_relative '../lib/sales_engine'
+require_relative '../lib/merchant_repository'
 require 'pry'
 
 class RepositoryTest < Minitest::Test
@@ -44,6 +45,16 @@ class RepositoryTest < Minitest::Test
     mr = se.merchants
     merchant = mr.find_with_id(mr.all, 1135)
     assert_equal nil , merchant
+  end
+
+  def test_repo_finds_all_instances_with_merchant_idw
+    skip
+    #currently passing in item info instead. maybe an issue with all
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_all_by_num(mr.all, 12334135, :name)
+    assert_equal [] , merchant
   end
 
 
