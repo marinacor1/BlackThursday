@@ -57,22 +57,14 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-<<<<<<< HEAD
 
     high_items = sa.merchants_with_high_item_count
     example_count = high_items[0].item_count
+
     assert example_count > (sa.avg_items + sa.item_count_stdev)
     assert high_items.instance_of? Array
     assert_equal Merchant, high_items[0].class
     assert_equal 52, high_items.count
-=======
-    sa.average_items_per_merchant
-    sa.average_items_per_merchant_standard_deviation
-    sa.merchants_with_high_item_count
-    example_count = sa.high_items[0].item_count
-    assert sa.high_items.instance_of? Array
-    assert_equal Merchant, sa.high_items[0].class
->>>>>>> master
   end
 
   def test_sa_finds_avg_price_of_merchants_items_by_id_number

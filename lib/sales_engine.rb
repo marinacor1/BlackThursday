@@ -9,7 +9,6 @@ class SalesEngine
   def initialize(data)
     @items = ItemRepository.new(data[:items])
     @merchants = MerchantRepository.new(data[:merchants])
-<<<<<<< HEAD
     repositories_linked
   end
 
@@ -30,10 +29,8 @@ class SalesEngine
     @items.all.map do |item|
       item.merchant = @merchants.find_by_id(item.merchant_id)
     end
-=======
     # @invoices = InvoiceRepository.new(data[:invoices])
-    @items.all = @merchants.merchants_and_items_linked(@items)
->>>>>>> master
+
   end
 
   def self.from_csv(data)
