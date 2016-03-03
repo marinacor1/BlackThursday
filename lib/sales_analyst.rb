@@ -11,6 +11,7 @@ class SalesAnalyst
   def initialize(se_data)
     @merchants = se_data.merchants.all
     @items = se_data.items.all
+    @invoices = se_data.invoices.all
     begin_analysis
   end
 
