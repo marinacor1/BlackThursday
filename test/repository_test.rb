@@ -22,6 +22,14 @@ class RepositoryTest < Minitest::Test
     assert_equal nil, merchant
   end
 
+  def test_repository_finds_with_name_regardless_of_case
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_with_name(mr.all, "keckenBAUer")
+    assert_equal "Keckenbauer", merchant.name
+  end
+
 
 
 end
