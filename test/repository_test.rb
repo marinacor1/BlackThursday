@@ -30,6 +30,14 @@ class RepositoryTest < Minitest::Test
     assert_equal "Keckenbauer", merchant.name
   end
 
+  def test_repo_finds_with_id
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    mr = se.merchants
+    merchant = mr.find_with_id(mr.all, 12334135)
+    assert_equal "GoldenRayPress", merchant.name
+  end
+
 
 
 end
