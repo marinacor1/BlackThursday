@@ -20,6 +20,7 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_invoice_knows_its_information
+    skip
   i = Invoice.new({
 :id          => 6,
 :customer_id => 7,
