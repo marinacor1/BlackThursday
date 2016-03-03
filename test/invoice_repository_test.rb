@@ -5,6 +5,11 @@ require_relative '../lib/sales_engine'
 require 'pry'
 
 class InvoiceRepositoryTest < Minitest::Test
+
+  def test_invoice_repository_knows_its_merchant_id
+    ir = InvoiceRepository.new({:invoices => '../data/invoices.csv'})
+    assert_equal '1', ir.merchant_id
+  end
   def test_invoice_repository_instantiates
     skip
     se = SalesEngine.from_csv({:invoices => '../data/invoices.csv'})
