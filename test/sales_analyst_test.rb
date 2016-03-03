@@ -94,5 +94,58 @@ class SalesAnalystTest < Minitest::Test
     assert golden_array.instance_of? Array
   end
 
+  def test_find_average_merchant_invoices_works
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    assert_equal 8.5, sa.average_invoices_per_merchant
+  end
+
+  def test_average_invoices_has_std_dev
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    assert_equal 1.2, sa.average_invoices_per_merchant_standard_deviation
+  end
+
+  def test_sa_can_find_top_performing_merchants_through_std_dev
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    top_merchants = ['m1', 'm2']
+    assert_equal top_merchants, sa.top_merchants_by_invoice_count
+  end
+
+  def test_sa_can_find_lowest_performing_merchants_by_std_dev
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    top_merchants = ['m-1', 'm-2']
+    assert_equal top_merchants, sa.bottom_merchants_by_invoice_count
+  end
+
+  def test_sa_finds_top_sale_days
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    days = ['monday']
+    assert_equal days, sa.top_days_by_invoice_count
+  end
+
+  def test_gives_status_percentage
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    assert_equal 5.25, sa.invoice_status(:pending)
+    assert_equal 93.75, sa.invoice_status(:shipped)
+    assert_equal 1.00, sa.invoice_status(:returned)
+  end
+
 
 end
