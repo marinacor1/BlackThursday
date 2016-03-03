@@ -37,17 +37,15 @@ class ItemRepository
   end
 
   def find_all_by_merchant_id(query_merch_id)
-    @all_items.select do |item|
-      item.merchant_id == query_merch_id
-    end
+    find_all_by_num(@all_items, query_merch_id, :merchant_id)
   end
 
   def find_all_with_description(query_description)
-    find_all_by_string(@all_items, query_description, description)
+    find_all_by_string(@all_items, query_description, :description)
   end
 
   def find_all_by_price(query_price)
-    find_all_by_num(@all_items, query_price, unit_price)
+    find_all_by_num(@all_items, query_price, :unit_price)
   end
 
   def find_all_by_price_in_range(query_range)
