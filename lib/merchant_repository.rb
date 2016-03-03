@@ -3,8 +3,10 @@ require 'csv'
 require_relative 'sales_engine'
 require_relative 'merchant'
 require_relative 'item_repository'
+require_relative 'repository'
 
 class MerchantRepository
+  include Repository
   attr_accessor :all, :name
 
   def initialize(path)
