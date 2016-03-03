@@ -45,9 +45,7 @@ class MerchantRepository
   end
 
   def find_by_id(id_query)
-    @all_merchants.find do |merchant|
-      id_query == merchant.id
-    end
+    find_with_id(@all_merchants, id_query)
   end
 
   def find_all_by_name(query_name)
