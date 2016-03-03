@@ -1,12 +1,12 @@
 module Repository
 
-  def find_by_name(all_contents, query_name)
+  def find_with_name(all_contents, query_name)
     all_contents.find do |element|
       element.name.downcase == query_name.downcase
     end
   end
 
-  def find_by_id(all_contents, id_query)
+  def find_with_id(all_contents, id_query)
     all_contents.find do |element|
       id_query == element.id
       #needs to return nil for no match in invoice repo

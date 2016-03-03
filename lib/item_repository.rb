@@ -28,15 +28,11 @@ class ItemRepository
   end
 
   def find_by_name(query_name)
-    finder = @all_items.find do |item|
-      item.name.downcase == query_name.downcase
-    end
+    find_with_name(@all_items, query_name)
   end
 
-  def find_by_id(query_id)
-    finder = @all_items.find do |item|
-      item.id == query_id
-    end
+  def find_by_id(id_query)
+    find_with_id(@all_items, id_query)
   end
 
   def find_all_by_merchant_id(query_merch_id)
