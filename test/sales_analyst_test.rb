@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/sales_analyst'
 require_relative '../lib/sales_engine'
+require 'bigdecimal'
 
 class SalesAnalystTest < Minitest::Test
 
@@ -9,7 +10,7 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    sa.instance_of? SalesAnalyst
+    assert sa.instance_of? SalesAnalyst
   end
 
   def test_sales_analyst_tells_how_avg_products_merchants_sell
@@ -36,7 +37,8 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = 3.26
+    sa.average_items_per_merchant
+      answer = 3.26
     assert_equal answer, sa.average_items_per_merchant_standard_deviation
     assert_equal Float, answer.class
   end
@@ -45,15 +47,23 @@ class SalesAnalystTest < Minitest::Test
     skip
     #test using subset
     sa = SalesAnalyst.new(se)
+    sa.average_items_per_merchant
+    sa.average_items_per_merchant_standard_deviation
     assert_equal 3.26, sa.average_items_per_merchant_standard_deviation
   end
 
   def test_sales_analyst_returns_merchants_with_high_item_counts
-    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    merchant_array = ['merchant', 'merchant']
-    assert_equal merchant_array, sa.merchants_with_high_item_count
-    assert_equal Merchant, merchant_array.class
+    sa.average_items_per_merchant
+    sa.average_items_per_merchant_standard_deviation
+    sa.merchants_with_high_item_count
+
+
+    example_count = sa.high_items[0].item_count
+    assert sa.high_items.instance_of? Array
+    assert_equal Merchant, sa.high_items[0].class
   end
 
   def test_sa_finds_avg_price_of_merchants_items_by_id_number
@@ -73,12 +83,12 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_golden_items
-    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    # golden_array = [<item>, <item>, <item>]
-    golden_array = []
-    assert_equal golden_array, sa.golden_items
-    assert_equal Item, golden_array.class
+    golden_array = sa.golden_items
+    assert_equal 5, golden_array.count
+    assert golden_array.instance_of? Array
   end
 
 
