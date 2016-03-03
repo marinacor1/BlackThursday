@@ -27,12 +27,6 @@ class ItemRepository
     @all_items
   end
 
-  def merchant_id
-    binding.pry
-    @item.merchant_id
-    #TODO how does it know if it is right item?
-    #need to change query
-  end
 
   def find_by_name(query_name)
     find_with_name(@all_items, query_name)
@@ -43,8 +37,9 @@ class ItemRepository
   end
 
   def find_all_by_merchant_id(query_merch_id)
-    binding.pry
-    find_all_by_num(@all_items, query_merch_id, merchant_id)
+    @all_items.select do |item|
+      item.merchant_id == query_merch_id
+    end
   end
 
   def find_all_with_description(query_description)
