@@ -44,10 +44,7 @@ class ItemRepository
   end
 
   def find_all_by_price(query_price)
-    @all_items.select do |item|
-      (item.unit_price) == query_price
-      #this price needs to be converted to dollars
-    end
+    find_all_by_num(@all_items, query_price, unit_price)
   end
 
   def find_all_by_price_in_range(query_range)
