@@ -1,10 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/repository'
+require_relative '../lib/merchant'
 require_relative '../lib/sales_engine'
 require 'pry'
 
 class RepositoryTest < Minitest::Test
+  include Repository
 
   def test_repository_can_find_with_name
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
@@ -12,6 +14,17 @@ class RepositoryTest < Minitest::Test
     mr = se.merchants
     merchant = mr.find_with_name(mr.all, "CJsDecor")
     assert_equal "CJsDecor", merchant.name
+  end
+
+  def test_can_find_with_name
+    merchants = [
+      Merchant.new({name: "Bill"}),
+      Merchant.new({name: "Sam"}),
+      Merchant.new({name: "Lindsey"})
+    ]
+
+    merchant = find_with_name(merchants, "Lindsey")
+    assert_equal "Lindsey", merchant.name
   end
 
   def test_repository_can_return_nil_if_wrong_query
