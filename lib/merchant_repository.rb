@@ -49,9 +49,7 @@ class MerchantRepository
   end
 
   def find_all_by_name(query_name)
-    @all_merchants.select do |merchant|
-       merchant.name.downcase.include?(query_name.downcase) ? merchant : nil
-    end
+    find_all_by_string(@all_merchants, query_name, :name)
   end
 
 end
