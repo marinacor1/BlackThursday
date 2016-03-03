@@ -16,7 +16,6 @@ class InvoiceRepository
     i = Invoice.new(data_row)
     @all_invoices << i
   end
-  binding.pry
 end
 
   def count
@@ -25,12 +24,9 @@ end
 
   def all
     @all_invoices
-    #returns an array of all known invoice instances
   end
 
   def find_by_id(query_id)
-      #returs nil if no match
-      #or returns instances of invoice with matching id
     finder = @all_invoices.find do |invoice|
       invoice.id == query_id
     end
@@ -38,15 +34,20 @@ end
 
   def find_all_by_customer_id(query_customer_id)
     @all_invoices.select do |invoice|
-      invoice.merchant_id == query_customer_id
+      invoice.customer_id == query_customer_id
     end
-       #returns empty array if no match
-       #returns one or more matches with matching id
   end
 
-  def find_all_by_status(id_num)
-   #returns empty array if no match
-   #returns one or more matches with matching id
+  def find_all_by_merchant_id(query_merchant_id)
+    @all_invoices.select do |invoice|
+      invoice.merchant_id == query_merchant_id
+    end
+  end
+
+  def find_all_by_status(query_status)
+    @all_invoices.select do |invoice|
+      invoice.status == query_status
+    end
   end
 
 
