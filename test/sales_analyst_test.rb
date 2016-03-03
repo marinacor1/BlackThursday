@@ -40,16 +40,16 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     sa.average_items_per_merchant
       answer = 3.26
-    assert_equal answer, sa.average_items_per_merchant_standard_deviation
-    assert_equal Float, answer.class
+      calculated = sa.average_items_per_merchant_standard_deviation
+    assert_equal answer, calculated
+    assert_equal Float, calculated.class
   end
 
   def test_sales_analyst_returns_avg_item_std_deviation_from_subset
     skip
     #test using subset
     sa = SalesAnalyst.new(se)
-    sa.average_items_per_merchant
-    sa.average_items_per_merchant_standard_deviation
+
     assert_equal 3.26, sa.average_items_per_merchant_standard_deviation
   end
 
@@ -57,12 +57,14 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    sa.average_items_per_merchant
-    sa.average_items_per_merchant_standard_deviation
-    sa.merchants_with_high_item_count
-    example_count = sa.high_items[0].item_count
-    assert sa.high_items.instance_of? Array
-    assert_equal Merchant, sa.high_items[0].class
+
+    high_items = sa.merchants_with_high_item_count
+    example_count = high_items[0].item_count
+
+    assert example_count > (sa.avg_items + sa.item_count_stdev)
+    assert high_items.instance_of? Array
+    assert_equal Merchant, high_items[0].class
+    assert_equal 52, high_items.count
   end
 
   def test_sa_finds_avg_price_of_merchants_items_by_id_number
@@ -75,14 +77,15 @@ class SalesAnalystTest < Minitest::Test
     assert_equal BigDecimal, big_decimal_num.class
   end
 
-  def test_sa_can_find_average_price_across_all_merchants
+  def test_sa_can_find_average_average_price_across_all_merchants
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = 350.3
-    big_decimal_num = BigDecimal.new(answer, 5)
-    assert_equal big_decimal_num, sa.average_average_price_per_merchant
-    assert_equal BigDecimal, big_decimal_num.class
+    avg_avg = sa.average_average_price_per_merchant
+
+    assert_equal BigDecimal(answer,4), avg_avg
+    assert avg_avg.instance_of? BigDecimal
   end
 
   def test_sa_finds_all_golden_items

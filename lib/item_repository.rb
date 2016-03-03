@@ -7,10 +7,10 @@ class ItemRepository
 
   def initialize(path)
     @all_items = []
-    populate_item_repo_with_data_from_csv(path)
+    populate_item_repo(path)
   end
 
-  def populate_item_repo_with_data_from_csv(path)
+  def populate_item_repo(path)
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
     i = Item.new(data_row)
     @all_items << i
