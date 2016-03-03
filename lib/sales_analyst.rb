@@ -2,12 +2,13 @@ require 'pry'
 require 'bigdecimal'
 require_relative 'merchant_repository'
 require_relative 'item'
+
 class SalesAnalyst
   attr_reader :average_items
 
   def initialize(se_data)
-  @merchants = se_data.merchants
-  @items = se_data.items
+    @merchants = se_data.merchants
+    @items = se_data.items
   end
 
   def average_items_per_merchant
