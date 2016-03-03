@@ -82,6 +82,31 @@ attr_reader :average_items, :std_dev, :high_items, :avg_item_price, :item_price_
     end
 
   end
+
+  def average_invoices_per_merchant
+    #returns float like 8.5
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    #returns float like 1.2
+  end
+
+  def top_merchants_by_invoice_count
+    #returns array of merchants that are more than two std dev above mean
+  end
+
+  def bottom_merchants_by_invoice_count
+    #returns array with merchant that are more than two std dev below mean
+  end
+
+  def top_days_by_invoice_count
+    #returns array with days that have invoices created more than one std dev above mean
+  end
+
+  def invoice_status(status_query)
+    #returns float like 5.25 or 1.00 that is the percentage of invoices for a certain status
+    #takes symbol as argument 
+  end
 end
 
 if __FILE__ == $0
