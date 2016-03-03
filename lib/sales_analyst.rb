@@ -3,14 +3,14 @@ require 'bigdecimal'
 require_relative 'merchant_repository'
 require_relative 'item'
 class SalesAnalyst
-attr_reader :average_items
+  attr_reader :average_items
+
   def initialize(se_data)
   @merchants = se_data.merchants
   @items = se_data.items
   end
 
   def average_items_per_merchant
-    #this might not work with larger numbers
     @average_items = BigDecimal.new((@items.count.to_f/ @merchants.count), 3).to_f
   end
 
@@ -30,11 +30,33 @@ attr_reader :average_items
   end
 
   def average_item_price_for_merchant(id_num)
-    #returns the average price of a merchant's items (by supplying merchant id)
+    merchant = @merchants.all.find {|merchant| id_num == merchant.id}
+    merchant_prices = merchant.items.map {|item| item.unit_price}
+    avg = merchant_prices.inject(:+)/merchant_prices.count
+    BigDecimal.new(avg, 4)
   end
 
   def average_average_price_per_merchant
-    #sum of all average prices for merchants/ #total number of merchants
+    all_ids = find_all_merchant_ids
+    all_averages = find_all_average_prices(all_ids)
+    total_averages = all_averages.inject(:+)
+    BigDecimal.new(total_averages/@merchants.count, 5)
+  end
+
+  def find_all_average_prices(all_ids)
+    all_averages = all_ids.map do |id|
+      average_item_price_for_merchant(id).to_f
+    end
+  end
+
+  def find_all_merchant_ids
+    all_ids = []
+    @merchants.all.each do |merchant|
+      merchant.items.each do |item|
+        all_ids << item.merchant_id
+      end
+    end
+    all_ids.uniq!
   end
 
   def golden_items
