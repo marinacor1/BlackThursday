@@ -1,9 +1,5 @@
 module Repository
 
-  def count(all_contents)
-    all_contents.count
-  end
-
   def find_by_name(all_contents, query_name)
     all_contents.find do |element|
       element.name.downcase == query_name.downcase

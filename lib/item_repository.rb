@@ -1,8 +1,10 @@
 require 'pry'
 require 'csv'
 require_relative 'item'
+require_relative 'repository'
 
 class ItemRepository
+  include Repository
   attr_accessor :all
 
   def initialize(path)
@@ -11,11 +13,11 @@ class ItemRepository
   end
 
   def populate_item_repo(path)
-  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-    i = Item.new(data_row)
-    @all_items << i
+    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      i = Item.new(data_row)
+      @all_items << i
+    end
   end
-end
 
   def count
     @all_items.count
