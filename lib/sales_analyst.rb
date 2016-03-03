@@ -30,12 +30,35 @@ attr_reader :average_items
   end
 
   def average_item_price_for_merchant(id_num)
-    #returns the average price of a merchant's items (by supplying merchant id)
+    merchant = @merchants.all.find do |merchant|
+      id_num == merchant.id
+    end
+    merchant_prices = merchant.items.map do |item|
+      item.unit_price
+    end
+    avg = merchant_prices.inject(:+)/merchant_prices.count
+    BigDecimal.new(avg, 4)
   end
 
   def average_average_price_per_merchant
-    #sum of all average prices for merchants/ #total number of merchants
+    #find total of average_item_price_for_merchant(for all id)
+    #find all average prices for all merchants
+    all_ids = []
+    @merchants.all.each do |merchant|
+      merchant.items.each do |item|
+        all_ids << item.merchant_id
+      end
+    end
+    all_ids.uniq!
+    all_averages = all_ids.map do |id|
+      average_item_price_for_merchant(id).to_f
+    end
+    total_averages = all_averages.inject(:+)
+    BigDecimal.new(total_averages/@merchants.count, 5)
+
+
   end
+    #sum of all average prices for merchants/ #total number of merchants
 
   def golden_items
     #returns an array with all items that are two standard-devs above avg item price
