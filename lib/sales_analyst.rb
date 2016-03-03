@@ -3,6 +3,7 @@ require 'bigdecimal'
 require_relative 'merchant_repository'
 require_relative 'item'
 class SalesAnalyst
+
 attr_reader :average_items, :std_dev, :high_items, :avg_item_price, :item_price_stdev
 
   def initialize(se_data)
