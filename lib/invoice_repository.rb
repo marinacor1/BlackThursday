@@ -49,6 +49,7 @@ end
     find_all_by_string(@all_invoices, id_num, status)
    #returns empty array if no match
    #returns one or more matches with matching id
+
   end
 
 

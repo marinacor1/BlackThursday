@@ -2,14 +2,15 @@ require 'pry'
 require 'csv'
 require_relative 'item_repository'
 require_relative 'merchant_repository'
+require_relative 'invoice_repository'
 
 class SalesEngine
-  attr_accessor :items, :merchants
+  attr_accessor :items, :merchants, :invoices
 
   def initialize(data)
-    @items = ItemRepository.new(data[:items])
-    @merchants = MerchantRepository.new(data[:merchants])
-
+    @items = ItemRepository.new(data[:items]) if data[:items] != nil
+    @merchants = MerchantRepository.new(data[:merchants]) if data[:merchants] != nil
+    @invoices = InvoiceRepository.new(data[:invoices]) if data[:invoices] != nil
     repositories_linked
   end
 
@@ -44,7 +45,8 @@ if __FILE__ == $0
 
   se = SalesEngine.from_csv({
     :items => "./data/items.csv",
-    :merchants => "./data/merchants.csv"
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv"
     })
 
     binding.pry
