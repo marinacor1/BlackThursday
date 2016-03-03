@@ -7,6 +7,7 @@ class MerchantRepositoryTest < Minitest::Test
   def test_it_instantiates_a_merchant_repo
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
     se = SalesEngine.from_csv(hash)
+    binding.pry
     mr = se.merchants
     assert mr.instance_of? MerchantRepository
   end

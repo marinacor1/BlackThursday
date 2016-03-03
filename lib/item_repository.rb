@@ -5,7 +5,7 @@ require_relative 'repository'
 
 class ItemRepository
   include Repository
-  attr_accessor :all
+  attr_accessor :all, :item
 
   def initialize(path)
     @all_items = []
@@ -14,8 +14,8 @@ class ItemRepository
 
   def populate_item_repo(path)
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-      i = Item.new(data_row)
-      @all_items << i
+      @item = Item.new(data_row)
+      @all_items << item
     end
   end
 
@@ -27,6 +27,13 @@ class ItemRepository
     @all_items
   end
 
+  def merchant_id
+    binding.pry
+    @item.merchant_id
+    #TODO how does it know if it is right item?
+    #need to change query
+  end
+
   def find_by_name(query_name)
     find_with_name(@all_items, query_name)
   end
@@ -36,6 +43,7 @@ class ItemRepository
   end
 
   def find_all_by_merchant_id(query_merch_id)
+    binding.pry
     find_all_by_num(@all_items, query_merch_id, merchant_id)
   end
 
