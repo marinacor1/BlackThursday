@@ -17,7 +17,7 @@ class SalesAnalyst
   def begin_analysis
     @avg_items = average_items_per_merchant
     @item_count_stdev = average_items_per_merchant_standard_deviation
-    average_item_price_assigned_to_merchants
+    merchants_know_their_average_item_price
   end
 
   def average_items_per_merchant
@@ -39,7 +39,7 @@ class SalesAnalyst
 
   end
 
-  def average_item_price_assigned_to_merchants
+  def merchants_know_their_average_item_price
     @merchants.map do |merchant|
       total_item_prices = merchant.items.map do |item|
         item.unit_price
@@ -85,6 +85,33 @@ class SalesAnalyst
     end
     item_price_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))
   end
+
+
+  def average_invoices_per_merchant
+    #returns float like 8.5
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    #returns float like 1.2
+  end
+
+  def top_merchants_by_invoice_count
+    #returns array of merchants that are more than two std dev above mean
+  end
+
+  def bottom_merchants_by_invoice_count
+    #returns array with merchant that are more than two std dev below mean
+  end
+
+  def top_days_by_invoice_count
+    #returns array with days that have invoices created more than one std dev above mean
+  end
+
+  def invoice_status(status_query)
+    #returns float like 5.25 or 1.00 that is the percentage of invoices for a certain status
+    #takes symbol as argument
+  end
+end
 
 end
 if __FILE__ == $0
