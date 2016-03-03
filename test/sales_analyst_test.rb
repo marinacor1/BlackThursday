@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'bigdecimal'
 require_relative '../lib/sales_analyst'
 require_relative '../lib/sales_engine'
 require 'bigdecimal'
@@ -67,17 +68,21 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_avg_price_of_merchants_items_by_id_number
-    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    big_decimal_num = 6
+    answer = 16.66
+    big_decimal_num = BigDecimal.new(answer, 4)
     assert_equal big_decimal_num, sa.average_item_price_for_merchant(12334105)
     assert_equal BigDecimal, big_decimal_num.class
   end
 
   def test_sa_can_find_average_price_across_all_merchants
-    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    big_decimal_num = 5
+    answer = 350.3
+    big_decimal_num = BigDecimal.new(answer, 5)
     assert_equal big_decimal_num, sa.average_average_price_per_merchant
     assert_equal BigDecimal, big_decimal_num.class
   end
