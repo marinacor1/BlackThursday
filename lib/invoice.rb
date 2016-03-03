@@ -8,4 +8,4 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @updated_at = attributes[:updated_at]
   end
 
-end 
+end

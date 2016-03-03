@@ -2,8 +2,10 @@ require 'pry'
 require 'csv'
 require_relative 'invoice'
 require_relative 'sales_engine'
+require_relative 'repository'
 
 class InvoiceRepository
+  include Repository
   attr_accessor :all
 
   def initialize(path)
@@ -20,7 +22,7 @@ class InvoiceRepository
 end
 
   def count
-    @all_invoices.count
+    count(@all_invoices)
   end
 
   def all
