@@ -9,39 +9,25 @@ class MerchantRepository
 
   def initialize(path)
     @all_merchants = []
-    if path.include?'.csv'
-      populate_merchant_repo_with_data_from_csv(path)
+    populate_merchant_repo(path)
+  end
+
+  def populate_merchant_repo(path)
+    if path.include? '.csv'
+    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      merchant = Merchant.new(data_row)
+      @all_merchants << merchant
+    end
     else
       populate_merchant_repo_with_hash(path)
     end
   end
 
-  def populate_merchant_repo_with_data_from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-      merchant = Merchant.new(data_row)
+  def populate_merchant_repo_with_hash(path)
+      path.each do
+      merchant = Merchant.new(path)
       @all_merchants << merchant
     end
-  end
-
-  def merchants_and_items_linked(item_repository)
-     @all_merchants.map do |merchant|
-      merchant.items = item_repository.find_all_by_merchant_id(merchant.id)
-      merchant.item_count = merchant.items.count
-      merchant
-    end
-
-    item_repository.all.map do |item|
-      item.merchant = self.find_by_id(item.merchant_id)
-    end
-  end
-
-  def populate_merchant_repo_with_hash(path)
-    merchant = Merchant.new(path)
-    merchant.id = path[:id]
-    merchant.name = path[:name]
-    merchant.created_at = path[:created_at]
-    merchant.updated_at = path[:updated_at]
-    @all_merchants << merchant
   end
 
   def all
