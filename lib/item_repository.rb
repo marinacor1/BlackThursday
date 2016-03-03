@@ -36,9 +36,7 @@ class ItemRepository
   end
 
   def find_all_by_merchant_id(query_merch_id)
-    @all_items.select do |item|
-      item.merchant_id == query_merch_id
-    end
+    find_all_by_num(@all_items, query_merch_id, merchant_id)
   end
 
   def find_all_with_description(query_description)
