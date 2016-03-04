@@ -52,4 +52,5 @@ class InvoiceItemTest < Minitest::Test
     answer = 244
     assert_equal answer, ii.unit_price_to_dollars
     assert_equal Float, answer.class
+  end
 end
