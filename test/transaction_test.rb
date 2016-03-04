@@ -15,6 +15,7 @@ class TransactionTest < Minitest::Test
   :created_at => Time.now,
   :updated_at => Time.now
 })
+    t.instance_of? Transaction
   end
 
   def test_transaction_knows_its_attributes
