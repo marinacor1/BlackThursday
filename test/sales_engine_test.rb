@@ -67,7 +67,7 @@ class SalesEngineTest < Minitest::Test
    assert_equal customer, invoice.customer
   end
 
-  def test_sales_engine_can_find_connections_from_an_invoice
+  def test_sales_engine_can_find_connections_from_a_transaction
     skip
     se = SalesEngine.from_csv({
   :items => "./data/items.csv",
@@ -82,7 +82,7 @@ class SalesEngineTest < Minitest::Test
    assert_equal invoice, transaction.invoice
   end
 
-  def test_sales_engine_can_find_mechants_from_customer_side 
+  def test_sales_engine_can_find_mechants_from_customer_side
     skip
     se = SalesEngine.from_csv({
   :items => "./data/items.csv",
@@ -94,6 +94,24 @@ class SalesEngineTest < Minitest::Test
   })
    merchant = se.invoices.find_by_id(10)
    customer_array = ['c', 'c']
-   assert_equal cs, merchant.customers
+   assert_equal customer_array, merchant.customers
   end
+
+  def test_sales_engine_can_find_customers_from_merchant_side
+    skip
+    se = SalesEngine.from_csv({
+  :items => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+  :invoices => "./data/invoices.csv",
+  :invoice_items => "./data/invoice_items.csv",
+  :transactions => "./data/transactions.csv",
+  :customers => "./data/customers.csv"
+  })
+   customer = se.customers.find_by_id(30)
+   merchants_array = ['m', 'm']
+   assert_equal merchant_array, customer.merchants
+   assert_equal MerchantRepository, merchants_array[0].class
+  end
+
+
 end

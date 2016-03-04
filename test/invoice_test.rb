@@ -36,5 +36,7 @@ class InvoiceTest < Minitest::Test
   assert_equal Time.now, i.updated_at
   end
 
+  
+
 
 end
