@@ -45,6 +45,10 @@ end
        #returns one or more matches with matching id
   end
 
+    def find_all_by_merchant_id(query_merch_id)
+      find_all_by_num(@all_invoices, query_merch_id, :merchant_id)
+    end
+
   def find_all_by_status(id_num)
     find_all_by_string(@all_invoices, id_num, status)
    #returns empty array if no match

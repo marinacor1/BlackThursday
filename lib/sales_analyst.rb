@@ -117,13 +117,16 @@ class SalesAnalyst
   end
 
   def top_days_by_invoice_count
-    day_of_hash = @invoices.group_by do |invoice|
+    day_of_hash = @invoices.reduce(Hash.new(0)) do |hash, invoice|
       date = Date.parse(invoice.created_at)
-      date.strftime("%A")
+      date = date.strftime("%A")
+      hash[date] += 1
+      hash
     end
-    binding.pry
+      binding.pry
+end
+
     #returns array with days that have invoices created more than one std dev above mean
-  end
 
   def invoice_status(status_query)
     #returns float like 5.25 or 1.00 that is the percentage of invoices for a certain status
