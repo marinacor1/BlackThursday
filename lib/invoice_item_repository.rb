@@ -18,5 +18,4 @@ class InvoiceItemRepository
     #with matching invoice id
   end
 
-
 end

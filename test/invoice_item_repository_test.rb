@@ -61,6 +61,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
     invoice_items = ir.find_all_by_invoice_id(7)
     array = ['1', '2']
     assert_equal array, invoice_items
+    assert_equal InvoiceItem, invoice_items[0].class 
   end
 
   def test_find_all_by_invoice_id_returns_empty_array_for_wrong_id
@@ -69,5 +70,6 @@ class InvoiceItemRepositoryTest < Minitest::Test
     ir.from_csv("./data/invoice_items.csv")
     invoice_items = ir.find_all_by_invoice_id(7890797)
     assert_equal [], invoice_items
+    assert_equal InvoiceItem, invoice_items[0].class
   end
 end
