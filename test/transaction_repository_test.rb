@@ -57,6 +57,32 @@ class TranscactionRepositoryTest < Minitest::Test
     tr = TransactionRepository.new
     tr.from_csv("./data/transactions.csv")
     transaction = tr.find_all_by_credit_card_number(4177816490204479)
+    answer = [3, 4, 2, 1]
+    assert_equal answer, transaction
+  end
+
+  def test_it_returns_nil_for_wrong_credit_card
+    skip
+    tr = TransactionRepository.new
+    tr.from_csv("./data/transactions.csv")
+    transaction = tr.find_all_by_credit_card_number(90209)
+    assert_equal [], transaction
+  end
+
+  def test_it_returns_all_by_result
+    skip
+    tr = TransactionRepository.new
+    tr.from_csv("./data/transactions.csv")
+    transaction = tr.find_all_by_result('pending')
+    answer = [2, 3, 3, 2, 4]
+    assert_equal answer, transaction
+  end
+
+  def test_it_returns_empty_array_for_wrong_result
+    skip
+    tr = TransactionRepository.new
+    tr.from_csv("./data/transactions.csv")
+    transaction = tr.find_all_by_result('watermelon')
     assert_equal [], transaction
   end
 
