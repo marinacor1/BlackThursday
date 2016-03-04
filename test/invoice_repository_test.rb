@@ -7,31 +7,35 @@ require 'pry'
 class InvoiceRepositoryTest < Minitest::Test
 
   def test_invoice_repository_instantiates
-    binding.pry
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
-    se.invoices.instance_of? InvoiceRepository
+    assert se.invoices.instance_of? InvoiceRepository
   end
 
   def test_invoice_repository_contains_invoice_instances
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
-    ir = se.invoices
-    ir.instance_of? InvoiceRepository
+    ir = se.invoices.all
+    assert ir[0].instance_of? Invoice
   end
 
   def test_all_returns_array_of_all_known_invoice_instances
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
-    ir = se.invoices
-    assert_equal Array, ir.all.class
-    assert_equal Invoice, ir.all[0].class
+    ir = se.invoices.all
+    assert_equal Array, ir.class
+    assert_equal Invoice, ir[0].class
     assert_equal 4985, ir.count
   end
 
   def test_find_by_id_returns_correct_invoice
-    skip
-    ir = InvoiceRepository.new
-    correct_invoice
-    assert_equal correct_invoice, ir.find_by_id(12335938)
-    assert_equal Invoice, correct_invoice.class
+    i = Invoice.new({:id => 123, :name => "correct"})
+    j = Invoice.new({:id => 456, :name => "incorrect"})
+    data = []
+    data << i
+    data << j
+    ir = InvoiceRepository.new(data)
+    invoice = ir.all.find_by_id(123)
+
+    assert_equal "correct", invoice.name
+    assert_equal 123, invoice.id
   end
 
   def test_find_by_id_returns_nil_for_wrong_id
@@ -73,16 +77,18 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_merchants_have_invoices_relationship
-    skip
     se = SalesEngine.from_csv({
-:items => "./data/items.csv",
-  :merchants => "./data/merchants.csv",
-  :invoices => "./data/invoices.csv"
+      :items => "./data/items.csv",
+      :merchants => "./data/merchants.csv",
+      :invoices => "./data/invoices.csv"
       })
+    se.repositories_linked
+
     merchant = se.merchants.find_by_id(12335938)
-    invoice_array = ['i', 'i']
-    assert_equal invoice_array, merchant.invoices
-    assert_equal Array, invoice_array.class
+    invoice_array = merchant.invoices
+
+    assert invoice_array.instance_of? Array
+    assert invoice_array[0].instance_of? Invoice
   end
 
   def test_invoices_have_merchants_relationshp

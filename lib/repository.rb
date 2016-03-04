@@ -1,5 +1,9 @@
 module Repository
 
+  def inspect
+   true
+ end
+
   def find_with_name(all_contents, query_name)
     all_contents.find do |element|
       element.name.downcase == query_name.downcase
@@ -19,9 +23,17 @@ module Repository
   end
 
   def find_all_by_num(all_contents, query_num, query_type)
-    all_contents.select do |element|
-      element.send(query_type) == query_num
+    all_results = all_contents.select do |element|
+      element.send(query_type).to_f == query_num.to_f
     end
   end
+
+  # def self.inspect
+  #   "lol"
+  # end
+  #
+  # def inspect
+  #   "instance inspect"
+  # end
 
 end

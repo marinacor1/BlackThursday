@@ -9,6 +9,11 @@ class MerchantRepository
   include Repository
   attr_accessor :all, :name
 
+  def inspect
+    true
+  #  "#<#{self.class} #{@all_merchants.size} rows>"
+ end
+
   def initialize(path)
     @all_merchants = []
     populate_merchant_repo(path)
@@ -20,6 +25,7 @@ class MerchantRepository
       merchant = Merchant.new(data_row)
       @all_merchants << merchant
     end
+      @all_merchants
     else
       populate_merchant_repo_with_hash(path)
     end

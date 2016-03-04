@@ -7,6 +7,11 @@ class ItemRepository
   include Repository
   attr_accessor :all, :item
 
+  def inspect
+    true
+  #  "#<#{self.class} #{@all_items.size} rows>"
+ end
+
   def initialize(path)
     @all_items = []
     populate_item_repo(path)
@@ -17,6 +22,7 @@ class ItemRepository
       @item = Item.new(data_row)
       @all_items << item
     end
+    @all_items
   end
 
   def count
@@ -53,7 +59,6 @@ class ItemRepository
       #this price needs to be converted to dollars
     end
   end
-
 
 end
 
