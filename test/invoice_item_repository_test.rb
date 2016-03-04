@@ -45,4 +45,13 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal [], invoice_items
     assert_equal InvoiceItem, invoice_items.class
   end
+
+  def test_invoice_repo_gives_nil_if_by_find_all_by_item_id_has_wrong_id
+    skip
+    ir = InvoiceItemRepository.new
+    ir.from_csv("./data/invoice_items.csv")
+    invoice_items = ir.find_all_by_item_id(787787)
+    assert_equal nil, invoice_items
+  end
+
 end
