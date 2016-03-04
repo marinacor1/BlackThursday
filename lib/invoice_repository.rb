@@ -16,7 +16,7 @@ class InvoiceRepository
   def populate_invoice_repo_with_data_from_csv(path)
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
     invoice = Invoice.new(data_row)
-    @all_invoices << invoice 
+    @all_invoices << invoice
   end
 end
 
@@ -39,6 +39,7 @@ end
   def find_all_by_status(id_num)
     find_all_by_string(@all_invoices, id_num, status)
   end
+
 
 
 end

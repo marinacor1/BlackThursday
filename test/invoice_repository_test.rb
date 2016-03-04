@@ -96,5 +96,4 @@ class InvoiceRepositoryTest < Minitest::Test
       assert_equal 'merchant', invoice.merchant
   end
 
-
 end
