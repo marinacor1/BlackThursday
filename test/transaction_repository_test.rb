@@ -13,7 +13,7 @@ class TransactionRepositoryTest < Minitest::Test
   def test_transaction_repo_returns_all_instances
     skip
     tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
+    tr.from_csv("./data/subsets/transactions_small.csv")
     transaction = tr.all
     assert_equal 53, transaction.count
   end

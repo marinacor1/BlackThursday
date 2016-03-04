@@ -36,53 +36,37 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal nil, customer
   end
 
-  def test_customer_repo_returns_all_matches_with_invoice_id
+  def test_customer_repo_returns_all_matches_with_first_name
     skip
     c = CustomerRepository.new
     c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_invoice_id(6)
+    customer = c.find_all_by_first_name('Mariah')
     assert_equal [], customer
   end
 
-  def test_customer_repo_returns_empty_array_with_wrong_invoice_id
+  def test_customer_repo_returns_empty_array_with_wrong_first_name
     skip
     c = CustomerRepository.new
     c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_invoice_id(2179)
+    customer = c.find_all_by_first_name('lollipops')
     assert_equal [], customer
   end
 
-  def test_it_returns_all_matching_credit_cards
+  def test_it_returns_all_matching_last_name_customers
     skip
     c = CustomerRepository.new
     c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_credit_card_number(4177816490204479)
+    customer = c.find_all_by_last_name('Toy')
     answer = [3, 4, 2, 1]
     assert_equal answer, customer
   end
 
-  def test_it_returns_nil_for_wrong_credit_card
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_credit_card_number(90209)
-    assert_equal [], customer
-  end
 
-  def test_it_returns_all_by_result
+  def test_it_returns_empty_array_for_wrong_last_name
     skip
     c = CustomerRepository.new
     c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_result('pending')
-    answer = [2, 3, 3, 2, 4]
-    assert_equal answer, customer
-  end
-
-  def test_it_returns_empty_array_for_wrong_result
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_result('watermelon')
+    customer = c.find_all_by_last_name('watermelon')
     assert_equal [], customer
   end
 
