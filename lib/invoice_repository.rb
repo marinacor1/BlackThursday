@@ -28,11 +28,6 @@ end
     @all_invoices
   end
 
-  def customer_id
-    #no clue if this works
-    @all_invoices.customer_id
-  end
-
   def find_by_id(id_query)
       #returs nil if no match
       #or returns instances of invoice with matching id
