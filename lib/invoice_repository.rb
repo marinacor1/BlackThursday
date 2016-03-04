@@ -15,8 +15,8 @@ class InvoiceRepository
 
   def populate_invoice_repo_with_data_from_csv(path)
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-    i = Invoice.new(data_row)
-    @all_invoices << i
+    invoice = Invoice.new(data_row)
+    @all_invoices << invoice
   end
 end
 
@@ -28,29 +28,18 @@ end
     @all_invoices
   end
 
-  def customer_id
-    #no clue if this works
-    @all_invoices.customer_id
-  end
-
   def find_by_id(id_query)
-      #returs nil if no match
-      #or returns instances of invoice with matching id
     find_by_id(@all_invoices, id_query)
   end
 
   def find_all_by_customer_id(query_customer_id)
     find_all_by_num(@all_invoices, query_customer_id, customer_id)
-       #returns empty array if no match
-       #returns one or more matches with matching id
   end
 
   def find_all_by_status(id_num)
     find_all_by_string(@all_invoices, id_num, status)
-   #returns empty array if no match
-   #returns one or more matches with matching id
-
   end
+
 
 
 end

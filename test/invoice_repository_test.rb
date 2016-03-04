@@ -7,7 +7,6 @@ require 'pry'
 class InvoiceRepositoryTest < Minitest::Test
 
   def test_invoice_repository_instantiates
-    binding.pry
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
     se.invoices.instance_of? InvoiceRepository
   end
@@ -95,6 +94,5 @@ class InvoiceRepositoryTest < Minitest::Test
       invoice.se.invoices.find_by_id(12335938)
       assert_equal 'merchant', invoice.merchant
   end
-
 
 end
