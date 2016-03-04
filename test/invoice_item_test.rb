@@ -35,7 +35,21 @@ class InvoiceItemTest < Minitest::Test
    assert_equal 1, ii.quantity
    assert_equal 10.99, ii.unit_price.to_f
    assert_equal Time.now, ii.created_at
-   assert_equal Time.now, ii.updated_at 
+   assert_equal Time.now, ii.updated_at
   end
 
+  def test_it_returns_unit_price_to_dollars
+    skip
+      ii = InvoiceItem.new({
+    :id => 6,
+    :item_id => 7,
+    :invoice_id => 8,
+    :quantity => 1,
+    :unit_price => BigDecimal.new(10.99, 4),
+    :created_at => Time.now,
+    :updated_at => Time.now
+  })
+    answer = 244
+    assert_equal answer, ii.unit_price_to_dollars
+    assert_equal Float, answer.class
 end
