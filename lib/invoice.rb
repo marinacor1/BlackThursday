@@ -10,7 +10,7 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
   end
 
   def is_paid_in_full?
-    #returns ture if invoice is paid in full
+    #returns true if invoice is paid in full
   end
 
   def total
