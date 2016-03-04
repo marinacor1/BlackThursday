@@ -131,10 +131,6 @@ class SalesAnalyst
   end
 end
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 57a94062983a09032bd41a85030d791339f7d950
 if __FILE__ == $0
 
   se = SalesEngine.from_csv( {:items => "./data/items.csv",
