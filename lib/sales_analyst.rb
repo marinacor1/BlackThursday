@@ -9,6 +9,7 @@ class SalesAnalyst
   def initialize(se_data)
     @merchants = se_data.merchants.all
     @items = se_data.items.all
+    @invoices = se_data.invoices.all
     begin_analysis
   end
 
@@ -16,6 +17,8 @@ class SalesAnalyst
     @avg_items = average_items_per_merchant
     @item_count_stdev = average_items_per_merchant_standard_deviation
     merchants_know_their_average_item_price
+    @avg_inv = average_invoices_per_merchant
+    @inv_count_stdev = average_invoices_per_merchant_standard_deviation
   end
 
   def average_items_per_merchant
@@ -86,22 +89,39 @@ class SalesAnalyst
 
 
   def average_invoices_per_merchant
+    avg_inv = sprintf('%.2f', (@invoices.count.to_f/@merchants.count)).to_f
     #returns float like 8.5
   end
 
   def average_invoices_per_merchant_standard_deviation
+    all_squared_deviations = @merchants.map do |merchant|
+      dev_sq = (merchant.invoice_count - @avg_inv)**2
+    end
+    item_num_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))
+    result = sprintf('%.2f', item_num_stdev).to_f
     #returns float like 1.2
   end
 
   def top_merchants_by_invoice_count
+    high_invoice = @merchants.select do |merchant|
+      merchant if merchant.invoice_count > (@avg_inv+(2*@inv_count_stdev))
+    end
     #returns array of merchants that are more than two std dev above mean
   end
 
   def bottom_merchants_by_invoice_count
+    low_invoice = @merchants.select do |merchant|
+      merchant if merchant.invoice_count < (@avg_inv-(2*@inv_count_stdev))
+    end
     #returns array with merchant that are more than two std dev below mean
   end
 
   def top_days_by_invoice_count
+    day_of_hash = @invoices.group_by do |invoice|
+      date = Date.parse(invoice.created_at)
+      date.strftime("%A")
+    end
+    binding.pry
     #returns array with days that have invoices created more than one std dev above mean
   end
 
@@ -111,14 +131,15 @@ class SalesAnalyst
   end
 end
 
-
 if __FILE__ == $0
 
-  # se = SalesEngine.from_csv({:items => "./data/items.csv", :merchants => "./data/merchants.csv"})
-  # sa = SalesAnalyst.new(se)
-  # sa.begin_analysis
-  # sa.golden_items
-  #
-  # binding.pry
+  se = SalesEngine.from_csv( {:items => "./data/items.csv",
+                              :merchants => "./data/merchants.csv",
+                              :invoices => "./data/invoices.csv"} )
+  se.repositories_linked
+  sa = SalesAnalyst.new(se)
+  sa.begin_analysis
+
+  binding.pry
 
 end
