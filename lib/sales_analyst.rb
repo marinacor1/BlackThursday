@@ -117,18 +117,52 @@ class SalesAnalyst
   end
 
   def top_days_by_invoice_count
+    day_counts = find_sales_count_per_day
+    average_value = calculate_average_value(day_counts.values)
+    std_deviation = calculate_standard_deviation(day_counts.values, average_value)
+    metric = std_deviation + average_value
+    find_days_over_one_std_dev_higher_than_average(day_counts, metric)
+  end
+
+  def find_sales_count_per_day
     day_of_hash = @invoices.reduce(Hash.new(0)) do |hash, invoice|
       date = Date.parse(invoice.created_at)
       date = date.strftime("%A")
       hash[date] += 1
       hash
     end
-      binding.pry
-end
+  end
 
-    #returns array with days that have invoices created more than one std dev above mean
+  def calculate_average_value(array)
+    number_of_items = array.count
+    sum_of_items = array.inject(0, :+)
+    average = sum_of_items/number_of_items
+  end
+
+  def calculate_standard_deviation(array, average_value)
+    all_squared_deviations = array.map do |value|
+      dev_sq = (value - (average_value))**2
+    end
+    item_num_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))
+    result = sprintf('%.2f', item_num_stdev).to_f
+  end
+
+  def find_days_over_one_std_dev_higher_than_average(hash, metric)
+    high_sales_days = hash.select do |day|
+      hash[day] > metric
+    end
+    high_sales_days.keys
+  end
+  #returns array with days that have invoices created more than one std dev above mean
 
   def invoice_status(status_query)
+    invoice_status_count = @invoices.count do |invoice|
+      invoice.status == status_query.to_s
+    end
+
+    invoice_count = @invoices.count
+    percentage_status = (invoice_status_count.to_f/invoice_count)
+    percentage = sprintf('%.2f', (percentage_status*100)).to_f
     #returns float like 5.25 or 1.00 that is the percentage of invoices for a certain status
     #takes symbol as argument
   end
@@ -137,12 +171,12 @@ end
 if __FILE__ == $0
 
   se = SalesEngine.from_csv( {:items => "./data/items.csv",
-                              :merchants => "./data/merchants.csv",
-                              :invoices => "./data/invoices.csv"} )
-  se.repositories_linked
-  sa = SalesAnalyst.new(se)
-  sa.begin_analysis
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv"} )
+    se.repositories_linked
+    sa = SalesAnalyst.new(se)
+    sa.begin_analysis
 
-  binding.pry
+    binding.pry
 
-end
+  end
