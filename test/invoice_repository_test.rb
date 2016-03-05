@@ -26,12 +26,11 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_by_id_returns_correct_invoice
-    skip
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
     ir = se.invoices
     correct_invoice = ir.find_by_id(3451)
-    assert_equal 679, correct_invoice.merchant_id
-    assert_equal 12335337, correct_invoice.customer_id
+    assert_equal 12335337, correct_invoice.merchant_id
+    assert_equal 679, correct_invoice.customer_id
     assert_equal 'returned', correct_invoice.status
     assert_equal Invoice, correct_invoice.class
   end
