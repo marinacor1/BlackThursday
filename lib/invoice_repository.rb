@@ -35,8 +35,8 @@ end
   end
 
   def find_all_by_customer_id(query_customer_id)
-    @all_invoices.select do |element|
-      element.id == query_customer_id
+    @all_invoices.find_all do |invoice|
+      invoice.customer_id == query_customer_id
     end
   end
 
