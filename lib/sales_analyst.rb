@@ -153,7 +153,6 @@ class SalesAnalyst
     end
     high_sales_days.keys
   end
-  #returns array with days that have invoices created more than one std dev above mean
 
   def invoice_status(status_query)
     invoice_status_count = @invoices.count do |invoice|
@@ -163,8 +162,6 @@ class SalesAnalyst
     invoice_count = @invoices.count
     percentage_status = (invoice_status_count.to_f/invoice_count)
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
-    #returns float like 5.25 or 1.00 that is the percentage of invoices for a certain status
-    #takes symbol as argument
   end
 
 
