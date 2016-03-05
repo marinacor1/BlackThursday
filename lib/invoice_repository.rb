@@ -5,7 +5,7 @@ require_relative 'sales_engine'
 require_relative 'repository'
 
 class InvoiceRepository
-  include Repository
+  # include Repository
   attr_accessor :all
 
   def initialize(path)
@@ -29,15 +29,21 @@ end
   end
 
   def find_by_id(id_query)
-    find_by_id(@all_invoices, id_query)
+    @all_invoices.find do |element|
+      id_query == element.id
+    end
   end
 
   def find_all_by_customer_id(query_customer_id)
-    find_all_by_num(@all_invoices, query_customer_id, customer_id)
+    @all_invoices.select do |element|
+      element.id == query_customer_id
+    end
   end
 
-  def find_all_by_status(id_num)
-    find_all_by_string(@all_invoices, id_num, status)
+  def find_all_by_status(status)
+    @all_invoices.select do |element|
+       element.status.downcase.include?(status.downcase) ? element : nil
+    end
   end
 
 

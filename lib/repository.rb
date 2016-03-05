@@ -19,7 +19,6 @@ module Repository
   end
 
   def find_all_by_num(all_contents, query_num, query_type)
-    binding.pry
     all_contents.select do |element|
       element.send(query_type) == query_num
     end
