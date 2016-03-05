@@ -8,7 +8,7 @@ class SalesAnalyst
 
   def initialize(se_data)
     @merchants = se_data.merchants.all
-    @items = se_data.items.all 
+    @items = se_data.items.all
     @invoices = se_data.invoices.all
     begin_analysis
   end
@@ -121,7 +121,6 @@ class SalesAnalyst
       date = Date.parse(invoice.created_at)
       date.strftime("%A")
     end
-    binding.pry
     #returns array with days that have invoices created more than one std dev above mean
   end
 
@@ -140,6 +139,5 @@ if __FILE__ == $0
   sa = SalesAnalyst.new(se)
   sa.begin_analysis
 
-  binding.pry
 
 end
