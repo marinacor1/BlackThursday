@@ -14,7 +14,7 @@ class ItemRepository
 
   def populate_item_repo(path)
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-      @item = Item.new(data_row)
+      item = Item.new(data_row)
       @all_items << item
     end
   end
