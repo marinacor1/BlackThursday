@@ -75,13 +75,17 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_merchants_have_invoices_relationship
-    skip
+    skip 
     se = SalesEngine.from_csv({
 :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv"
       })
-    merchant = se.merchants.find_by_id(12335938)
+      binding.pry
+      #TODO not sure if this is calling find by id for merchants
+      #or find by id for invoices
+      #also not sure which id it is searching for
+    merchant = se.merchants.find_by_id(12334105)
     invoice_array = ['i', 'i']
     assert_equal invoice_array, merchant.invoices
     assert_equal Array, invoice_array.class
