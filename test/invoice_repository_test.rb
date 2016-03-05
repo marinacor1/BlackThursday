@@ -22,7 +22,7 @@ class InvoiceRepositoryTest < Minitest::Test
     ir = se.invoices
     assert_equal Array, ir.all.class
     assert_equal Invoice, ir.all[0].class
-    assert_equal 4985, ir.count
+    assert_equal 4985, ir.all.count
   end
 
   def test_find_by_id_returns_correct_invoice
