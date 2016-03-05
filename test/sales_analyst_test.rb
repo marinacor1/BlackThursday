@@ -115,7 +115,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_sa_can_find_top_performing_merchants_through_std_dev
     skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv'}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     top_merchants = ['m1', 'm2']
