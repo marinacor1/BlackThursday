@@ -38,6 +38,7 @@ class InvoiceRepository
   end
 
   def find_by_id(id_query)
+    binding.pry
     find_with_id(@all_invoices, id_query)
   end
 

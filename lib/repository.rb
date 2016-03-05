@@ -11,6 +11,7 @@ module Repository
   end
 
   def find_with_id(all_contents, id_query)
+    binding.pry
     all_contents.find do |element|
       id_query == element.id
     end

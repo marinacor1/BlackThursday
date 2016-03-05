@@ -32,7 +32,7 @@ class InvoiceRepositoryTest < Minitest::Test
     data << i
     data << j
     ir = InvoiceRepository.new(data)
-    invoice = ir.all.find_by_id(123)
+    invoice = ir.find_by_id(123)
 
     assert_equal "correct", invoice.name
     assert_equal 123, invoice.id
