@@ -43,8 +43,8 @@ class InvoiceTest < Minitest::Test
       :customer_id => 817,
       :merchant_id => 12336248,
       :status      => "shipped",
-      :created_at  => 2011-08-16,
-      :updated_at  =>2-12-03-29,
+      :created_at  => '2011-08-16',
+      :updated_at  =>'2012-03-29',
     })
     #i think that we have to do something like this
     #i might be wrong
@@ -58,8 +58,8 @@ class InvoiceTest < Minitest::Test
       :customer_id => 754,
       :merchant_id => 12335541,
       :status      => "shipped",
-      :created_at  => 2005-07-21,
-      :updated_at  =>2014-08-22,
+      :created_at  => '2005-07-21',
+      :updated_at  =>'2014-08-22',
     })
     #i think that we have to do something like this
     #connect with transaction and find that it is pending
