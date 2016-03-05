@@ -35,7 +35,7 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_invoice_can_tell_if_paid_in_full
-    skip
+    skip 
         i = Invoice.new({
       :id          => 4126,
       :customer_id => 817,
@@ -46,7 +46,7 @@ class InvoiceTest < Minitest::Test
     })
     #i think that we have to do something like this
     #i might be wrong
-    assert invoice.is_paid_in_full?
+    assert i.is_paid_in_full?
   end
 
   def test_invoice_can_tell_if_not_paid_in_full
