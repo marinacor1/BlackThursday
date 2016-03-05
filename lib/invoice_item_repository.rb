@@ -1,4 +1,8 @@
 require_relative 'sales_engine'
+require_relative 'invoice_item'
+require 'csv'
+require 'pry'
+
 class InvoiceItemRepository
   attr_accessor :all, :name
 
@@ -24,7 +28,6 @@ class InvoiceItemRepository
       @all_invoice_items << item
     end
   end
-
 
   def all
     @all_invoice_items
