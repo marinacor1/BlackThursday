@@ -51,10 +51,10 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_customer_id_returns_empty_array_for_wrong_id
-    skip
-    ir = InvoiceRepository.new
+    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
+    ir = se.invoices
     invoice_array =[]
-    assert_equal invoice_array, ir.find_all_by_customer_id(18)
+    assert_equal invoice_array, ir.find_all_by_customer_id(1797294798)
     assert_equal Array, invoice_array.class
   end
 
