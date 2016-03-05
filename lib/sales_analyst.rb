@@ -9,7 +9,7 @@ class SalesAnalyst
   def initialize(se_data)
     @merchants = se_data.merchants.all
     @items = se_data.items.all
-    @invoices = se_data.invoices.all
+    @invoices = se_data.invoices.all if se_data.invoices != nil
     begin_analysis
   end
 
@@ -26,7 +26,7 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant_standard_deviation
-    all_squared_deviations = @merchants.all.map do |merchant|
+    all_squared_deviations = @merchants.map do |merchant|
       dev_sq = (merchant.item_count - (@avg_items))**2
     end
     item_num_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))

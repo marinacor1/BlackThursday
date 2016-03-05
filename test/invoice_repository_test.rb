@@ -75,13 +75,12 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_merchants_have_invoices_relationship
-    skip 
+    skip
     se = SalesEngine.from_csv({
 :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv"
       })
-      binding.pry
       #TODO not sure if this is calling find by id for merchants
       #or find by id for invoices
       #also not sure which id it is searching for
@@ -98,6 +97,7 @@ class InvoiceRepositoryTest < Minitest::Test
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv"
       })
+      #TODO same issue as above 
       invoice.se.invoices.find_by_id(12335938)
       assert_equal 'merchant', invoice.merchant
   end
