@@ -59,11 +59,11 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_all_by_status_returns_all_matching_status
-    skip
-    ir = InvoiceRepository.new
-    status_array = ['one', 'two']
-    assert_equal status_array, ir.find_all_by_status('pending')
-    assert_equal Array, ir.status_array.class
+    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
+    ir = se.invoices
+    status_array = ir.find_all_by_status('pending')
+    assert_equal 1473, status_array.count
+    assert_equal Array, status_array.class
   end
 
   def test_find_all_by_status_returns_empty_array_for_wrong_status
