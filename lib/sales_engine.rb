@@ -3,6 +3,7 @@ require 'csv'
 require_relative 'item_repository'
 require_relative 'merchant_repository'
 require_relative 'invoice_repository'
+require_relative 'invoice_item_repository'
 
 class SalesEngine
   attr_accessor :items, :merchants, :invoices
@@ -11,6 +12,7 @@ class SalesEngine
     @items = ItemRepository.new(data[:items]) if data[:items] != nil
     @merchants = MerchantRepository.new(data[:merchants]) if data[:merchants] != nil
     @invoices = InvoiceRepository.new(data[:invoices]) if data[:invoices] != nil
+    @invoice_items = InvoiceItemRepository.new(data[:invoice_items]) if data[:invoice_items] != nil
   end
 
   def repositories_linked

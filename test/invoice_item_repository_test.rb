@@ -5,8 +5,11 @@ require 'pry'
 
 class InvoiceItemRepositoryTest < Minitest::Test
   def test_invoice_item_repository_instantiates
-    skip
-    ir = InvoiceItemRepository.new
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv'}
+    se = SalesEngine.from_csv(hash)
+    ir = se.invoice_items
+    #TODO se doesn't recognize invoice_items could be something with invoice item repo setup 
+    binding.pry
     ir.from_csv("./data/invoice_items.csv")
     assert ir.instance_of? InvoiceItemRepository
   end

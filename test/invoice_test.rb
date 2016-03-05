@@ -7,7 +7,6 @@ require 'pry'
 class InvoiceTest < Minitest::Test
 
   def test_invoice_class_instantiates
-    skip
     i = Invoice.new({
   :id          => 6,
   :customer_id => 7,
@@ -20,24 +19,23 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_invoice_knows_its_information
-    skip
   i = Invoice.new({
 :id          => 6,
-:customer_id => 7,
-:merchant_id => 8,
+:customer_id => 1,
+:merchant_id => 12334389,
 :status      => "pending",
-:created_at  => Time.now,
-:updated_at  => Time.now,
+:created_at  => "2015-03-13",
+:updated_at  => "2015-04-05",
 })
   assert_equal 6, i.id
-  assert_equal 7, i.customer_id
+  assert_equal 1, i.customer_id
   assert_equal "pending", i.status
-  assert_equal Time.now, i.created_at
-  assert_equal Time.now, i.updated_at
+  assert_equal "2015-03-13", i.created_at
+  assert_equal "2015-04-05", i.updated_at
   end
 
   def test_invoice_can_tell_if_paid_in_full
-    skip
+    skip 
         i = Invoice.new({
       :id          => 4126,
       :customer_id => 817,
@@ -48,7 +46,7 @@ class InvoiceTest < Minitest::Test
     })
     #i think that we have to do something like this
     #i might be wrong
-    assert invoice.is_paid_in_full?
+    assert i.is_paid_in_full?
   end
 
   def test_invoice_can_tell_if_not_paid_in_full

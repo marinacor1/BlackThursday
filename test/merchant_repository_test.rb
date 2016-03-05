@@ -131,6 +131,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchant_references_items_as_array_of_item_objects
+    skip
     se = SalesEngine.from_csv({
       :items => "./data/items.csv",
       :merchants => "./data/merchants.csv"
@@ -141,6 +142,7 @@ class MerchantRepositoryTest < Minitest::Test
     end
 
     def test_item_references_its_merchant_as_merchant_object
+      skip 
       se = SalesEngine.from_csv({
         :items => "./data/items.csv",
         :merchants => "./data/merchants.csv"
