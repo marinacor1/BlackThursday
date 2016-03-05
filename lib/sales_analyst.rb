@@ -17,8 +17,8 @@ class SalesAnalyst
     @avg_items = average_items_per_merchant
     @item_count_stdev = average_items_per_merchant_standard_deviation
     merchants_know_their_average_item_price
-    @avg_inv = average_invoices_per_merchant
-    @inv_count_stdev = average_invoices_per_merchant_standard_deviation
+    @avg_inv = average_invoices_per_merchant if @invoices != nil
+    @inv_count_stdev = average_invoices_per_merchant_standard_deviation if @invoices != nil 
   end
 
   def average_items_per_merchant
