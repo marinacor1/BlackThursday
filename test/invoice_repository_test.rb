@@ -67,11 +67,11 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_status_returns_empty_array_for_wrong_status
-    skip
-    ir = InvoiceRepository.new
+    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
+    ir = se.invoices
     status_array = []
     assert_equal status_array, ir.find_all_by_status('popcorn')
-    assert_equal Array, ir.status_array.class
+    assert_equal Array, status_array.class
   end
 
   def test_merchants_have_invoices_relationship
