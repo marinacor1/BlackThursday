@@ -99,7 +99,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_find_average_merchant_invoices_works
     skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv'}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert_equal 8.5, sa.average_invoices_per_merchant
@@ -107,7 +107,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_average_invoices_has_std_dev
     skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv'}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert_equal 1.2, sa.average_invoices_per_merchant_standard_deviation
@@ -133,7 +133,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_sa_finds_top_sale_days
     skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv'}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     days = ['monday']
@@ -142,7 +142,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_gives_status_percentage
     skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv'}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert_equal 5.25, sa.invoice_status(:pending)
