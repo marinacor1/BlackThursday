@@ -21,7 +21,7 @@ class InvoiceRepository
 end
 
   def count
-    count(@all_invoices)
+    @all_invoices.count
   end
 
   def all
@@ -31,6 +31,12 @@ end
   def find_by_id(id_query)
     @all_invoices.find do |element|
       id_query == element.id
+    end
+  end
+
+  def find_all_by_merchant_id(query_merch_id)
+    @all_invoices.find_all do |invoice|
+      invoice.merchant_id == query_merch_id
     end
   end
 

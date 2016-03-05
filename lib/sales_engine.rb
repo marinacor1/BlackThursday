@@ -22,11 +22,15 @@ class SalesEngine
 
   def merchants_linked_to_child_items
     @merchants.all.map do |merchant|
-      merchant.items = @items.find_all_by_merchant_id(merchant.id)
-      merchant.item_count = merchant.items.count
-      merchant.invoices = @invoices.find_all_by_merchant_id(merchant.id)
-      merchant.invoice_count = merchant.invoices.count
-      merchant
+      if @items != nil
+        merchant.items = @items.find_all_by_merchant_id(merchant.id)
+        merchant.item_count = merchant.items.count
+      end
+      if @invoices != nil
+        merchant.invoices = @invoices.find_all_by_merchant_id(merchant.id)
+        merchant.invoice_count = merchant.invoices.count
+        merchant
+      end
     end
   end
 
