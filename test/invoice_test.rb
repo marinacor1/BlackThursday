@@ -7,7 +7,6 @@ require 'pry'
 class InvoiceTest < Minitest::Test
 
   def test_invoice_class_instantiates
-    skip
     i = Invoice.new({
   :id          => 6,
   :customer_id => 7,
