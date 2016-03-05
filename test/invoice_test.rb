@@ -66,8 +66,4 @@ class InvoiceTest < Minitest::Test
     refute invoice.is_paid_in_full?
   end
 
-
-
-
-
 end
