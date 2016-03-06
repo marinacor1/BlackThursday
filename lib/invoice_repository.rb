@@ -32,7 +32,7 @@ end
 
   def find_by_id(id_query)
     @all_invoices.find do |element|
-      id_query == element.id
+      element.id == id_query
     end
   end
 

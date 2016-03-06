@@ -73,8 +73,9 @@ class SalesEngine
   def child_items_linked_to_parent
     if merchants
       items_linked_to_merchants if items
-      invoices_linked_to_merchants if invoices && invoices
-      invoices_linked_to_customers_and_merchants if invoices && items && customers
+      invoices_linked_to_merchants if invoices
+      invoices_linked_to_customers_and_merchants_and_items if invoices && items && customers
+      invoices_linked_to_items if invoices && items && customers
     end
   end
 
@@ -94,25 +95,39 @@ class SalesEngine
     end
   end
 
-  def invoices_linked_to_customers_and_merchants
+  def invoices_linked_to_customers_and_merchants_and_items
     if @invoices != nil
       @invoices.all.each do |invoice|
+        link_items_and_invoices(invoice)
         customer = link_customer_and_invoice(invoice)
         link_merchant_to_customers_and_invoices(invoice, customer)
       end
     end
   end
 
+  def link_items_and_invoices(invoice)
+    all_invoice_items = @invoice_items.find_all_by_invoice_id(invoice.id)
+    item_array = all_invoice_items.map do |invoice_item|
+      @items.find_by_id(invoice_item.item_id)
+    end
+    binding.pry
+  end
+
+
   def link_customer_and_invoice(invoice)
     customer = @customers.find_by_id(invoice.customer_id)
     invoice.customer = customer
+    customer.invoices << invoice
   end
 
   def link_merchant_to_customers_and_invoices(invoice, customer)
     merchant = @merchants.find_by_id(invoice.merchant_id)
+    binding.pry
     invoice.merchant = merchant
     customer.merchants << merchant
     merchant.customers << customer
+    merchant.invoices << invoice
+    binding.pry
   end
 
   def self.from_csv(data)
@@ -120,6 +135,7 @@ class SalesEngine
   end
 
 end
+
 
 if __FILE__ == $0
 
@@ -131,8 +147,6 @@ if __FILE__ == $0
     :transactions => "./data/transactions.csv",
     :invoice_items => "./data/invoice_items.csv"
     })
-    
 
     binding.pry
-
-  end
+end

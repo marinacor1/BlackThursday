@@ -1,5 +1,5 @@
 class InvoiceItem
-  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at
+  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at, :invoice_items, :invoice_items_count
 
   def initialize(attributes)
     @id = attributes[:id]
@@ -9,8 +9,8 @@ class InvoiceItem
     @unit_price = attributes[:unit_price]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
-    @invoiceitems = []
-    @invoiceitems_count = 0
+    @invoice_items = []
+    @invoice_items_count = 0
     unit_price_to_dollars
   end
 

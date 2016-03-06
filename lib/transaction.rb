@@ -15,4 +15,12 @@ class Transaction
     @transaction_count = 0
   end
 
+def created_at
+  Time.parse(@created_at)
+end
+
+def updated_at
+  Time.parse(@updated_at)
+end
+
 end
