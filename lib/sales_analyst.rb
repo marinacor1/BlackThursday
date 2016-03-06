@@ -165,6 +165,8 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
+  
+
 
 end
 
