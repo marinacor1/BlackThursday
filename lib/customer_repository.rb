@@ -33,7 +33,7 @@ class CustomerRepository
 
   def find_by_id(id)
     @all_customers.find do |customer|
-      id_query == customer.id
+      id == customer.id
     end
   end
 

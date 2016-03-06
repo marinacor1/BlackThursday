@@ -19,13 +19,13 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_customer_with_find_by_id
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_by_id(6)
-    answer = 's'
-    assert_equal answer, customer
-    assert_equal Transaction, answer.class
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    answer = customer.find_by_id(6)
+    assert_equal 'Heber', answer.first_name
+    assert_equal 'Kuhn', answer.last_name
+    assert_equal Customer, answer.class
   end
 
   def test_customer_repo_returns_nil_with_wrong_find_by_id
