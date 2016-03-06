@@ -200,8 +200,6 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 13.5, sa.invoice_status(:returned)
   end
 
-
-
   #iteration four methods
 
   def test_sa_gives_total_revenue_for_given_date
@@ -219,6 +217,7 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     answer = sa.top_revenue_earners(3)
     assert_equal 3, answer.count
+    assert_equal Merchant, answer[0].class
     assert_equal "blah", answer[0].name
     assert_equal "wah", answer[1].name
     assert_equal "zah", answer[2].name
@@ -287,8 +286,10 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item_registered_in_month("January")
     assert_equal 20, answer.count
+    assert_equal Merchant, answer[0].class
     answer2 = sa.merchants_with_only_one_item_registered_in_month("June")
     assert_equal 18, answer2.count
+    assert_equal Merchant, answer2[0].class
   end
 
   def test_sa_finds_total_revenue_for_merchant

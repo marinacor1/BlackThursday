@@ -165,7 +165,37 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
-  
+
+  def total_revenue_by_date(date)
+    #gives total revenue for a date
+  end
+
+  def top_revenue_earners(num = 20)
+    #returns array for top merchant revenue earners
+    #calculate revenue using invoice_item.unit_price
+  end
+
+  def merchants_with_pending_invoices
+    #returns array of all merchants with pending invoices
+    #pending - if no transactions are successful
+  end
+
+  def merchants_with_only_one_item
+    #returns array of merchants with only one item
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    #returns array with merchants that only sell one item by the month they registered
+    #use merchant.created_at
+  end
+
+  def revenue_by_merchant(merchant_id)
+    #returns Big Decimal answer of total revenue for merchant
+  end
+
+  def most
+
+
 
 
 end
