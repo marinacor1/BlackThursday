@@ -130,6 +130,15 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 10.49, sa.average_invoices_per_merchant
   end
 
+  def test_find_average_merchant_invoices_works_with_subset
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    sa.begin_analysis
+
+    assert_equal 1661.67, sa.average_invoices_per_merchant
+  end
+
   def test_average_invoices_has_std_dev
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
