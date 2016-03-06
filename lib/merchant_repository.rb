@@ -14,12 +14,11 @@ class MerchantRepository
 
   attr_accessor :all, :name
 
-  def initialize(path)
+  def initialize
     @all_merchants = []
-    populate_merchant_repo(path)
   end
 
-  def populate_merchant_repo(path)
+  def from_csv(path)
     if path.include? '.csv'
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
       merchant = Merchant.new(data_row)

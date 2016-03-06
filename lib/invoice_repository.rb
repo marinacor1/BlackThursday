@@ -11,12 +11,11 @@ class InvoiceRepository
 
   attr_accessor :all
 
-  def initialize(path)
+  def initialize
     @all_invoices = []
-    populate_invoice_repo_with_data_from_csv(path)
   end
 
-  def populate_invoice_repo_with_data_from_csv(path)
+  def from_csv(path)
   CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
     invoice = Invoice.new(data_row)
     @all_invoices << invoice

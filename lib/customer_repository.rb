@@ -1,5 +1,7 @@
 require_relative 'customer'
+
 class CustomerRepository
+include Repository
 
   def inspect
     true
@@ -7,12 +9,11 @@ class CustomerRepository
 
   attr_accessor :all, :name
 
-    def initialize(path)
+    def initialize
       @all_customers = []
-      populate_customer_repo(path)
     end
 
-    def populate_customer_repo(path)
+    def from_csv(path)
       if path.include? '.csv'
       CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
         customer = Customer.new(data_row)

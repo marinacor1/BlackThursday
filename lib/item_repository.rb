@@ -7,16 +7,15 @@ class ItemRepository
   def inspect
     true
   end
-  
+
   include Repository
   attr_accessor :all, :item
 
-  def initialize(path)
+  def initialize
     @all_items = []
-    populate_item_repo(path)
   end
 
-  def populate_item_repo(path)
+  def from_csv(path)
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
       @item = Item.new(data_row)
       @all_items << item
