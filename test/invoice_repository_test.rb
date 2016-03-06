@@ -8,6 +8,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_invoice_repository_instantiates
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
+    binding.pry
     se.invoices.instance_of? InvoiceRepository
   end
 
@@ -97,7 +98,7 @@ class InvoiceRepositoryTest < Minitest::Test
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv"
       })
-      #TODO same issue as above 
+      #TODO same issue as above
       invoice.se.invoices.find_by_id(12335938)
       assert_equal 'merchant', invoice.merchant
   end

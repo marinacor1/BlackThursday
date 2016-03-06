@@ -13,7 +13,7 @@ class SalesEngine
     @merchants = MerchantRepository.new(data[:merchants]) if data[:merchants] != nil
     @invoices = InvoiceRepository.new(data[:invoices]) if data[:invoices] != nil
     @invoice_items = InvoiceItemRepository.new(data[:invoice_items]) if data[:invoice_items] != nil
-    repositories_linked
+    repositories_linked if @merchants != nil
   end
 
   def repositories_linked
