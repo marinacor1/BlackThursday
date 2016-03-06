@@ -11,8 +11,9 @@ class InvoiceRepository
 
   attr_accessor :all
 
-  def initialize
+  def initialize(path)
     @all_invoices = []
+    populate_invoice_repo_with_data_from_csv(path)
   end
 
   def populate_invoice_repo_with_data_from_csv(path)
