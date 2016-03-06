@@ -76,12 +76,12 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_all_by_result
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
-    transaction = tr.find_all_by_result('pending')
-    answer = [2, 3, 3, 2, 4]
-    assert_equal answer, transaction
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/subsets/transactions_small.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
+    transaction = tr.find_all_by_result('failed')
+    assert_equal Array, transaction.class
+    assert_equal 12, transaction.count
   end
 
   def test_it_returns_empty_array_for_wrong_result

@@ -51,9 +51,9 @@ class TransactionRepository
     end
   end
 
-  def find_all_by_result(status)
+  def find_all_by_result(result)
     @all_transactions.select do |element|
-       element.status.to_s.downcase == status.to_s.downcase ? element : nil
+       element.result.downcase == result ? element : nil
     end
   end
 
