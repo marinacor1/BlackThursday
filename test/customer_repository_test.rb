@@ -29,11 +29,10 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_nil_with_wrong_find_by_id
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_by_id(679879968)
-    assert_equal nil, customer
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    assert_equal nil, customer.find_by_id(679879968)
   end
 
   def test_customer_repo_returns_all_matches_with_first_name
