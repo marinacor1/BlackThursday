@@ -59,18 +59,17 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_all_matching_credit_cards
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
-    transaction = tr.find_all_by_credit_card_number(4177816490204479)
-    answer = [3, 4, 2, 1]
-    assert_equal answer, transaction
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
+    transaction = tr.find_all_by_credit_card_number(4068631943231473)
+    assert_equal 4068631943231473, transaction.credit_card_number
   end
 
   def test_it_returns_nil_for_wrong_credit_card
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
     transaction = tr.find_all_by_credit_card_number(90209)
     assert_equal [], transaction
   end
