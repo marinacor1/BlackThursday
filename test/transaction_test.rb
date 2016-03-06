@@ -36,6 +36,4 @@ class TransactionTest < Minitest::Test
     assert_equal "2015-04-05", t.updated_at
   end
 
-
-
 end
