@@ -16,19 +16,18 @@ class CustomerTest < Minitest::Test
   end
 
   def test_customer_knows_its_attributes
-    skip
     c = Customer.new({
   :id => 6,
   :first_name => "Joan",
   :last_name => "Clarke",
-  :created_at => Time.now,
-  :updated_at => Time.now
+  :created_at  => "2015-03-13",
+  :updated_at  => "2015-04-05",
 })
     assert_equal 6, c.id
     assert_equal "Joan", c.first_name
     assert_equal "Clarke", c.last_name
-    assert_equal Time.now, c.created_at
-    assert_equal Time.now, c.updated_at
+    assert_equal "2015-03-13", c.created_at
+    assert_equal "2015-04-05", c.updated_at
   end
 
 
