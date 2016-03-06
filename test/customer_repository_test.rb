@@ -1,12 +1,13 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/customer_repository'
+require_relative '../lib/sales_engine'
 require 'pry'
 
 class CustomerRepositoryTest < Minitest::Test
   def test_customer_repo_instantiates
-    skip
-    c = CustomerRepository.new
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
     c.instance_of? CustomerRepository
   end
 
