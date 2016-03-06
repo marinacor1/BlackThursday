@@ -13,11 +13,11 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_transaction_repo_returns_all_instances
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/subsets/transactions_small.csv")
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
     transaction = tr.all
-    assert_equal 53, transaction.count
+    assert_equal 4985, transaction.count
   end
 
   def test_transaction_repo_returns_transaction_with_find_by_id
