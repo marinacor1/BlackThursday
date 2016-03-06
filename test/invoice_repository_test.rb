@@ -25,6 +25,14 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 4985, ir.all.count
   end
 
+  def test_all_returns_array_of_all_known_invoice_instances_with_subset
+    se = SalesEngine.from_csv({:invoices => './data/subsets/invoice_small.csv'})
+    ir = se.invoices
+    assert_equal Array, ir.all.class
+    assert_equal Invoice, ir.all[0].class
+    assert_equal 9, ir.all.count
+  end
+
   def test_find_by_id_returns_correct_invoice
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
     ir = se.invoices

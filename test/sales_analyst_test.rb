@@ -40,20 +40,22 @@ class SalesAnalystTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
-
-      answer = 3.26
-      calculated = sa.average_items_per_merchant_standard_deviation
+    answer = 3.26
+    calculated = sa.average_items_per_merchant_standard_deviation
     assert_equal answer, calculated
     assert_equal Float, calculated.class
   end
 
-  def test_sales_analyst_returns_avg_item_std_deviation_from_subset
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+  def test_sales_analyst_returns_avg_item_std_deviation_with_subsets
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
-    assert_equal 3.26, sa.average_items_per_merchant_standard_deviation
+    answer = 556.04
+    calculated = sa.average_items_per_merchant_standard_deviation
+    assert_equal answer, calculated
+    assert_equal Float, calculated.class
   end
 
   def test_sales_analyst_returns_merchants_with_high_item_counts
@@ -96,6 +98,19 @@ class SalesAnalystTest < Minitest::Test
     assert avg_avg.instance_of? BigDecimal
   end
 
+  def test_sa_can_find_average_average_price_across_all_merchants_with_subsets
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    sa.begin_analysis
+    answer = 60.553
+    avg_avg = sa.average_average_price_per_merchant
+
+    assert_equal BigDecimal(answer, 5), avg_avg
+    assert avg_avg.instance_of? BigDecimal
+  end
+
+
   def test_sa_finds_all_golden_items
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
@@ -113,6 +128,15 @@ class SalesAnalystTest < Minitest::Test
     sa.begin_analysis
 
     assert_equal 10.49, sa.average_invoices_per_merchant
+  end
+
+  def test_find_average_merchant_invoices_works_with_subset
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    sa.begin_analysis
+
+    assert_equal 1661.67, sa.average_invoices_per_merchant
   end
 
   def test_average_invoices_has_std_dev
