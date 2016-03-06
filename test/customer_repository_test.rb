@@ -52,6 +52,16 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal [], answer
   end
 
+  def test_customer_repo_returns_first_name_for_fragment
+    hash = {:customers => './data/subsets/customers_small.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    answer = customer.find_all_by_first_name('mar')
+    assert_equal 5, answer.count
+    assert_equal "Mariah", answer[0].first_name
+    assert_equal Array, answer.class
+  end
+
   def test_it_returns_all_matching_last_name_customers
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)

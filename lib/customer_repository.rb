@@ -39,7 +39,7 @@ class CustomerRepository
 
   def find_all_by_first_name(first_name)
     @all_customers.select do |element|
-       element.first_name.to_s.downcase == first_name.to_s.downcase ? element : nil
+       element.first_name.downcase.include?(first_name.downcase) ? element : nil
     end
   end
 
