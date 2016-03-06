@@ -30,6 +30,7 @@ class SalesEngine
   end
 
   def populate_repositories_appropriately(data, repos)
+    binding.pry
     repos.keys.each do |repository|
       redirect_csv_and_hash_data(data, repos, repository)
     end

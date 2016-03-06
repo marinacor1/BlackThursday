@@ -14,19 +14,18 @@ include Repository
     end
 
     def from_csv(path)
-      if path.include? '.csv'
       CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
         customer = Customer.new(data_row)
         @all_customers << customer
       end
-      else
-        populate_customer_repo_with_hash(path)
-      end
     end
 
-  def populate_customer_repo_with_hash(customers)
-    @all_customers = customers
-  end
+    def from_array(array)
+      array.each do |attributes|
+        customer = Customer.new(attributes)
+        @all_customers << customer
+      end
+    end
 
   def all
     @all_customers
