@@ -18,7 +18,6 @@ class TransactionTest < Minitest::Test
   end
 
   def test_transaction_knows_its_attributes
-    skip
     t = Transaction.new({
   :id => 6,
   :invoice_id => 8,
@@ -33,8 +32,8 @@ class TransactionTest < Minitest::Test
     assert_equal "4242424242424242", t.credit_card_number
     assert_equal "0220", t.credit_card_expiration_date
     assert_equal "success", t.result
-    assert_equal Time.now, t.created_at
-    assert_equal Time.now, t.updated_at
+    assert_equal "2015-03-13", t.created_at
+    assert_equal "2015-04-05", t.updated_at
   end
 
 
