@@ -4,20 +4,48 @@ class CustomerRepository
     true
   end
 
+  attr_accessor :all, :name
+
+    def initialize(path)
+      @all_customers = []
+      populate_customer_repo(path)
+    end
+
+    def populate_customer_repo(path)
+      if path.include? '.csv'
+      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+        customer = Customer.new(data_row)
+        @all_customers << customer
+      end
+      else
+        populate_customer_repo_with_hash(path)
+      end
+    end
+
   def all
-    #returns an array of all customer instances
+    @all_customers
+  end
+
+  def count
+    @all_customers.count
   end
 
   def find_by_id(id)
-    #returns nil or customer with a matching id
+    @all_customers.find do |customer|
+      id_query == customer.id
+    end
   end
 
   def find_all_by_first_name(first_name)
-    #returns [] or matches which have a matching credit card number
+    @all_customers.select do |element|
+       element.first_name.to_s.downcase == first_name.to_s.downcase ? element : nil
+    end
   end
 
   def find_all_by_last_name(last_name)
-    #returns [] or matches with matching cc number
+    @all_customers.select do |element|
+       element.last_name.to_s.downcase == last_name.to_s.downcase ? element : nil
+    end
   end
 
 
