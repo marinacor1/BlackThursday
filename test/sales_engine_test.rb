@@ -31,7 +31,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_sales_engine_can_receive_information_from_many_csvs
-    skip
     se = SalesEngine.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
