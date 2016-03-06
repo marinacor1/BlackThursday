@@ -40,13 +40,22 @@ class SalesAnalystTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
-
-      answer = 3.26
-      calculated = sa.average_items_per_merchant_standard_deviation
+    answer = 3.26
+    calculated = sa.average_items_per_merchant_standard_deviation
     assert_equal answer, calculated
     assert_equal Float, calculated.class
   end
 
+  def test_sales_analyst_returns_avg_item_std_deviation_with_subsets
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    sa.begin_analysis
+    answer = 556.04
+    calculated = sa.average_items_per_merchant_standard_deviation
+    assert_equal answer, calculated
+    assert_equal Float, calculated.class
+  end
   def test_sales_analyst_returns_avg_item_std_deviation_from_subset
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
