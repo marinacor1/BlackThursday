@@ -70,7 +70,10 @@ class MerchantRepositoryTest < Minitest::Test
     :items     => "./data/items.csv",
     :merchants => "./data/merchants.csv"
     })
-    assert_equal 'Shopin1901', se.merchants.all[0].name
+    merchant = se.merchants.all
+    assert_equal 'Shopin1901', merchant[0].name
+    assert_equal 475, se.merchants.all.count
+    assert_equal "Shopin1901", merchant.first.name
   end
 
   def test_merchants_all_works_with_first
@@ -78,23 +81,7 @@ class MerchantRepositoryTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
     merchant = mr.all
-    assert_equal "Shopin1901", merchant.first.name
-  end
-
-  def test_merchants_all_works_with_last
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.from_csv(hash)
-    mr = se.merchants
-    merchant = mr.all
     assert_equal 'CJsDecor', merchant.last.name
-  end
-
-  def test_merchant_find_id_works
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.from_csv(hash)
-    mr = se.merchants
-    merchant = mr.find_by_id(12334105)
-    assert_equal "Shopin1901", merchant.name
   end
 
   def test_merchant_find_id_returns_nil_for_wrong_id
