@@ -3,14 +3,13 @@ require 'csv'
 require_relative 'sales_engine'
 require_relative 'merchant'
 require_relative 'item_repository'
-require_relative 'repository'
+# require_relative 'repository'
 
 class MerchantRepository
-
   def inspect
     true
   end
-  include Repository
+  # include Repository
 
   attr_accessor :all, :name
 
@@ -31,10 +30,7 @@ class MerchantRepository
   end
 
   def populate_merchant_repo_with_hash(path)
-      path.each do
-      merchant = Merchant.new(path)
-      @all_merchants << merchant
-    end
+      @all_merchants = path
   end
 
   def all
