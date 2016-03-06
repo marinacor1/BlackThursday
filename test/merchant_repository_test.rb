@@ -11,7 +11,7 @@ class MerchantRepositoryTest < Minitest::Test
     merchant2 = Merchant.new({id: 2, name: 'Cheetah print undies', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
     merchant3 = Merchant.new({id: 3, name: 'Jalapeno deodorant', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
 
-    @merchants = [merchant1, merchant2, merchant3, merchant4]
+    @merchants = [merchant1, merchant2, merchant3]
 
     @mr = MerchantRepository.new(@merchants)
   end
@@ -55,10 +55,9 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_merchants_all_works
     merchant = mr.all
-    assert_equal 'Shopin1901', merchant[0].name
-    assert_equal 475, se.merchants.all.count
-    assert_equal "Shopin1901", merchant.first.name
-    assert_equal 'CJsDecor', merchant.last.name
+    assert_equal 'Furry socks', merchant[0].name
+    assert_equal 3, se.merchants.all.count
+    assert_equal "Furry socks", merchant.first.name
   end
 
   def test_merchant_find_id_returns_nil_for_wrong_id
@@ -90,7 +89,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchant_references_items_as_array_of_item_objects
-      merchant = se.merchants.find_by_id(12334141)
+      merchant = mr.find_by_id(12334141)
       assert merchant.items.instance_of? Array
       assert merchant.items[0].instance_of? Item
     end
