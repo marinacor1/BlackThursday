@@ -5,7 +5,10 @@ require_relative 'sales_engine'
 require_relative 'repository'
 
 class InvoiceRepository
-  # include Repository
+  def inspect
+    true
+  end
+  
   attr_accessor :all
 
   def initialize(path)

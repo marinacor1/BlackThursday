@@ -8,14 +8,14 @@ require 'pry'
 class SalesAnalystTest < Minitest::Test
 
   def test_sales_analyst_instantiates
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert sa.instance_of? SalesAnalyst
   end
 
-  def test_sales_analyst_tells_how_avg_products_merchants_sell
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+  def test_sales_analyst_calculates_avg_products_merchants_sell
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = 2.88
@@ -38,7 +38,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sales_analyst_returns_avg_item_std_deviation
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -51,7 +50,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sales_analyst_returns_avg_item_std_deviation_from_subset
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -61,7 +59,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sales_analyst_returns_merchants_with_high_item_counts
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -77,7 +74,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_finds_avg_price_of_merchants_items_by_id_number
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -90,7 +86,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_can_find_average_average_price_across_all_merchants
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -102,7 +97,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_golden_items
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
 
@@ -114,7 +109,6 @@ class SalesAnalystTest < Minitest::Test
   def test_find_average_merchant_invoices_works
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -124,7 +118,6 @@ class SalesAnalystTest < Minitest::Test
   def test_average_invoices_has_std_dev
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -134,7 +127,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_can_find_top_performing_merchants_through_invoice_count
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -149,7 +141,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_can_find_lowest_performing_merchants_through_invoice_count
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -164,7 +155,6 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_finds_top_sale_days
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
@@ -178,7 +168,6 @@ class SalesAnalystTest < Minitest::Test
   def test_gives_status_percentage
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
-    se.repositories_linked
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 

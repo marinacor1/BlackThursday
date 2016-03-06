@@ -1,4 +1,7 @@
 class TransactionRepository
+  def inspect
+    true
+  end
 
   def all
     #returns an array of all transaction instances
@@ -16,7 +19,7 @@ class TransactionRepository
     #returns [] or matches with matching cc number
   end
 
-  
+
 
 
 end

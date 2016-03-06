@@ -1,5 +1,9 @@
 class CustomerRepository
 
+  def inspect
+    true
+  end
+
   def all
     #returns an array of all customer instances
   end

@@ -1,5 +1,5 @@
 require 'bigdecimal'
-
+require 'pry'
 
 class Item
 attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
@@ -7,10 +7,10 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     @id = attributes[:id]
     @name = attributes[:name]
     @description = attributes[:description]
-    @unit_price = attributes[:unit_price].to_f
+    @unit_price = BigDecimal(attributes[:unit_price], 8)
     @merchant_id = attributes[:merchant_id]
-    @created_at = attributes[:created_at].to_s
-    @updated_at = attributes[:updated_at].to_s
+    @created_at = attributes[:created_at]
+    @updated_at = attributes[:updated_at]
     unit_price_to_dollars
   end
 
@@ -18,8 +18,15 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     @unit_price = self.unit_price/100.0
   end
 
-end
+  def created_at
+    Time.parse(@created_at)
+  end
 
+  def updated_at
+    Time.parse(@updated_at)
+  end
+
+end
 
 if __FILE__ == $0
 

@@ -6,7 +6,12 @@ require_relative 'item_repository'
 require_relative 'repository'
 
 class MerchantRepository
+
+  def inspect
+    true
+  end
   include Repository
+
   attr_accessor :all, :name
 
   def initialize(path)

@@ -4,6 +4,10 @@ require 'csv'
 require 'pry'
 
 class InvoiceItemRepository
+  def inspect
+    true
+  end
+  
   attr_accessor :all, :name
 
   def initialize(path)

@@ -4,6 +4,10 @@ require_relative 'item'
 require_relative 'repository'
 
 class ItemRepository
+  def inspect
+    true
+  end
+  
   include Repository
   attr_accessor :all, :item
 

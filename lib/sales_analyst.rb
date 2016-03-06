@@ -7,6 +7,7 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
 
   def initialize(se_data)
+
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
@@ -172,7 +173,6 @@ if __FILE__ == $0
   # se = SalesEngine.from_csv( {:items => "./data/items.csv",
   #                             :merchants => "./data/merchants.csv",
   #                             :invoices => "./data/invoices.csv"} )
-  # se.repositories_linked
   # sa = SalesAnalyst.new(se)
   # sa.begin_analysis
 
