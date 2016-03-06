@@ -68,6 +68,4 @@ class TransactionRepository
   end
 
 
-
-
 end
