@@ -16,7 +16,8 @@ class SalesEngine
     @invoices = InvoiceRepository.new(data[:invoices]) if data[:invoices] != nil
     @invoice_items = InvoiceItemRepository.new(data[:invoice_items]) if data[:invoice_items] != nil
     @customers = CustomerRepository.new(data[:customers]) if data[:customers] != nil
-    # @transactions = TransactionRepository.new(data[:transactions]) if data[:transactions] != nil
+    @transactions = TransactionRepository.new
+    @transactions.from_csv(data[:transactions]) if data[:transactions] != nil
     repositories_linked if @merchants != nil
   end
 
@@ -39,6 +40,7 @@ class SalesEngine
     end
   end
 
+
   def items_linked_to_parent_merchant
     if @items != nil
       @items.all.map do |item|
@@ -48,6 +50,16 @@ class SalesEngine
     if @invoices != nil
       @invoices.all.map do |invoice|
         invoice.merchant =  @merchants.find_by_id(invoice.merchant_id)
+      end
+    end
+    if @invoices != nil
+      @invoices.all.each do |invoice|
+        customer = @customers.find_by_id(invoice.customer_id)
+        merchant = @merchants.find_by_id(invoice.merchant_id)
+        invoice.customer = customer
+        invoice.merchant = merchant
+        customer.merchants << merchant
+        merchant.customers << customer
       end
     end
   end
@@ -63,7 +75,9 @@ if __FILE__ == $0
   se = SalesEngine.from_csv({
     :items => "./data/items.csv",
     :merchants => "./data/merchants.csv",
-    :invoices => "./data/invoices.csv"
+    :invoices => "./data/invoices.csv",
+    :customers => "./data/customers.csv",
+    :transactions => "./data/transactions.csv"
     })
     se.repositories_linked
 

@@ -1,6 +1,6 @@
 require 'pry'
 class Customer
-  attr_accessor :id, :first_name, :last_name, :created_at, :updated_at
+  attr_accessor :id, :first_name, :last_name, :created_at, :updated_at, :merchants
 
   def initialize(attributes)
     @id = attributes[:id]
@@ -8,8 +8,7 @@ class Customer
     @last_name = attributes[:last_name]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
-    @customers = []
-    @customer_count = 0
+    @merchants = []
   end
 
   def created_at

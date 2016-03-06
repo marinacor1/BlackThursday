@@ -8,7 +8,7 @@ class TransactionRepository
 
   attr_accessor :all, :name
 
-  def initialize(path)
+  def initialize
     @all_transactions = []
   end
 
