@@ -12,10 +12,10 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_all_instances
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/subsets/customers_small.csv")
-    customer = c.all
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
+    binding.pry
+    customer = c.customers.all
     assert_equal 98, customer.count
   end
 
