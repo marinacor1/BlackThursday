@@ -26,8 +26,8 @@ class CustomerTest < Minitest::Test
     assert_equal 6, c.id
     assert_equal "Joan", c.first_name
     assert_equal "Clarke", c.last_name
-    assert_equal "2015-03-13", c.created_at
-    assert_equal "2015-04-05", c.updated_at
+    assert_equal Time.parse("2015-03-13"), c.created_at
+    assert_equal Time.parse("2015-04-05"), c.updated_at
   end
 
 

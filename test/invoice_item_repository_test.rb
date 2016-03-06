@@ -26,7 +26,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
     ii = se.invoice_items
     invoice_item = ii.find_by_id(6)
     assert_equal 263539664, invoice_item.item_id
-    assert_equal 52100, invoice_item.unit_price
+    assert_equal 521.00, invoice_item.unit_price
     assert_equal InvoiceItem, invoice_item.class
   end
 

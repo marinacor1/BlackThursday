@@ -32,7 +32,7 @@ class InvoiceItemTest < Minitest::Test
    assert_equal 7, ii.item_id
    assert_equal 8, ii.invoice_id
    assert_equal 1, ii.quantity
-   assert_equal 10.99, ii.unit_price.to_f
+   assert_equal .1099, ii.unit_price.to_f
    assert_equal "2015-03-13", ii.created_at
    assert_equal "2015-04-13", ii.updated_at
   end
