@@ -49,7 +49,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_customer_id_returns_invoice_array
     invoice_array = ir.find_all_by_customer_id(11)
-    assert_equal 8, invoice_array.count
+    assert_equal 3, invoice_array.count
     assert_equal Array, invoice_array.class
     assert_equal Invoice, invoice_array[0].class
   end
@@ -62,7 +62,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_all_by_status_returns_all_matching_status
     status_array = ir.find_all_by_status('pending')
-    assert_equal 1473, status_array.count
+    assert_equal 1, status_array.count
     assert_equal Array, status_array.class
   end
 
