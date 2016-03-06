@@ -27,14 +27,15 @@ class InvoiceItemRepository
     end
 
   def populate_ii_repo_with_hash(path)
-      path.each do
-      item = InvoiceItem.new(path)
-      @all_invoice_items << item
-    end
+    @all_invoice_items = path
   end
 
   def all
     @all_invoice_items
+  end
+
+  def count
+    @all_invoice_items.count
   end
 
   def find_by_id(id_num)
@@ -50,7 +51,7 @@ class InvoiceItemRepository
   end
 
   def find_all_by_invoice_id(invoice_num)
-    @all_invoice_items.select do |item|
+      @all_invoice_items.select do |item|
       item.invoice_id == invoice_num
     end
   end
