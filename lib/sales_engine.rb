@@ -75,7 +75,6 @@ class SalesEngine
       items_linked_to_merchants if items
       invoices_linked_to_merchants if invoices
       invoices_linked_to_customers_and_merchants_and_items if invoices && items && customers
-      invoices_linked_to_items if invoices && items && customers
     end
   end
 
@@ -100,7 +99,7 @@ class SalesEngine
       @invoices.all.each do |invoice|
         link_items_and_invoices(invoice)
         customer = link_customer_and_invoice(invoice)
-        link_merchant_to_customers_and_invoices(invoice, customer)
+        link_merchant_to_customers_via_invoices(invoice, customer)
       end
     end
   end
@@ -110,7 +109,6 @@ class SalesEngine
     item_array = all_invoice_items.map do |invoice_item|
       @items.find_by_id(invoice_item.item_id)
     end
-    binding.pry
   end
 
 
@@ -120,14 +118,10 @@ class SalesEngine
     customer.invoices << invoice
   end
 
-  def link_merchant_to_customers_and_invoices(invoice, customer)
+  def link_merchant_to_customers_via_invoices(invoice, customer)
     merchant = @merchants.find_by_id(invoice.merchant_id)
-    binding.pry
-    invoice.merchant = merchant
-    customer.merchants << merchant
-    merchant.customers << customer
-    merchant.invoices << invoice
-    binding.pry
+    invoice.customer.merchants << merchant
+    merchant.customers << invoice.customer
   end
 
   def self.from_csv(data)
