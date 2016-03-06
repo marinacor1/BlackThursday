@@ -6,7 +6,7 @@ require_relative 'invoice_repository'
 require_relative 'invoice_item_repository'
 
 class SalesEngine
-  attr_accessor :items, :merchants, :invoices
+  attr_accessor :items, :merchants, :invoices, :invoice_items
 
   def initialize(data)
     @items = ItemRepository.new(data[:items]) if data[:items] != nil

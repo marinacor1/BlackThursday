@@ -8,9 +8,6 @@ class InvoiceItemRepositoryTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv'}
     se = SalesEngine.from_csv(hash)
     ir = se.invoice_items
-    #TODO se doesn't recognize invoice_items could be something with invoice item repo setup 
-    binding.pry
-    ir.from_csv("./data/invoice_items.csv")
     assert ir.instance_of? InvoiceItemRepository
   end
 
