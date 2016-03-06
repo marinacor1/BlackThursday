@@ -14,9 +14,8 @@ class CustomerRepositoryTest < Minitest::Test
   def test_customer_repo_returns_all_instances
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
-    binding.pry
     customer = c.customers.all
-    assert_equal 98, customer.count
+    assert_equal 1000, customer.count
   end
 
   def test_customer_repo_returns_customer_with_find_by_id
