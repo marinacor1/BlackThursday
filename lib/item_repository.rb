@@ -7,18 +7,24 @@ class ItemRepository
   def inspect
     true
   end
-  
-  include Repository
-  attr_accessor :all, :item
 
-  def initialize(path)
+  include Repository
+  attr_accessor :all
+
+  def initialize
     @all_items = []
-    populate_item_repo(path)
   end
 
-  def populate_item_repo(path)
+  def from_csv(path)
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-      @item = Item.new(data_row)
+      item = Item.new(data_row)
+      @all_items << item
+    end
+  end
+
+  def from_array(array)
+    array.each do |attributes|
+      item = Item.new(attributes)
       @all_items << item
     end
   end
@@ -65,13 +71,19 @@ end
 
 
 if __FILE__ == $0
+  #
+  # se = SalesEngine.from_csv({
+  #   :items     => "./data/items.csv",
+  #   :merchants => "./data/merchants.csv"
+  # })
+  #
+  # ir   = se.items
+  # item = ir.find_by_name("Item Repellat Dolorum")
 
-  se = SalesEngine.from_csv({
-    :items     => "./data/items.csv",
-    :merchants => "./data/merchants.csv"
-  })
+  # data = [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Stapler", :description => "Red Swingline", :unit_price  => BigDecimal.new(700, 4), :created_at  => Time.now, :updated_at  => Time.now, }]
 
-  ir   = se.items
-  item = ir.find_by_name("Item Repellat Dolorum")
+  ir = ItemRepository.new
   binding.pry
+  ir.from_csv('./data/subsets/items_small.csv')
+
 end
