@@ -39,12 +39,12 @@ class SalesEngineTest < Minitest::Test
   :transactions => "./data/transactions.csv",
   :customers => "./data/customers.csv"
 })
-   assert items.instance_of? ItemRepository
-   assert merchants.instance_of? MerchantRepository
-   assert invoices.instance_of? InvoiceRepository
-   assert invoice_items.instance_of? InvoiceItemRepository
-   assert transactions.instance_of? TransactionRepository
-   assert customers.instance_of? CustomerRepository
+   assert se.items.instance_of? ItemRepository
+   assert se.merchants.instance_of? MerchantRepository
+   assert se.invoices.instance_of? InvoiceRepository
+   assert se.invoice_items.instance_of? InvoiceItemRepository
+   assert se.transactions.instance_of? TransactionRepository
+   assert se.customers.instance_of? CustomerRepository
   end
 
   def test_sales_engine_can_find_connections_from_an_invoice
