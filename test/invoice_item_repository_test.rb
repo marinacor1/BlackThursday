@@ -7,24 +7,20 @@ class InvoiceItemRepositoryTest < Minitest::Test
   def test_invoice_item_repository_instantiates
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv'}
     se = SalesEngine.from_csv(hash)
-    ir = se.invoice_items
-    #TODO se doesn't recognize invoice_items could be something with invoice item repo setup 
-    binding.pry
-    ir.from_csv("./data/invoice_items.csv")
-    assert ir.instance_of? InvoiceItemRepository
+    ii = se.invoice_items
+    assert ii.instance_of? InvoiceItemRepository
   end
 
   def test_invoice_item_repo_returns_all_instances
-    skip
-    ir = InvoiceItemRepository.new
-    ir.from_csv("./data/subsets/invoice_items_small.csv")
-    invoices = ir.all
-    assert_equal 10, invoices.count
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv'}
+    se = SalesEngine.from_csv(hash)
+    ii = se.invoice_items
+    invoices = ii.all
+    assert_equal 21830, invoices.count
     assert_equal InvoiceItem, invoices[0].class
   end
 
   def test_invoice_repo_can_find_invoice_with_item_id
-    skip
     ir = InvoiceItemRepository.new
     ir.from_csv("./data/invoice_items.csv")
     invoice_item = ir.find_by_id(6)
