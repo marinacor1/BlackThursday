@@ -15,20 +15,18 @@ class InvoiceItemRepository
   end
 
   def from_csv(path)
-    if path.include? '.csv'
-      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-        item = InvoiceItem.new(data_row)
-        @all_invoice_items << item
-      end
-      else
-        populate_ii_repo_with_hash(path)
-      end
+    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      invoice_item = InvoiceItem.new(data_row)
+      @all_invoice_items << invoice_item
     end
-
-  def populate_ii_repo_with_hash(path)
-    @all_invoice_items = path
   end
 
+  def from_array(array)
+    array.each do |attributes|
+      invoice_item = InvoiceItem.new(attributes)
+      @all_invoice_items << invoice_item
+    end
+  end
   def all
     @all_invoice_items
   end

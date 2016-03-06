@@ -9,24 +9,22 @@ class TransactionRepository
 
   attr_accessor :all, :name
 
-  def initialize(path)
+  def initialize
     @all_transactions = []
-    populate_transaction_repo(path)
   end
 
-  def populate_transaction_repo(path)
-    if path.include? '.csv'
+  def from_csv(path)
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
       transaction = Transaction.new(data_row)
       @all_transactions << transaction
     end
-    else
-      populate_transaction_repo_with_hash(path)
-    end
   end
 
-  def populate_transaction_repo_with_hash(path)
-      @all_transactions = path
+  def from_array(array)
+    array.each do |attributes|
+      transaction = Transaction.new(attributes)
+      @all_transactions << transaction
+    end
   end
 
   def all
