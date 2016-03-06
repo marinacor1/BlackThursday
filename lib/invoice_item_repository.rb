@@ -22,7 +22,7 @@ class InvoiceItemRepository
       end
     end
 
-  def populate_merchant_repo_with_hash(path)
+  def populate_ii_repo_with_hash(path)
       path.each do
       item = InvoiceItem.new(path)
       @all_invoice_items << item
