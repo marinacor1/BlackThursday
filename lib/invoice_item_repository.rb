@@ -10,11 +10,12 @@ class InvoiceItemRepository
 
   attr_accessor :all, :name
 
-  def initialize
+  def initialize(path)
     @all_invoice_items = []
+    load_data(path)
   end
 
-  def from_csv(path)
+  def load_data(path)
     if path.include? '.csv'
       CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
         item = InvoiceItem.new(data_row)

@@ -65,8 +65,6 @@ class MerchantRepositoryTest < Minitest::Test
     merchant = se.merchants.find_by_id(10)
     assert_equal nil, merchant
 
-  end
-
     merchant = mr.find_by_id(10)
     assert_equal nil, merchant
   end
@@ -107,10 +105,10 @@ class MerchantRepositoryTest < Minitest::Test
       :items => "./data/items.csv",
       :merchants => "./data/merchants.csv"
       })
-      merchant = se.merchants.find_by_id(12334141)
-      assert merchant.items.instance_of? Array
-      assert merchant.items[0].instance_of? Item
-    end
+    merchant = se.merchants.find_by_id(12334141)
+    assert merchant.items.instance_of? Array
+    assert merchant.items[0].instance_of? Item
+  end
 
     def test_item_references_its_merchant_as_merchant_object
       se = SalesEngine.from_csv({
