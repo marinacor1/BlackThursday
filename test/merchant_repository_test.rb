@@ -3,6 +3,18 @@ require 'minitest/pride'
 require_relative '../lib/merchant_repository'
 
 class MerchantRepositoryTest < Minitest::Test
+  attr_reader :merchant1, :merchant2, :merchant3, :mr, :merchants
+
+  def setup
+    merchant1 = Merchnat.new({id: 1, item_id: 10, invoice_id: 20, quantity: 2, unit_price: 13635, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
+    merchant2 = Merchnat.new({id: 2, item_id: 11, invoice_id: 20, quantity: 9, unit_price: 2196, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'})
+    merchant3 = Merchnat.new({id: 3, item_id: 12, invoice_id: 21, quantity: 1, unit_price: 23324, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
+    merchant4 = Merchnat.new({id: 4, item_id: 12, invoice_id: 22, quantity: 1, unit_price: 79140, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'})
+
+    @merchants = [merchant1, merchant2, merchant3, merchant4]
+
+    @mr = MerchnatRepository.new(@merchants)
+  end
 
   def test_it_instantiates_a_merchant_repo
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
