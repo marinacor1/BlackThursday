@@ -61,13 +61,12 @@ class CustomerRepositoryTest < Minitest::Test
     assert customer_names.all? {|name| name.last_name == 'Toy'}
   end
 
-
   def test_it_returns_empty_array_for_wrong_last_name
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_last_name('watermelon')
-    assert_equal [], customer
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    all_names = customer.find_all_by_last_name('watermelon')
+    assert_equal [], all_names
   end
 
 end
