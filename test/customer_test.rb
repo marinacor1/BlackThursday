@@ -5,13 +5,12 @@ require 'pry'
 
 class CustomerTest < Minitest::Test
   def test_customer_instantiates
-    skip
     c = Customer.new({
   :id => 6,
   :first_name => "Joan",
   :last_name => "Clarke",
-  :created_at => Time.now,
-  :updated_at => Time.now
+  :created_at  => "2015-03-13",
+  :updated_at  => "2015-04-05",
 })
     c.instance_of? Customer
   end
