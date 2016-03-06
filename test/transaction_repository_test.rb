@@ -51,10 +51,10 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_transaction_repo_returns_empty_array_with_wrong_invoice_id
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
-    transaction = tr.find_all_by_invoice_id(2179)
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
+    transaction = tr.find_all_by_invoice_id(217000000937497349749237479)
     assert_equal [], transaction
   end
 
