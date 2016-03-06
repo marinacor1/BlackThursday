@@ -48,10 +48,10 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_invoice_repo_gives_nil_if_by_find_all_by_item_id_has_wrong_id
-    skip
-    ir = InvoiceItemRepository.new
-    ir.from_csv("./data/invoice_items.csv")
-    invoice_items = ir.find_all_by_item_id(787787)
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv'}
+    se = SalesEngine.from_csv(hash)
+    ii = se.invoice_items
+    invoice_items = ii.find_all_by_item_id(787707077797987)
     assert_equal [], invoice_items
   end
 
