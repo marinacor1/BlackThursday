@@ -1,11 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'bigdecimal'
 require_relative '../lib/invoice_item'
 require 'pry'
 
 class InvoiceItemTest < Minitest::Test
   def test_invoice_items_instantiates
-    skip
     ii = InvoiceItem.new({
   :id => 6,
   :item_id => 7,
