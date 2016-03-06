@@ -40,11 +40,14 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_transaction_repo_returns_all_matches_with_invoice_id
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
     transaction = tr.find_all_by_invoice_id(6)
-    assert_equal [], transaction
+    assert_equal Array, transaction.class
+    assert_equal 4290398966064195, transaction[0].credit_card_number
+    assert_equal "success", transaction[0].result
+    assert_equal 2, transaction.count
   end
 
   def test_transaction_repo_returns_empty_array_with_wrong_invoice_id
