@@ -63,7 +63,8 @@ class TransactionRepositoryTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     tr = se.transactions
     transaction = tr.find_all_by_credit_card_number(4068631943231473)
-    assert_equal 4068631943231473, transaction.credit_card_number
+    assert_equal 4068631943231473, transaction[0].credit_card_number
+    assert_equal Array, transaction.class
   end
 
   def test_it_returns_nil_for_wrong_credit_card
