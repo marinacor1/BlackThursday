@@ -5,9 +5,9 @@ require 'pry'
 class CustomerRepository
 include Repository
 
-  def inspect
-    true
-  end
+def inspect
+    "#<#{self.class}>"
+end
 
   attr_accessor :all
 

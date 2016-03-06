@@ -3,9 +3,10 @@ require_relative 'sales_engine'
 require 'pry'
 require 'csv'
 class TransactionRepository
-  
+
+
   def inspect
-    true
+    "#<#{self.class}>"
   end
 
   attr_accessor :all, :name

@@ -4,8 +4,9 @@ require 'csv'
 require 'pry'
 
 class InvoiceItemRepository
+
   def inspect
-    true
+      "#<#{self.class}>"
   end
 
   attr_accessor :all, :name

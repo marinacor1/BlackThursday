@@ -1,7 +1,8 @@
 module Repository
-  def inspect
-    true
-  end
+
+    def inspect
+      "#<#{self.class}>"
+    end
 
   def find_with_name(all_contents, query_name)
     all_contents.find do |element|

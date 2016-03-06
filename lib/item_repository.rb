@@ -4,8 +4,9 @@ require_relative 'item'
 require_relative 'repository'
 
 class ItemRepository
+
   def inspect
-    true
+    "#<#{self.class}>"
   end
 
   include Repository

@@ -8,8 +8,9 @@ require_relative 'repository'
 class MerchantRepository
 
   def inspect
-    true
+    "#<#{self.class}>"
   end
+
   include Repository
 
   attr_accessor :all, :name
