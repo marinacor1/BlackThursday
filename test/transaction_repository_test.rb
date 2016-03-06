@@ -85,9 +85,9 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_empty_array_for_wrong_result
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/subsets/transactions_small.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
     transaction = tr.find_all_by_result('watermelon')
     assert_equal [], transaction
   end
