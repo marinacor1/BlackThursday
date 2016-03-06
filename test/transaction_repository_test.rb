@@ -21,13 +21,14 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_transaction_repo_returns_transaction_with_find_by_id
-    skip
-    tr = TransactionRepository.new
-    tr.from_csv("./data/transactions.csv")
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    tr = se.transactions
     transaction = tr.find_by_id(6)
-    answer = 's'
-    assert_equal answer, transaction
-    assert_equal Transaction, answer.class
+    assert_equal 4558368405929183, transaction.credit_card_number
+    assert_equal 4966, transaction.invoice_id
+    assert_equal "success", transaction.result
+    assert_equal Transaction, transaction.class
   end
 
   def test_transaction_repo_returns_nil_with_wrong_find_by_id
