@@ -1,5 +1,5 @@
 class Invoice
-attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :merchant, :customer, :items
+attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :merchant, :customer, :items, :transactions
   def initialize(attributes)
     @id = attributes[:id]
     @customer_id = attributes[:customer_id]
@@ -8,6 +8,7 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
     @items = []
+    @transactions = []
   end
 
 
