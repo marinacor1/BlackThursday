@@ -1,4 +1,5 @@
 require_relative 'transaction'
+require_relative 'sales_engine'
 require 'pry'
 require 'csv'
 class TransactionRepository
