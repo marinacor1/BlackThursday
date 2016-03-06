@@ -29,14 +29,13 @@ class TransactionRepositoryTest < Minitest::Test
 
   def test_transaction_repo_returns_transaction_with_find_by_id
     transaction = tr.find_by_id(1)
-    assert_equal 4558368405929183, transaction.credit_card_number
+    assert_equal 2020202020, transaction.credit_card_number
     assert_equal 10, transaction.invoice_id
     assert_equal "success", transaction.result
     assert_equal Transaction, transaction.class
   end
 
   def test_transaction_repo_returns_nil_with_wrong_find_by_id
-    tr = se.transactions
     transaction = tr.find_by_id(6798908090000000079968)
     assert_equal nil, transaction
   end
