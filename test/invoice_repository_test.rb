@@ -56,7 +56,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_find_all_by_customer_id_returns_empty_array_for_wrong_id
     invoice_array =[]
-    assert_equal invoice_array, ir.find_all_by_customer_id(10)
+    assert_equal invoice_array, ir.find_all_by_customer_id(1880)
     assert_equal Array, invoice_array.class
   end
 
