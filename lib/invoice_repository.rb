@@ -8,7 +8,7 @@ class InvoiceRepository
   def inspect
     true
   end
-  
+
   attr_accessor :all
 
   def initialize(path)
@@ -51,7 +51,7 @@ end
 
   def find_all_by_status(status)
     @all_invoices.select do |element|
-       element.status.downcase.include?(status.downcase) ? element : nil
+       element.status.to_s.downcase == status.to_s.downcase ? element : nil
     end
   end
 

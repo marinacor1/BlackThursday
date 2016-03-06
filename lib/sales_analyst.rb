@@ -58,7 +58,7 @@ class SalesAnalyst
 
   def average_average_price_per_merchant
     total_avg_prices = @merchants.inject(0){|sum, merchant| sum + merchant.avg_item_price}
-    average_average = BigDecimal.new((total_avg_prices/@merchants.count), 4)
+    average_average = BigDecimal.new((total_avg_prices/@merchants.count), 5)
   end
 
   def golden_items
@@ -127,7 +127,7 @@ class SalesAnalyst
 
  def find_sales_count_per_day
    day_of_hash = @invoices.reduce(Hash.new(0)) do |hash, invoice|
-     date = Date.parse(invoice.created_at)
+     date = invoice.created_at
      date = date.strftime("%A")
      hash[date] += 1
      hash
@@ -157,7 +157,7 @@ class SalesAnalyst
 
   def invoice_status(status_query)
     invoice_status_count = @invoices.count do |invoice|
-      invoice.status == status_query.to_s
+      invoice.status == status_query
     end
 
     invoice_count = @invoices.count
@@ -170,12 +170,11 @@ end
 
 if __FILE__ == $0
 
-  # se = SalesEngine.from_csv( {:items => "./data/items.csv",
-  #                             :merchants => "./data/merchants.csv",
-  #                             :invoices => "./data/invoices.csv"} )
-  # sa = SalesAnalyst.new(se)
-  # sa.begin_analysis
+  se = SalesEngine.from_csv( {:items => "./data/items.csv",
+                              :merchants => "./data/merchants.csv",
+                              :invoices => "./data/invoices.csv"} )
+  sa = SalesAnalyst.new(se)
 
-
+  binding.pry
 
 end
