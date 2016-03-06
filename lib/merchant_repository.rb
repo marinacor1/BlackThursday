@@ -29,9 +29,9 @@ class MerchantRepository
     end
   end
 
-  def populate_merchant_repo_with_hash(path)
-      path.each do
-      merchant = Merchant.new(path)
+  def from_array(array)
+    array.each do |attributes|
+      merchant = Merchant.new(attributes)
       @all_merchants << merchant
     end
   end

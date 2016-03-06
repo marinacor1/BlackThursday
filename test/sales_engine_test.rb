@@ -5,29 +5,45 @@ require_relative '../lib/sales_engine'
 
 class SalesEngineTest < Minitest::Test
 
-  def test_sales_engine_instantiates_with_repositories
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.new(hash)
+  def test_sales_engine_instantiates
+    se = SalesEngine.new(nil)
     assert se.instance_of? SalesEngine
+  end
+
+  def test_sales_engine_forms_repositories_from_hash_of_data
+    data =    ({:merchants => [{:name => "Merchant", :id => 1}, {:name => "Store", :id => 2}, {:name => "Seller", :id => 3}],
+                :items => [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now, :id => 390 },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now, :id => 777 }] })
+
+    se = SalesEngine.new(data)
     assert se.items
     assert se.merchants
   end
 
   def test_sales_engine_carries_item_child_instance_for_item_repo
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.from_csv(hash)
+    data =    ({:merchants => [{:name => "Merchant", :id => 1}, {:name => "Store", :id => 2}, {:name => "Seller", :id => 3}],
+                :items => [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now, :id => 390 },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now, :id => 777 }] })
+
+    se = SalesEngine.new(data)
     assert se.items.instance_of? ItemRepository
+    assert_equal 2, se.items.count
+    assert se.items.all[0].instance_of? Item
   end
 
   def test_sales_engine_carries_merchant_child_instance_for_merchant_repo
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
-    se = SalesEngine.from_csv(hash)
+    data =    ({:merchants => [{:name => "Merchant", :id => 1}, {:name => "Store", :id => 2}, {:name => "Seller", :id => 3}],
+                :items => [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now, :id => 390 },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now, :id => 777 }] })
+
+    se = SalesEngine.new(data)
     assert se.merchants.instance_of? MerchantRepository
+    assert_equal 3, se.merchants.count
+    assert se.merchants.all[0].instance_of? Merchant
   end
 
   def test_it_loads_items_and_merchants_from_csv
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv"}
+
     se = SalesEngine.from_csv(hash)
+    binding.pry
     assert_equal 475 , se.merchants.count
     assert_equal 1367, se.items.count
   end
