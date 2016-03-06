@@ -52,7 +52,9 @@ class TransactionRepository
   end
 
   def find_all_by_result(status)
-    #returns [] or matches with matching cc number
+    @all_transactions.select do |element|
+       element.status.to_s.downcase == status.to_s.downcase ? element : nil
+    end
   end
 
 

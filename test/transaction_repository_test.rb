@@ -1,13 +1,15 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/transaction_repository'
+require_relative '../lib/sales_engine'
 require 'pry'
 
 class TransactionRepositoryTest < Minitest::Test
   def test_transaction_repo_instantiates
-    skip
-    tr = TransactionRepository.new
-    tr.instance_of? TransactionRepository
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :transactions => './data/transactions.csv'}
+    se = SalesEngine.from_csv(hash)
+    t = se.transactions
+    t.instance_of? TransactionRepository
   end
 
   def test_transaction_repo_returns_all_instances
