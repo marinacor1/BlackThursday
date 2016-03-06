@@ -34,13 +34,13 @@ class SalesEngineTest < Minitest::Test
 
   def test_sales_engine_can_receive_information_from_many_csvs
     se = SalesEngine.from_csv({
-      :items => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv",
-      :invoice_items => "./data/invoice_items.csv",
-      :transactions => "./data/transactions.csv",
-      :customers => "./data/customers.csv"
-      })
+                              :items => "./data/items.csv",
+                              :merchants => "./data/merchants.csv",
+                              :invoices => "./data/invoices.csv",
+                              :invoice_items => "./data/invoice_items.csv",
+                              :transactions => "./data/transactions.csv",
+                              :customers => "./data/customers.csv"
+                              })
       assert se.items.instance_of? ItemRepository
       assert se.merchants.instance_of? MerchantRepository
       assert se.invoices.instance_of? InvoiceRepository
@@ -49,50 +49,74 @@ class SalesEngineTest < Minitest::Test
       assert se.customers.instance_of? CustomerRepository
   end
 
+
+  def test_merchants_have_invoices_relationship
+    se = SalesEngine.from_csv({
+                              :items => "./data/items.csv",
+                              :merchants => "./data/merchants.csv",
+                              :invoices => "./data/invoices.csv"
+                            })
+    merchant = se.merchants.find_by_id(12334105)
+
+    assert merchant.invoices.instance_of? Array
+    assert_equal 10, merchant.invoice_count
+  end
+
+  def test_invoices_have_merchants_relationship
+    se = SalesEngine.from_csv({
+                                :items => "./data/items.csv",
+                                :merchants => "./data/merchants.csv",
+                                :invoices => "./data/invoices.csv"
+                              })
+      invoice = se.invoices.find_by_id(3334)
+      assert invoice.merchant.instance_of? Merchant
+      assert_equal 12337321, invoice.merchant.id
+  end
+
 def test_sales_engine_can_find_objects_associated_with_an_invoice
-se = SalesEngine.from_csv({
-:items => "./data/items.csv",
-:merchants => "./data/merchants.csv",
-:invoices => "./data/invoices.csv",
-:invoice_items => "./data/invoice_items.csv",
-:transactions => "./data/transactions.csv",
-:customers => "./data/customers.csv"
-})
-customer_id = 9
-query_id = 37
-invoice = se.invoices.find_by_id(query_id)
+  se = SalesEngine.from_csv({
+                            :items => "./data/items.csv",
+                            :merchants => "./data/merchants.csv",
+                            :invoices => "./data/invoices.csv",
+                            :invoice_items => "./data/invoice_items.csv",
+                            :transactions => "./data/transactions.csv",
+                            :customers => "./data/customers.csv"
+                          })
+  customer_id = 9
+  query_id = 37
+  invoice = se.invoices.find_by_id(query_id)
 
-assert_equal query_id, invoice.id
-assert_equal customer_id, invoice.customer_id
+  assert_equal query_id, invoice.id
+  assert_equal customer_id, invoice.customer_id
 
-transaction = se.transactions.find_by_id(37)
-assert_equal 1301, transaction.invoice_id
+  transaction = se.transactions.find_by_id(37)
+  assert_equal 1301, transaction.invoice_id
 end
 
 def test_sales_engine_can_find_objects_associated_with_a_transaction
-se = SalesEngine.from_csv({
-:items => "./data/items.csv",
-:merchants => "./data/merchants.csv",
-:invoices => "./data/invoices.csv",
-:invoice_items => "./data/invoice_items.csv",
-:transactions => "./data/transactions.csv",
-:customers => "./data/customers.csv"
-})
+  se = SalesEngine.from_csv({
+                          :items => "./data/items.csv",
+                          :merchants => "./data/merchants.csv",
+                          :invoices => "./data/invoices.csv",
+                          :invoice_items => "./data/invoice_items.csv",
+                          :transactions => "./data/transactions.csv",
+                          :customers => "./data/customers.csv"
+                          })
 
-invoice = se.invoices.find_by_id(40)
-assert invoice.instance_of? Invoice
-assert_equal 40, invoice.id
+  invoice = se.invoices.find_by_id(40)
+  assert invoice.instance_of? Invoice
+  assert_equal 40, invoice.id
 end
 
 def test_sales_engine_can_find_mechants_from_invoices
-skip
-se = SalesEngine.from_csv({
-  :items => "./data/items.csv",
-  :merchants => "./data/merchants.csv",
-  :invoices => "./data/invoices.csv",
-  :invoice_items => "./data/invoice_items.csv",
-  :transactions => "./data/transactions.csv",
-  :customers => "./data/customers.csv"
+  skip
+  se = SalesEngine.from_csv({
+                            :items => "./data/items.csv",
+                            :merchants => "./data/merchants.csv",
+                            :invoices => "./data/invoices.csv",
+                            :invoice_items => "./data/invoice_items.csv",
+                            :transactions => "./data/transactions.csv",
+                            :customers => "./data/customers.csv"
   })
   invoice = se.invoices.find_by_id(10)
   merchant = se.merchants.find_by_id(invoice.merchant_id)

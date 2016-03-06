@@ -72,27 +72,5 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal Array, status_array.class
   end
 
-  def test_merchants_have_invoices_relationship
-    se = SalesEngine.from_csv({
-      :items => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv"
-      })
-    merchant = se.merchants.find_by_id(12334105)
-
-    assert merchant.invoices.instance_of? Array
-    assert_equal 10, merchant.invoice_count
-  end
-
-  def test_invoices_have_merchants_relationship
-    se = SalesEngine.from_csv({
-      :items => "./data/items.csv",
-      :merchants => "./data/merchants.csv",
-      :invoices => "./data/invoices.csv"
-      })
-      invoice = se.invoices.find_by_id(3334)
-      assert invoice.merchant.instance_of? Merchant
-      assert_equal 12337321, invoice.merchant.id
-  end
 
 end
