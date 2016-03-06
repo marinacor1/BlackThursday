@@ -36,11 +36,12 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_all_matches_with_first_name
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_first_name('Mariah')
-    assert_equal [], customer
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    answer = customer.find_all_by_first_name('Mariah')
+    assert_equal 'Mariah', answer[0].first_name
+    assert_equal 'Toy', answer[0].last_name
   end
 
   def test_customer_repo_returns_empty_array_with_wrong_first_name
