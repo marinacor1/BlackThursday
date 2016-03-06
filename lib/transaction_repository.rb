@@ -10,7 +10,10 @@ class TransactionRepository
 
   def initialize(path)
     @all_transactions = []
-    populate_transaction_repo(path)
+  end
+
+  def from_csv(path)
+      populate_transaction_repo(path)
   end
 
   def populate_transaction_repo(path)
