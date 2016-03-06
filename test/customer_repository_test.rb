@@ -71,8 +71,17 @@ class CustomerRepositoryTest < Minitest::Test
     assert customer_names.all? {|name| name.last_name == 'Toy'}
   end
 
+  def test_it_returns_all_matching_last_name_customers_with_fragment
+    hash = {:customers => './data/subsets/customers_small.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    customer_names = customer.find_all_by_last_name('He')
+    assert_equal 5, customer_names.count
+    assert_equal "Daugherty", customer_names[0].last_name
+  end
+
   def test_it_returns_empty_array_for_wrong_last_name
-    hash = {:customers => './data/customers.csv'}
+    hash = {:customers => './data/subsets/customers_small.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     all_names = customer.find_all_by_last_name('watermelon')
