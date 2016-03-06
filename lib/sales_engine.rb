@@ -4,15 +4,18 @@ require_relative 'item_repository'
 require_relative 'merchant_repository'
 require_relative 'invoice_repository'
 require_relative 'invoice_item_repository'
+require_relative 'customer_repository'
 
 class SalesEngine
-  attr_accessor :items, :merchants, :invoices, :invoice_items
+  attr_accessor :items, :merchants, :invoices, :invoice_items, :customers, :transactions
 
   def initialize(data)
     @items = ItemRepository.new(data[:items]) if data[:items] != nil
     @merchants = MerchantRepository.new(data[:merchants]) if data[:merchants] != nil
     @invoices = InvoiceRepository.new(data[:invoices]) if data[:invoices] != nil
     @invoice_items = InvoiceItemRepository.new(data[:invoice_items]) if data[:invoice_items] != nil
+    @customers = CustomerRepository.new(data[:customers]) if data[:customers] != nil
+    @transactions = TransactionRepository.new(data[:transactions]) if data[:transactions] != nil
     repositories_linked if @merchants != nil
   end
 
