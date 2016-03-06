@@ -12,14 +12,14 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_all_instances
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers.all
     assert_equal 1000, customer.count
   end
 
   def test_customer_repo_returns_customer_with_find_by_id
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     answer = customer.find_by_id(6)
@@ -29,14 +29,14 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_nil_with_wrong_find_by_id
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     assert_equal nil, customer.find_by_id(679879968)
   end
 
   def test_customer_repo_returns_all_matches_with_first_name
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     answer = customer.find_all_by_first_name('Mariah')
@@ -45,7 +45,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_customer_repo_returns_empty_array_with_wrong_first_name
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/subsets/customers_small.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     answer = customer.find_all_by_first_name('lollipops')
@@ -63,7 +63,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_all_matching_last_name_customers
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     customer_names = customer.find_all_by_last_name('Toy')
@@ -72,7 +72,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_returns_empty_array_for_wrong_last_name
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    hash = {:customers => './data/customers.csv'}
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     all_names = customer.find_all_by_last_name('watermelon')
