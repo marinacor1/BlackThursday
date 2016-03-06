@@ -11,12 +11,19 @@ class InvoiceItem
     @updated_at = attributes[:updated_at]
     @invoiceitems = []
     @invoiceitems_count = 0
+    unit_price_to_dollars
   end
-
 
   def unit_price_to_dollars
-    #returns the price of the invoice item in dollars (float)
+    @unit_price = BigDecimal((self.unit_price/100.0), 5)
   end
 
+  def created_at
+    Time.parse(@created_at)
+  end
+
+  def updated_at
+    Time.parse(@updated_at)
+  end
 
 end
