@@ -62,7 +62,7 @@ class TransactionRepository
 
   def find_all_by_credit_card_number(cc_query)
     @all_transactions.select do |element|
-      cc_query == element.credit_card_number
+      element.credit_card_number == cc_query
     end
   end
 

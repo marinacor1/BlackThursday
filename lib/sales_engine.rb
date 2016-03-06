@@ -123,15 +123,15 @@ end
 
 if __FILE__ == $0
 
-  # se = SalesEngine.from_csv({
-  #   :items => "./data/items.csv",
-  #   :merchants => "./data/merchants.csv",
-  #   :invoices => "./data/invoices.csv",
-  #   :customers => "./data/customers.csv",
-  #   :transactions => "./data/transactions.csv"
-  #   })
-
-
+  engine = SalesEngine.from_csv({
+    :items => "./data/items.csv",
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv",
+    :customers => "./data/customers.csv",
+    :transactions => "./data/transactions.csv",
+    :invoice_items => "./data/invoice_items.csv"
+    })
+    
 
     binding.pry
 
