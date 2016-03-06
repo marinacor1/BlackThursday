@@ -7,7 +7,7 @@ class InvoiceItemRepository
   def inspect
     true
   end
-  
+
   attr_accessor :all, :name
 
   def initialize(path)
@@ -51,7 +51,7 @@ class InvoiceItemRepository
 
   def find_all_by_invoice_id(invoice_num)
     @all_invoice_items.select do |item|
-      item.invoice_id == id_num
+      item.invoice_id == invoice_num
     end
   end
 
