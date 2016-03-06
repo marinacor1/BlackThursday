@@ -35,6 +35,17 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "CJsDecor", merchant.name
   end
 
+  def test_find_by_id_returns_correct_merchant_with_id
+    se = SalesEngine.from_csv({
+    :items     => "./data/items.csv",
+    :merchants => "./data/subsets/merchants_small.csv"
+    })
+    merchant = se.merchants.find_by_id(12334112)
+    assert_equal "Candisart", merchant.name
+    assert_equal 12334112, merchant.id
+    assert_equal Merchant, merchant.class
+  end
+
   def test_find_by_id_returns_nil_for_wrong_id
     se = SalesEngine.from_csv({
     :items     => "./data/items.csv",
@@ -42,6 +53,7 @@ class MerchantRepositoryTest < Minitest::Test
     })
     merchant = se.merchants.find_by_id(10)
     assert_equal nil, merchant
+
   end
 
   def test_find_by_id_returns_nil_for_wrong_character_id
