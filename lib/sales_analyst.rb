@@ -193,7 +193,14 @@ class SalesAnalyst
     #returns Big Decimal answer of total revenue for merchant
   end
 
-  def most
+  def most_sold_item_for_merchant(merchant_id)
+    #returns highest item in terms of quantity sold
+    #if tie it returns tie of items 
+  end
+
+  def best_item_for_merchant(merchant_id)
+    #returns highest item by revenue generated
+  end
 
 
 
