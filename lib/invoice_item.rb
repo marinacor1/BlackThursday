@@ -15,7 +15,7 @@ class InvoiceItem
   end
 
   def unit_price_to_dollars
-    @unit_price = BigDecimal((self.unit_price/100.0), 5)
+    @unit_price = BigDecimal((self.unit_price/100.0), 5) if @unit_price != nil
   end
 
   def created_at

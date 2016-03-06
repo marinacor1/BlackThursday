@@ -80,9 +80,10 @@ if __FILE__ == $0
   # ir   = se.items
   # item = ir.find_by_name("Item Repellat Dolorum")
 
-  data = [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Stapler", :description => "Red Swingline", :unit_price  => BigDecimal.new(700, 4), :created_at  => Time.now, :updated_at  => Time.now, }]
+  # data = [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Stapler", :description => "Red Swingline", :unit_price  => BigDecimal.new(700, 4), :created_at  => Time.now, :updated_at  => Time.now, }]
 
   ir = ItemRepository.new
-  ir.from_array(data)
+  binding.pry
+  ir.from_csv('./data/subsets/items_small.csv')
 
 end
