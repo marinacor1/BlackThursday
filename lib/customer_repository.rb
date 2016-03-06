@@ -1,5 +1,7 @@
+require_relative 'repository'
 require_relative 'customer'
 require 'pry'
+
 class CustomerRepository
 include Repository
 

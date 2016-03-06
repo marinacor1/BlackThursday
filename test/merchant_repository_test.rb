@@ -67,9 +67,6 @@ class MerchantRepositoryTest < Minitest::Test
 
   end
 
-    merchant = mr.find_by_id(10)
-    assert_equal nil, merchant
-  end
 
   def test_find_by_id_returns_nil_for_wrong_character_id
     data = [{:name => "Merchant", :id => 1}, {:name => "Store", :id => 2}, {:name => "Seller", :id => 3}]
