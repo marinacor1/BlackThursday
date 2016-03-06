@@ -49,16 +49,16 @@ class CustomerRepositoryTest < Minitest::Test
     c = SalesEngine.from_csv(hash)
     customer = c.customers
     answer = customer.find_all_by_first_name('lollipops')
-    assert_equal [], answer 
+    assert_equal [], answer
   end
 
   def test_it_returns_all_matching_last_name_customers
-    skip
-    c = CustomerRepository.new
-    c.from_csv("./data/customers.csv")
-    customer = c.find_all_by_last_name('Toy')
-    answer = [3, 4, 2, 1]
-    assert_equal answer, customer
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => './data/invoices.csv', :invoice_items => './data/invoice_items.csv', :customers => './data/customers.csv'}
+    c = SalesEngine.from_csv(hash)
+    customer = c.customers
+    customer_names = customer.find_all_by_last_name('Toy')
+    assert_equal 2, customer_names.count
+    assert customer_names.all? {|name| name.last_name == 'Toy'}
   end
 
 
