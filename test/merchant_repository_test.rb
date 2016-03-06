@@ -17,7 +17,6 @@ class MerchantRepositoryTest < Minitest::Test
     mr = se.merchants
     merchant = mr.find_by_name("CJsDecor")
     assert_equal "CJsDecor", merchant.name
-    #TODO check spec harness to see if merchant.name is right
   end
 
   def test_find_by_name_returns_nil_if_name_wrong
@@ -26,7 +25,6 @@ class MerchantRepositoryTest < Minitest::Test
     mr = se.merchants
     merchant = mr.find_by_name("Marinas Shop")
     assert_equal nil, merchant
-    #TODO check spec harness to see if merchant is right
   end
 
   def test_find_by_name_works_regardless_of_case
@@ -131,7 +129,6 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchant_references_items_as_array_of_item_objects
-    skip
     se = SalesEngine.from_csv({
       :items => "./data/items.csv",
       :merchants => "./data/merchants.csv"
@@ -142,7 +139,6 @@ class MerchantRepositoryTest < Minitest::Test
     end
 
     def test_item_references_its_merchant_as_merchant_object
-      skip 
       se = SalesEngine.from_csv({
         :items => "./data/items.csv",
         :merchants => "./data/merchants.csv"

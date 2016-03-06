@@ -14,7 +14,7 @@ class InvoiceTest < Minitest::Test
   :status      => "pending",
   :created_at  => Time.now,
   :updated_at  => Time.now,
-})
+  })
     i.instance_of? Invoice
   end
 
@@ -29,13 +29,13 @@ class InvoiceTest < Minitest::Test
 })
   assert_equal 6, i.id
   assert_equal 1, i.customer_id
-  assert_equal "pending", i.status
-  assert_equal "2015-03-13", i.created_at
-  assert_equal "2015-04-05", i.updated_at
+  assert_equal :pending, i.status
+  assert_equal Time.parse("2015-03-13"), i.created_at
+  assert_equal Time.parse("2015-04-05"), i.updated_at
   end
 
   def test_invoice_can_tell_if_paid_in_full
-    skip 
+    skip
         i = Invoice.new({
       :id          => 4126,
       :customer_id => 817,

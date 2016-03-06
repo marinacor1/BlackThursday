@@ -89,10 +89,10 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
-    answer = 350.3
+    answer = 350.29
     avg_avg = sa.average_average_price_per_merchant
 
-    assert_equal BigDecimal(answer,4), avg_avg
+    assert_equal BigDecimal(answer, 5), avg_avg
     assert avg_avg.instance_of? BigDecimal
   end
 

@@ -8,7 +8,6 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_invoice_repository_instantiates
     se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
-    binding.pry
     se.invoices.instance_of? InvoiceRepository
   end
 
@@ -32,7 +31,7 @@ class InvoiceRepositoryTest < Minitest::Test
     correct_invoice = ir.find_by_id(3451)
     assert_equal 12335337, correct_invoice.merchant_id
     assert_equal 679, correct_invoice.customer_id
-    assert_equal 'returned', correct_invoice.status
+    assert_equal :returned, correct_invoice.status
     assert_equal Invoice, correct_invoice.class
   end
 
@@ -76,31 +75,26 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_merchants_have_invoices_relationship
-    skip
     se = SalesEngine.from_csv({
-:items => "./data/items.csv",
-  :merchants => "./data/merchants.csv",
-  :invoices => "./data/invoices.csv"
+      :items => "./data/items.csv",
+      :merchants => "./data/merchants.csv",
+      :invoices => "./data/invoices.csv"
       })
-      #TODO not sure if this is calling find by id for merchants
-      #or find by id for invoices
-      #also not sure which id it is searching for
     merchant = se.merchants.find_by_id(12334105)
-    invoice_array = ['i', 'i']
-    assert_equal invoice_array, merchant.invoices
-    assert_equal Array, invoice_array.class
+
+    assert merchant.invoices.instance_of? Array
+    assert_equal 10, merchant.invoice_count
   end
 
-  def test_invoices_have_merchants_relationshp
-    skip
+  def test_invoices_have_merchants_relationship
     se = SalesEngine.from_csv({
-:items => "./data/items.csv",
-  :merchants => "./data/merchants.csv",
-  :invoices => "./data/invoices.csv"
+      :items => "./data/items.csv",
+      :merchants => "./data/merchants.csv",
+      :invoices => "./data/invoices.csv"
       })
-      #TODO same issue as above
-      invoice.se.invoices.find_by_id(12335938)
-      assert_equal 'merchant', invoice.merchant
+      invoice = se.invoices.find_by_id(3334)
+      assert invoice.merchant.instance_of? Merchant
+      assert_equal 12337321, invoice.merchant.id
   end
 
 end
