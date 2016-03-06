@@ -1,4 +1,5 @@
 require_relative 'customer'
+require 'pry'
 class CustomerRepository
 
   def inspect
@@ -22,6 +23,10 @@ class CustomerRepository
         populate_customer_repo_with_hash(path)
       end
     end
+
+  def populate_customer_repo_with_hash(customers)
+    @all_customers = customers
+  end
 
   def all
     @all_customers

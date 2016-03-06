@@ -17,11 +17,19 @@ class InvoiceRepository
   end
 
   def populate_invoice_repo_with_data_from_csv(path)
-  CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-    invoice = Invoice.new(data_row)
-    @all_invoices << invoice
+    if path.include? '.csv'
+      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+        invoice = Invoice.new(data_row)
+        @all_invoices << invoice
+      end
+    else
+      populate_invoice_repo_with_hash(path)
+    end
   end
-end
+
+  def populate_invoice_repo_with_hash(data)
+    @all_invoices = data
+  end
 
   def count
     @all_invoices.count

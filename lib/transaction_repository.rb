@@ -1,4 +1,5 @@
 require_relative 'transaction'
+require_relative 'sales_engine'
 require 'pry'
 require 'csv'
 class TransactionRepository
@@ -8,12 +9,9 @@ class TransactionRepository
 
   attr_accessor :all, :name
 
-  def initialize
+  def initialize(path)
     @all_transactions = []
-  end
-
-  def from_csv(path)
-      populate_transaction_repo(path)
+    populate_transaction_repo(path)
   end
 
   def populate_transaction_repo(path)
@@ -28,10 +26,7 @@ class TransactionRepository
   end
 
   def populate_transaction_repo_with_hash(path)
-      path.each do
-      transaction = Transaction.new(path)
-      @all_transactions << transaction
-    end
+      @all_transactions = path
   end
 
   def all
@@ -65,8 +60,6 @@ class TransactionRepository
       cc_query == element.credit_card_number
     end
   end
-
-
 
 
 end
