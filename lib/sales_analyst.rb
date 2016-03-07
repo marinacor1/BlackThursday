@@ -7,7 +7,6 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
 
   def initialize(se_data)
-
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
@@ -167,6 +166,8 @@ class SalesAnalyst
 
 
   def total_revenue_by_date(date)
+    binding.pry
+    date = date.strftime('%m-%e-%y')
     #gives total revenue for a date
   end
 
@@ -195,7 +196,7 @@ class SalesAnalyst
 
   def most_sold_item_for_merchant(merchant_id)
     #returns highest item in terms of quantity sold
-    #if tie it returns tie of items 
+    #if tie it returns tie of items
   end
 
   def best_item_for_merchant(merchant_id)

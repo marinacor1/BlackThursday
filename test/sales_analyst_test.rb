@@ -200,19 +200,23 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 13.5, sa.invoice_status(:returned)
   end
 
+
+
+
+
+
   #iteration four methods
 
   def test_sa_gives_total_revenue_for_given_date
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    assert_equal 24242, sa.total_revenue_by_date(Time.parse("2012-02-26")
+    assert_equal 24242, sa.total_revenue_by_date(Time.parse("2012-02-26"))
   end
 
   def test_sa_finds_top_3_performing_merchants_by_revenue
     skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.top_revenue_earners(3)
