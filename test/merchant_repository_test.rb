@@ -45,12 +45,13 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_find_by_id_returns_correct_merchant_with_id
     se = SalesEngine.from_csv({
-    :items     => "./data/items.csv",
+    :items     => "./data/subsets/items_small.csv",
     :merchants => "./data/subsets/merchants_small.csv"
     })
-    merchant = se.merchants.find_by_id(12334112)
+  
+    merchant = se.merchants.find_by_id(24356)
     assert_equal "Candisart", merchant.name
-    assert_equal 12334112, merchant.id
+    assert_equal 24356, merchant.id
     assert_equal Merchant, merchant.class
   end
 
@@ -118,8 +119,8 @@ class MerchantRepositoryTest < Minitest::Test
       assert item.merchant.instance_of? Merchant
     end
 
-    def test_merchant_repo_insantiates_without_sales_enging
-      mr = MerchantRepository.new(:merchants => 'Socks4All')
+    def test_merchant_repo_instantiates_without_sales_engine
+      mr = MerchantRepository.new
       assert_equal MerchantRepository, mr.class
     end
 
