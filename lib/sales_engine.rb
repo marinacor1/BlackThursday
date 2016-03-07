@@ -30,7 +30,7 @@ class SalesEngine
   end
 
   def self.from_csv(data)
-    all_instances = self.new(data)
+    self.new(data)
   end
 
   def populate_repositories_appropriately(data, repos)
