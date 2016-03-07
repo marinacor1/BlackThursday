@@ -5,8 +5,9 @@ require_relative 'sales_engine'
 require_relative 'repository'
 
 class InvoiceRepository
+
   def inspect
-    true
+    "#<#{self.class}>"
   end
 
   attr_accessor :all

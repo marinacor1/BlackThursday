@@ -1,5 +1,5 @@
 class Invoice
-attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :merchant, :customer, :items
+attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :merchant, :customer, :items, :transactions
   def initialize(attributes)
     @id = attributes[:id]
     @customer_id = attributes[:customer_id]
@@ -8,15 +8,24 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
     @items = []
+    @transactions = []
   end
 
 
   def is_paid_in_full?
-    #returns true if invoice is paid in full
+    all_transaction_status = self.transactions.map do |transaction|
+      transaction.result
+    end
+    binding.pry
+    if all_transaction_status.include?("failed")
+      return false
+    else
+      return true
+    end
   end
 
   def total
-    #returns total $ amount of invoice
+
   end
 
   def created_at
