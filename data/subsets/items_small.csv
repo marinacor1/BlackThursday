@@ -11,6 +11,6 @@ id,name,description,unit_price,merchant_id,created_at,updated_at
 7,"Waffle iron","Food thing",1232,63636,"02-18-08","15-12-12"
 8,"Face Mask","Sleep thing",9900,64278,"01-08-08","15-12-12"
 9,"Grape","Fruit thing",800,22229,"02-08-08","15-12-12"
-10,"Grenade","Explosive thing",1200,33339,"01-08-08","15-12-12"
+10,"Dancing shoes","Snazzy thangs",1230,33339,"01-11-00","15-12-02"
 11,"Hat","Head thing",1500,44449,"11-08-08","15-12-12"
 12,"Icicle","Melted thing",20000,12321,"10-08-08","15-12-12"

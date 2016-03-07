@@ -260,13 +260,12 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_merchants_with_pending_invoices
-    #invoice considered pending if none of its transactions are successful
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :invoice_items => "./data/invoice_items.csv", :customers => "./data/customers.csv", :transactions => "./data/transactions.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_pending_invoices
-    # assert answer.all? {|merch| merch.status == 'pending'}
-    # assert_equal 20, answer.count
+    assert_equal 2, answer.count
+    assert_equal Merchant, answer[0].class 
   end
 
   def test_sa_finds_all_merchants_with_one_item

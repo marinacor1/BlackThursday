@@ -208,8 +208,15 @@ total
   end
 
   def merchants_with_pending_invoices
-    @transactions
-    binding.pry
+    penders = @invoices.select do |invoice|
+      invoice.status == :pending
+    end
+    merch_ids = penders.map do |merch|
+      merch.merchant_id
+    end.uniq
+    m = @merchants.select do |id|
+      merch_ids.include?(id.id)
+    end
     #returns array of all merchants with pending invoices
     #pending - if no transactions are successful
   end
