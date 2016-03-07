@@ -226,6 +226,18 @@ total
   end
 
   def merchants_with_only_one_item_registered_in_month(month)
+    @merchants.each do |merchant| #there's only 3 merchants
+      items_with_correct_month = merchant.items.select do |item|
+        item.created_at.strftime("%B") == month
+      end
+    end
+    binding.pry
+    monthly_merchants = items_with_correct_month.map do |item|
+      item.merchant
+    end
+    binding.pry
+    monthly_merchants
+      binding.pry
     #returns array with merchants that only sell one item by the month they registered
     #use merchant.created_at
   end

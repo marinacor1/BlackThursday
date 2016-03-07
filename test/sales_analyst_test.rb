@@ -204,7 +204,7 @@ class SalesAnalystTest < Minitest::Test
 #iteration four methods
 
   def test_sa_gives_total_revenue_for_given_date
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert_equal 8435.57, sa.total_revenue_by_date(Time.parse("2012-03-27"))
@@ -279,8 +279,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_merchants_with_one_sale_a_month
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item_registered_in_month("January")
