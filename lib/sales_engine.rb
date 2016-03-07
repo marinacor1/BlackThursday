@@ -29,6 +29,10 @@ class SalesEngine
     return repos
   end
 
+  def self.from_csv(data)
+    all_instances = self.new(data)
+  end
+
   def populate_repositories_appropriately(data, repos)
     repos.keys.each do |repository|
       redirect_csv_and_hash_data(data, repos, repository)
@@ -138,10 +142,6 @@ class SalesEngine
     merchant = @merchants.find_by_id(invoice.merchant_id)
     invoice.customer.merchants << merchant
     merchant.customers << invoice.customer
-  end
-
-  def self.from_csv(data)
-    all_instances = self.new(data)
   end
 
 end

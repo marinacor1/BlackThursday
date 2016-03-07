@@ -17,6 +17,7 @@ class SalesEngineTest < Minitest::Test
     se = SalesEngine.new(data)
     assert se.items
     assert se.merchants
+    refute se.transactions
   end
 
   def test_sales_engine_carries_item_child_instance_for_item_repo
