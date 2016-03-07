@@ -1,5 +1,6 @@
 require 'bigdecimal'
 require 'pry'
+require 'time'
 
 class Item
 attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
@@ -15,7 +16,7 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   end
 
   def unit_price_to_dollars
-    @unit_price = self.unit_price/100.0 
+    @unit_price = self.unit_price/100.0
   end
 
   def created_at

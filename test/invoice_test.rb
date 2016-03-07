@@ -3,6 +3,7 @@ require 'minitest/pride'
 require_relative '../lib/invoice'
 require_relative '../lib/sales_engine'
 require 'pry'
+require_relative '../lib/transaction'
 
 class InvoiceTest < Minitest::Test
 
@@ -35,33 +36,21 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_invoice_can_tell_if_paid_in_full
-    skip
-        i = Invoice.new({
-      :id          => 4126,
-      :customer_id => 817,
-      :merchant_id => 12336248,
-      :status      => "shipped",
-      :created_at  => '2011-08-16',
-      :updated_at  =>'2012-03-29',
-    })
-    #i think that we have to do something like this
-    #i might be wrong
+    transaction1 = Transaction.new({ :id => 1, :result => "success" })
+    transaction2 = Transaction.new({ :id => 2, :result => "success" })
+    i = Invoice.new({ :id => 123, :transactions => [] })
+    i.transactions << transaction1
+    i.transactions << transaction2
     assert i.is_paid_in_full?
   end
 
   def test_invoice_can_tell_if_not_paid_in_full
-    skip
-        i = Invoice.new({
-      :id          => 3792,
-      :customer_id => 754,
-      :merchant_id => 12335541,
-      :status      => "shipped",
-      :created_at  => '2005-07-21',
-      :updated_at  =>'2014-08-22',
-    })
-    #i think that we have to do something like this
-    #connect with transaction and find that it is pending
-    refute invoice.is_paid_in_full?
+    transaction1 = Transaction.new({ :id => 1, :result => "success" })
+    transaction2 = Transaction.new({ :id => 2, :result => "failed" })
+    i = Invoice.new({ :id => 123, :transactions => [] })
+    i.transactions << transaction1
+    i.transactions << transaction2
+    refute i.is_paid_in_full?
   end
 
 end

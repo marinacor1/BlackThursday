@@ -1,4 +1,5 @@
 require 'pry'
+require 'time'
 
 class Invoice
 attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :merchant, :customer, :items, :transactions, :total
@@ -6,14 +7,12 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @id = attributes[:id]
     @customer_id = attributes[:customer_id]
     @merchant_id = attributes[:merchant_id]
-    @status = attributes[:status].to_sym
+    @status = attributes[:status]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
     @items = []
     @transactions = []
   end
-
-
 
   def is_paid_in_full?
     array = all_transaction_status
@@ -24,6 +23,10 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     end
   end
 
+  def status
+    @status.to_sym
+  end
+
   def all_transaction_status
     self.transactions.map do |transaction|
       transaction.result
@@ -31,19 +34,11 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
   end
 
   def created_at
-    if @created_at.class != Time
-      DateTime.parse(@created_at)
-    else
-      @created_at
-    end
+    Time.parse(@created_at)
   end
 
   def updated_at
-    if @updated_at.class != Time
-    DateTime.parse(@updated_at)
-  else
-    @updated_at
-  end
+    Time.parse(@updated_at)
   end
 
 

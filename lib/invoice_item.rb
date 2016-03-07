@@ -1,3 +1,7 @@
+require 'pry'
+require 'time'
+require 'bigdecimal'
+
 class InvoiceItem
   attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at, :invoice_items, :invoice_items_count
 
@@ -25,5 +29,11 @@ class InvoiceItem
   def updated_at
     Time.parse(@updated_at)
   end
+
+end
+
+if __FILE__ == $0
+
+
 
 end

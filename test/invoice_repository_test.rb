@@ -24,12 +24,6 @@ class InvoiceRepositoryTest < Minitest::Test
     ir.instance_of? InvoiceRepository
   end
 
-  def test_invoice_repository_contains_invoice_instances_with_sales_engine
-    se = SalesEngine.from_csv({:invoices => './data/invoices.csv'})
-    ir = se.invoices
-    ir.instance_of? InvoiceRepository
-  end
-
   def test_all_returns_array_of_all_known_invoice_instances
     assert_equal Array, ir.all.class
     assert_equal Invoice, ir.all[0].class
