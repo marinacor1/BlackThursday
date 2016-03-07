@@ -211,6 +211,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_top_3_performing_merchants_by_revenue
+    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
@@ -260,8 +261,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_sa_finds_all_merchants_with_pending_invoices
     #invoice considered pending if none of its transactions are successful
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_pending_invoices

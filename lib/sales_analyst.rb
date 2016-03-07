@@ -7,11 +7,13 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
 
   def initialize(se_data)
+    binding.pry 
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
     begin_analysis
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
+    @transactions = se_data.transactions.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -178,10 +180,12 @@ class SalesAnalyst
   end
 
   def top_revenue_earners(num = 20)
+    #TODO invoce_items don't always count because could be a failed
     top_earners = @invoice_items.sort_by do |item|
       earnings = (item.quantity * item.unit_price)
     end
     top = top_earners[0..(num-1)]
+
     top_earner_ids = top.map do |item|
       item.item_id
     end
@@ -189,7 +193,6 @@ class SalesAnalyst
     #[263542298, 263523644, 263529264]
     total = []
     find_a_match = @merchants.find do |merch|
-      binding.pry
           @index = 0
         total << find_merchant_by_item_id(merch, top_earner_ids)
           @index += 1
@@ -206,6 +209,8 @@ total
   end
 
   def merchants_with_pending_invoices
+    @transactions
+    binding.pry
     #returns array of all merchants with pending invoices
     #pending - if no transactions are successful
   end
@@ -244,6 +249,5 @@ if __FILE__ == $0
                               :invoices => "./data/invoices.csv"} )
   sa = SalesAnalyst.new(se)
 
-  binding.pry
 
 end
