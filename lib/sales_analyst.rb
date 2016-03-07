@@ -7,11 +7,11 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
 
   def initialize(se_data)
-
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
     begin_analysis
+    @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -164,6 +164,75 @@ class SalesAnalyst
     percentage_status = (invoice_status_count.to_f/invoice_count)
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
+
+  def total_revenue_by_date(date)
+   date = date.strftime('%m-%e-%y')
+   correct_date = @invoice_items.select do |item|
+    item.updated_at.strftime('%m-%e-%y') == date
+    end
+    revenue = correct_date.inject(0) do |total, sale|
+      total = total + sale.unit_price
+    end
+    revenue.to_f
+    #TODO: is this a float or big decimal?
+  end
+
+  def top_revenue_earners(num = 20)
+    top_earners = @invoice_items.sort_by do |item|
+      earnings = (item.quantity * item.unit_price)
+    end
+    top = top_earners[0..(num-1)]
+    top_earner_ids = top.map do |item|
+      item.item_id
+    end
+    #have item ids for all top merchants
+    #[263542298, 263523644, 263529264]
+    total = []
+    find_a_match = @merchants.find do |merch|
+      binding.pry
+          @index = 0
+        total << find_merchant_by_item_id(merch, top_earner_ids)
+          @index += 1
+      end
+total
+    #returns array for top merchant revenue earners
+    #calculate revenue using invoice_item.unit_price
+  end
+
+  def find_merchant_by_item_id(merch, top_earner_ids)
+    merch.items.find_all do |item|
+      item.id == top_earner_ids[@index]
+    end
+  end
+
+  def merchants_with_pending_invoices
+    #returns array of all merchants with pending invoices
+    #pending - if no transactions are successful
+  end
+
+  def merchants_with_only_one_item
+    #returns array of merchants with only one item
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    #returns array with merchants that only sell one item by the month they registered
+    #use merchant.created_at
+  end
+
+  def revenue_by_merchant(merchant_id)
+    #returns Big Decimal answer of total revenue for merchant
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    #returns highest item in terms of quantity sold
+    #if tie it returns tie of items
+  end
+
+  def best_item_for_merchant(merchant_id)
+    #returns highest item by revenue generated
+  end
+
+
 
 
 end
