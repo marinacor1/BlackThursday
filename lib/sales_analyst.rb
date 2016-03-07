@@ -182,15 +182,27 @@ class SalesAnalyst
       earnings = (item.quantity * item.unit_price)
     end
     top = top_earners[0..(num-1)]
-    index = 0
-    find_a_match = @merchants.find do |merch|
-       merch.items.find do |item|
-        item.id == top[index].item_id
-        index +=1
-      end
+    top_earner_ids = top.map do |item|
+      item.item_id
     end
+    #have item ids for all top merchants
+    #[263542298, 263523644, 263529264]
+    total = []
+    find_a_match = @merchants.find do |merch|
+      binding.pry
+          @index = 0
+        total << find_merchant_by_item_id(merch, top_earner_ids)
+          @index += 1
+      end
+total
     #returns array for top merchant revenue earners
     #calculate revenue using invoice_item.unit_price
+  end
+
+  def find_merchant_by_item_id(merch, top_earner_ids)
+    merch.items.find_all do |item|
+      item.id == top_earner_ids[@index]
+    end
   end
 
   def merchants_with_pending_invoices
