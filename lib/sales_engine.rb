@@ -159,9 +159,13 @@ if __FILE__ == $0
     })
 
     binding.pry
-    invoice = engine.invoices.find_by_id(106)
-    expected = invoice.items
-    expected.length == 7
-    expected.first.class == Item
+    expected = engine.invoices.find_by_id(1).is_paid_in_full?
+     expect(expected).to eq true
+     expected = engine.invoices.find_by_id(200).is_paid_in_full?
+     expect(expected).to eq true
+     expected = engine.invoices.find_by_id(203).is_paid_in_full?
+     expect(expected).to eq false
+     expected = engine.invoices.find_by_id(204).is_paid_in_full?
+     expect(expected).to eq false
 
 end
