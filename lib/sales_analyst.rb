@@ -196,9 +196,7 @@ class SalesAnalyst
         total << find_merchant_by_item_id(merch, top_earner_ids)
           @index += 1
       end
-total
-    #returns array for top merchant revenue earners
-    #calculate revenue using invoice_item.unit_price
+    total
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
