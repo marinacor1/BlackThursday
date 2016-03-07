@@ -8,14 +8,15 @@ class TransactionRepositoryTest < Minitest::Test
   attr_reader :transaction1, :transaction2, :transaction3, :tr, :transactions
 
   def setup
-    transaction1 = Transaction.new({id: 1, invoice_id: 10, credit_card_number: 2020202020, credit_card_expiration_date: 0217, result: 'success', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
-    transaction2 = Transaction.new({id: 2, invoice_id: 11, credit_card_number: 2121212121, credit_card_expiration_date: 1220, result: 'failed', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
-    transaction3 = Transaction.new({id: 3, invoice_id: 12, credit_card_number: 2222222222, credit_card_expiration_date: 1118, result: 'success', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
-    transaction4 = Transaction.new({id: 4, invoice_id: 13, credit_card_number: 2222222222, credit_card_expiration_date: 1118, result: 'failed', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
+    transaction1 = {id: 1, invoice_id: 10, credit_card_number: 2020202020, credit_card_expiration_date: 0217, result: 'success', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' }
+    transaction2 = {id: 2, invoice_id: 11, credit_card_number: 2121212121, credit_card_expiration_date: 1220, result: 'failed', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' }
+    transaction3 = {id: 3, invoice_id: 12, credit_card_number: 2222222222, credit_card_expiration_date: 1118, result: 'success', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' }
+    transaction4 = {id: 4, invoice_id: 13, credit_card_number: 2222222222, credit_card_expiration_date: 1118, result: 'failed', created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' }
 
     @transactions = [transaction1, transaction2, transaction3, transaction4]
 
-    @tr = TransactionRepository.new(@transactions)
+    @tr = TransactionRepository.new
+    @tr.from_array(@transactions)
   end
 
   def test_transaction_repo_instantiates
