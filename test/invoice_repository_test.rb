@@ -9,14 +9,15 @@ class InvoiceRepositoryTest < Minitest::Test
   attr_reader :invoice1, :invoice2, :invoice3, :invoice4, :ir, :invoices
 
   def setup
-    invoice1 = Invoice.new({id: 20, customer_id: 10, merchant_id: 100, status: 'shipped', created_at: 10-20-1995, updated_at: 12-18-2013 })
-    invoice2 = Invoice.new({id: 21, customer_id: 11, merchant_id: 101, status: 'shipped', created_at: 11-20-1995, updated_at: 02-30-1009 })
-    invoice3 = Invoice.new({id: 22, customer_id: 11, merchant_id: 100, status: 'pending', created_at: 10-20-1985, updated_at: 01-13-2013 })
-    invoice4 = Invoice.new({id: 23, customer_id: 11, merchant_id: 102, status: 'shipped', created_at: 12-21-1975, updated_at: 12-30-2015 })
+    invoice1 = {id: 20, customer_id: 10, merchant_id: 100, status: 'shipped', created_at: 10-20-1995, updated_at: 12-18-2013 }
+    invoice2 = {id: 21, customer_id: 11, merchant_id: 101, status: 'shipped', created_at: 11-20-1995, updated_at: 02-30-1009 }
+    invoice3 = {id: 22, customer_id: 11, merchant_id: 100, status: 'pending', created_at: 10-20-1985, updated_at: 01-13-2013 }
+    invoice4 = {id: 23, customer_id: 11, merchant_id: 102, status: 'shipped', created_at: 12-21-1975, updated_at: 12-30-2015 }
 
     @invoices = [invoice1, invoice2, invoice3, invoice4]
 
-    @ir = InvoiceRepository.new(@invoices)
+    @ir = InvoiceRepository.new
+    @ir.from_array(@invoices)
   end
 
   def test_invoice_repository_instantiates

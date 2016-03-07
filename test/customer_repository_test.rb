@@ -9,14 +9,15 @@ class CustomerRepositoryTest < Minitest::Test
   attr_reader :customer1, :customer2, :customer3, :cr, :customers
 
   def setup
-    customer1 = Customer.new({id: 1, first_name: "Marina", last_name: "Corona", created_at: 10-20-1995, updated_at: 12-30-2013 })
-    customer2 = Customer.new({id: 2, first_name: "Kami", last_name: "Boers", created_at: 11-20-1999, updated_at: 12-31-2015 })
-    customer3 = Customer.new({id: 3, first_name: "Horace", last_name: "Williams", created_at: 01-15- 2000, updated_at: 02-30-2011 })
-    customer4 = Customer.new({id: 3, first_name: "Horace", last_name: "Marks", created_at: 01-15- 2010, updated_at: 02-03-2011 })
+    customer1 = {id: 1, first_name: "Marina", last_name: "Corona", created_at: 10-20-1995, updated_at: 12-30-2013 }
+    customer2 = {id: 2, first_name: "Kami", last_name: "Boers", created_at: 11-20-1999, updated_at: 12-31-2015 }
+    customer3 = {id: 3, first_name: "Horace", last_name: "Williams", created_at: 01-15- 2000, updated_at: 02-30-2011 }
+    customer4 = {id: 3, first_name: "Horace", last_name: "Marks", created_at: 01-15- 2010, updated_at: 02-03-2011 }
 
     @customers = [customer1, customer2, customer3, customer4]
 
-    @cr = CustomerRepository.new(@customers)
+    @cr = CustomerRepository.new
+    @cr.from_array(@customers)
   end
 
   def test_customer_repo_instantiates
