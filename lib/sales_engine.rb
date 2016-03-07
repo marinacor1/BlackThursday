@@ -76,7 +76,7 @@ class SalesEngine
     end
     merchant
   end
-#########################################
+
   def child_items_linked_to_parent
     if merchants
 
