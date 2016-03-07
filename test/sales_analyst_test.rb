@@ -211,8 +211,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_top_3_performing_merchants_by_revenue
-    skip
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.top_revenue_earners(3)

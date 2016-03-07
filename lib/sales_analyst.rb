@@ -174,10 +174,21 @@ class SalesAnalyst
       total = total + sale.unit_price
     end
     revenue.to_f
-    #gives total revenue for a date
+    #TODO: is this a float or big decimal?
   end
 
   def top_revenue_earners(num = 20)
+    top_earners = @invoice_items.sort_by do |item|
+      earnings = (item.quantity * item.unit_price)
+    end
+    top = top_earners[0..(num-1)]
+    index = 0
+    find_a_match = @merchants.find do |merch|
+       merch.items.find do |item|
+        item.id == top[index].item_id
+        index +=1
+      end
+    end
     #returns array for top merchant revenue earners
     #calculate revenue using invoice_item.unit_price
   end
