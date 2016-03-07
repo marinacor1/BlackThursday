@@ -11,11 +11,7 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @transactions = []
   end
 
-def all_transaction_status
-  self.transactions.map do |transaction|
-    transaction.result
-  end
-end
+
 
   def is_paid_in_full?
     array = all_transaction_status
@@ -26,8 +22,15 @@ end
     end
   end
 
-  def total
+  def all_transaction_status
+    self.transactions.map do |transaction|
+      transaction.result
+    end
+  end
 
+  def total
+    total_successful_transactions = self.transactions.map do |transaction|
+      if transaction.result !=
   end
 
   def created_at
