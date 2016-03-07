@@ -6,7 +6,7 @@ require 'pry'
 class InvoiceItemRepository
 
   def inspect
-      "#<#{self.class}>"
+    "#<#{self.class}>"
   end
 
   attr_accessor :all, :name
@@ -32,6 +32,10 @@ class InvoiceItemRepository
       invoice_item = InvoiceItem.new(data_row)
       @all_invoice_items << invoice_item
     end
+  end
+
+  def populate_ii_repo_with_hash(path)
+    @all_invoice_items = path
   end
 
   def from_array(array)

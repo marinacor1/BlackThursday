@@ -213,8 +213,18 @@ class SalesAnalystTest < Minitest::Test
   #iteration four methods
 
   def test_sa_gives_total_revenue_for_given_date
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
-    se = SalesEngine.from_csv(hash)
+    invoice_item1 = InvoiceItem.new({id: 1, item_id: 10, invoice_id: 20, quantity: 2, unit_price: 13635, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
+    invoice_item2 = InvoiceItem.new({id: 2, item_id: 11, invoice_id: 20, quantity: 9, unit_price: 2196, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'})
+    invoice_item3 = InvoiceItem.new({id: 3, item_id: 12, invoice_id: 21, quantity: 1, unit_price: 23324, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
+    merchants = [{:name => "Merchant", :id => 1}, {:name => "Store", :id => 2}, {:name => "Seller", :id => 3}]
+
+    invoice_items = [invoice_item1, invoice_item2, invoice_item3]
+
+    ii = InvoiceItemRepository.new(invoice_items)
+    mr = MerchantRepository.new
+    hash = {:invoice_items => ii}
+    se = SalesEngine.new(hash)
+        binding.pry
     sa = SalesAnalyst.new(se)
     assert_equal 24242, sa.total_revenue_by_date(Time.parse("2012-02-26"))
   end

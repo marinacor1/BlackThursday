@@ -11,10 +11,12 @@ class SalesEngine
   attr_accessor :items, :merchants, :invoices, :invoice_items, :customers, :transactions
 
   def initialize(data)
-    if data != nil
+    if data != nil && data.include?('.csv')
       repos = create_repositories(data)
       populate_repositories_appropriately(data, repos)
       repositories_linked
+    else
+      repos = data 
     end
   end
 
@@ -76,14 +78,13 @@ class SalesEngine
     end
     merchant
   end
-#########################################
+
   def child_items_linked_to_parent
     if merchants
 
       invoices_linked_to_customers_and_merchants_and_items if invoices && items && customers
     end
   end
-
 
   def invoices_linked_to_customers_and_merchants_and_items
     if @invoices != nil
@@ -112,7 +113,6 @@ class SalesEngine
         invoice.transactions << transaction
       end
     end
-
 
   def link_customer_and_invoice(invoice)
     customer = @customers.find_by_id(invoice.customer_id)
