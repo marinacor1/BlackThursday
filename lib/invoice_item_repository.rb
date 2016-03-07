@@ -25,6 +25,7 @@ class InvoiceItemRepository
       else
         populate_ii_repo_with_hash(path)
       end
+  end
 
   def from_csv(path)
     CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
@@ -39,6 +40,7 @@ class InvoiceItemRepository
       @all_invoice_items << invoice_item
     end
   end
+
   def all
     @all_invoice_items
   end

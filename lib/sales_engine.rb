@@ -11,7 +11,6 @@ class SalesEngine
   attr_accessor :items, :merchants, :invoices, :invoice_items, :customers, :transactions
 
   def initialize(data)
-    binding.pry
     if data != nil
       repos = create_repositories(data)
       populate_repositories_appropriately(data, repos)
