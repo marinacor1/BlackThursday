@@ -10,6 +10,7 @@ class Customer
     @updated_at = attributes[:updated_at]
     @merchants = []
     @invoices = []
+
   end
 
   def created_at
@@ -30,6 +31,9 @@ if __FILE__ == $0
   :created_at  => "2007-06-04 21:35:10 UTC",
   :updated_at  => "2015-10-12 21:35:10 UTC",
   })
+
+
+
 
 binding.pry
 end

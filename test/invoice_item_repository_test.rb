@@ -7,14 +7,15 @@ class InvoiceItemRepositoryTest < Minitest::Test
   attr_reader :invoice_item1, :invoice_item2, :invoice_item3, :ii, :invoice_items
 
   def setup
-    invoice_item1 = InvoiceItem.new({id: 1, item_id: 10, invoice_id: 20, quantity: 2, unit_price: 13635, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
-    invoice_item2 = InvoiceItem.new({id: 2, item_id: 11, invoice_id: 20, quantity: 9, unit_price: 2196, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'})
-    invoice_item3 = InvoiceItem.new({id: 3, item_id: 12, invoice_id: 21, quantity: 1, unit_price: 23324, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' })
-    invoice_item4 = InvoiceItem.new({id: 4, item_id: 12, invoice_id: 22, quantity: 1, unit_price: 79140, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'})
+    invoice_item1 = {id: 1, item_id: 10, invoice_id: 20, quantity: 2, unit_price: 13635, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' }
+    invoice_item2 = {id: 2, item_id: 11, invoice_id: 20, quantity: 9, unit_price: 2196, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'}
+    invoice_item3 = {id: 3, item_id: 12, invoice_id: 21, quantity: 1, unit_price: 23324, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC' }
+    invoice_item4 = {id: 4, item_id: 12, invoice_id: 22, quantity: 1, unit_price: 79140, created_at: '2012-03-27 14:54:09 UTC', updated_at: '2012-03-27 14:54:09 UTC'}
 
     @invoice_items = [invoice_item1, invoice_item2, invoice_item3, invoice_item4]
 
-    @ii = InvoiceItemRepository.new(@invoice_items)
+    @ii = InvoiceItemRepository.new
+    @ii.from_array(@invoice_items)
   end
 
   def test_invoice_item_repository_instantiates
