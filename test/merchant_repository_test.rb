@@ -64,7 +64,6 @@ class MerchantRepositoryTest < Minitest::Test
     })
     merchant = se.merchants.find_by_id(10)
     assert_equal nil, merchant
-
     merchant = mr.find_by_id(10)
     assert_equal nil, merchant
   end

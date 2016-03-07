@@ -21,7 +21,7 @@ class MerchantTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
-    assert_equal 12334105, mr.all[0].id
+    assert_equal 87665, mr.all[0].id
   end
 
 

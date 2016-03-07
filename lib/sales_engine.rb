@@ -60,6 +60,10 @@ class SalesEngine
     if @items != nil
       merchant.items = @items.find_all_by_merchant_id(merchant.id)
       merchant.item_count = merchant.items.count
+      merchant.items.map do |item|
+        item.merchant = merchant
+      end
+      merchant
     end
   end
 
@@ -67,50 +71,48 @@ class SalesEngine
     if @invoices != nil
       merchant.invoices = @invoices.find_all_by_merchant_id(merchant.id)
       merchant.invoice_count = merchant.invoices.count
-      merchant
+      merchant.invoices.map do |invoice|
+        invoice.merchant = merchant
+      end
     end
+    merchant
   end
-
+#########################################
   def child_items_linked_to_parent
     if merchants
-      items_linked_to_merchants if items
-      invoices_linked_to_merchants if invoices
+
       invoices_linked_to_customers_and_merchants_and_items if invoices && items && customers
     end
   end
 
-  def items_linked_to_merchants
-    if @items != nil
-      @items.all.map do |item|
-        item.merchant = @merchants.find_by_id(item.merchant_id)
-      end
-    end
-  end
-
-  def invoices_linked_to_merchants
-    if @invoices != nil
-      @invoices.all.map do |invoice|
-        invoice.merchant =  @merchants.find_by_id(invoice.merchant_id)
-      end
-    end
-  end
 
   def invoices_linked_to_customers_and_merchants_and_items
     if @invoices != nil
-      @invoices.all.each do |invoice|
-        link_items_and_invoices(invoice)
+      @invoices.all.map do |invoice|
+        link_items_and_invoice(invoice)
+        link_transaction_and_invoice(invoice)
         customer = link_customer_and_invoice(invoice)
-        link_merchant_to_customers_via_invoices(invoice, customer)
+        link_merchant_to_customers_via_invoice(invoice, customer)
       end
     end
   end
 
-  def link_items_and_invoices(invoice)
+  def link_items_and_invoice(invoice)
     all_invoice_items = @invoice_items.find_all_by_invoice_id(invoice.id)
-    item_array = all_invoice_items.map do |invoice_item|
-      @items.find_by_id(invoice_item.item_id)
+    all_invoice_items.map do |invoice_item|
+        item = @items.find_by_id(invoice_item.item_id)
+        invoice.items << item
+        item
     end
   end
+
+    def link_transaction_and_invoice(invoice)
+      all_invoice_transactions = @transactions.find_all_by_invoice_id(invoice.id)
+      all_invoice_transactions.map do |transaction|
+        transaction.invoice = invoice
+        invoice.transactions << transaction
+      end
+    end
 
 
   def link_customer_and_invoice(invoice)
@@ -119,7 +121,7 @@ class SalesEngine
     customer.invoices << invoice
   end
 
-  def link_merchant_to_customers_via_invoices(invoice, customer)
+  def link_merchant_to_customers_via_invoice(invoice, customer)
     merchant = @merchants.find_by_id(invoice.merchant_id)
     invoice.customer.merchants << merchant
     merchant.customers << invoice.customer
@@ -144,4 +146,9 @@ if __FILE__ == $0
     })
 
     binding.pry
+    invoice = engine.invoices.find_by_id(106)
+    expected = invoice.items
+    expected.length == 7
+    expected.first.class == Item
+
 end

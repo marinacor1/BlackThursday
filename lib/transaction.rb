@@ -1,7 +1,7 @@
 require 'pry'
 class Transaction
   attr_accessor :id, :invoice_id, :credit_card_number,
-  :credit_card_expiration_date, :result, :created_at, :updated_at
+  :credit_card_expiration_date, :result, :created_at, :updated_at, :invoice
 
   def initialize(attributes)
     @id = attributes[:id]
@@ -11,8 +11,7 @@ class Transaction
     @result = attributes[:result]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
-    @transactions = []
-    @transaction_count = 0
+    @invoice = nil
   end
 
 def created_at

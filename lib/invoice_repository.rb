@@ -5,8 +5,9 @@ require_relative 'sales_engine'
 require_relative 'repository'
 
 class InvoiceRepository
+
   def inspect
-    true
+    "#<#{self.class}>"
   end
 
   attr_accessor :all
@@ -16,19 +17,18 @@ class InvoiceRepository
     populate_invoice_repo_with_data_from_csv(path)
   end
 
-  def populate_invoice_repo_with_data_from_csv(path)
-    if path.include? '.csv'
-      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-        invoice = Invoice.new(data_row)
-        @all_invoices << invoice
-      end
-    else
-      populate_invoice_repo_with_hash(path)
+  def from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      invoice = Invoice.new(data_row)
+      @all_invoices << invoice
     end
   end
 
-  def populate_invoice_repo_with_hash(data)
-    @all_invoices = data
+  def from_array(array)
+    array.each do |attributes|
+      invoice = Invoice.new(attributes)
+      @all_invoices << invoice
+    end
   end
 
   def count
