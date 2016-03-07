@@ -22,12 +22,13 @@ end
         @all_customers << customer
       end
     end
-    
+
     def load_data(path)
       if path.include? '.csv'
-      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
-        customer = Customer.new(data_row)
-        @all_customers << customer
+        CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+          customer = Customer.new(data_row)
+          @all_customers << customer
+        end
       end
     end
 
