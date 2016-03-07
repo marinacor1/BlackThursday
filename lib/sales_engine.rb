@@ -11,10 +11,12 @@ class SalesEngine
   attr_accessor :items, :merchants, :invoices, :invoice_items, :customers, :transactions
 
   def initialize(data)
-    if data != nil
+    if data != nil && data.include?('.csv')
       repos = create_repositories(data)
       populate_repositories_appropriately(data, repos)
       repositories_linked
+    else
+      repos = data
     end
   end
 

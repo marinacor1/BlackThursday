@@ -215,6 +215,7 @@ class SalesAnalystTest < Minitest::Test
   def test_sa_gives_total_revenue_for_given_date
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
     se = SalesEngine.from_csv(hash)
+    binding.pry
     sa = SalesAnalyst.new(se)
     assert_equal 24242, sa.total_revenue_by_date(Time.parse("2012-02-26"))
   end
