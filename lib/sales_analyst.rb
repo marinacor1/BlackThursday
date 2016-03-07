@@ -7,11 +7,11 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
 
   def initialize(se_data)
-
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
     begin_analysis
+    @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -165,9 +165,15 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
-def total_revenue_by_date(date)
-    binding.pry
-    date = date.strftime('%m-%e-%y')
+  def total_revenue_by_date(date)
+   date = date.strftime('%m-%e-%y')
+   correct_date = @invoice_items.select do |item|
+    item.updated_at.strftime('%m-%e-%y') == date
+    end
+    revenue = correct_date.inject(0) do |total, sale|
+      total = total + sale.unit_price
+    end
+    revenue.to_f
     #gives total revenue for a date
   end
 

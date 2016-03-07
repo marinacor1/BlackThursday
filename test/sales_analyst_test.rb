@@ -4,6 +4,7 @@ require 'bigdecimal'
 require_relative '../lib/sales_analyst'
 require_relative '../lib/sales_engine'
 require 'pry'
+require 'time'
 
 class SalesAnalystTest < Minitest::Test
 
@@ -110,7 +111,6 @@ class SalesAnalystTest < Minitest::Test
     assert avg_avg.instance_of? BigDecimal
   end
 
-
   def test_sa_finds_all_golden_items
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
@@ -207,7 +207,7 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    assert_equal 24242, sa.total_revenue_by_date(Time.parse("2012-02-26"))
+    assert_equal 8435.57, sa.total_revenue_by_date(Time.parse("2012-03-27"))
   end
 
   def test_sa_finds_top_3_performing_merchants_by_revenue
@@ -331,7 +331,6 @@ class SalesAnalystTest < Minitest::Test
   end
 
 
-end
 
 
 end
