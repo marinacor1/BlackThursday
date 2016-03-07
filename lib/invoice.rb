@@ -11,13 +11,15 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @transactions = []
   end
 
+def all_transaction_status
+  self.transactions.map do |transaction|
+    transaction.result
+  end
+end
 
   def is_paid_in_full?
-    all_transaction_status = self.transactions.map do |transaction|
-      transaction.result
-    end
-    binding.pry
-    if all_transaction_status.include?("failed")
+    array = all_transaction_status
+    if array.include?("failed")
       return false
     else
       return true
