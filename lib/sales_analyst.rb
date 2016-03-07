@@ -7,7 +7,6 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
 
   def initialize(se_data)
-
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
@@ -164,6 +163,47 @@ class SalesAnalyst
     percentage_status = (invoice_status_count.to_f/invoice_count)
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
+
+
+  def total_revenue_by_date(date)
+    binding.pry
+    date = date.strftime('%m-%e-%y')
+    #gives total revenue for a date
+  end
+
+  def top_revenue_earners(num = 20)
+    #returns array for top merchant revenue earners
+    #calculate revenue using invoice_item.unit_price
+  end
+
+  def merchants_with_pending_invoices
+    #returns array of all merchants with pending invoices
+    #pending - if no transactions are successful
+  end
+
+  def merchants_with_only_one_item
+    #returns array of merchants with only one item
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    #returns array with merchants that only sell one item by the month they registered
+    #use merchant.created_at
+  end
+
+  def revenue_by_merchant(merchant_id)
+    #returns Big Decimal answer of total revenue for merchant
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    #returns highest item in terms of quantity sold
+    #if tie it returns tie of items
+  end
+
+  def best_item_for_merchant(merchant_id)
+    #returns highest item by revenue generated
+  end
+
+
 
 
 end

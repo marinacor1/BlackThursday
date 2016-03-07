@@ -3,7 +3,7 @@ require_relative 'customer'
 require 'pry'
 
 class CustomerRepository
-include Repository
+# include Repository
 
 def inspect
     "#<#{self.class}>"
@@ -11,11 +11,20 @@ end
 
   attr_accessor :all
 
-    def initialize
+    def initialize(path)
       @all_customers = []
+      load_data(path)
     end
 
     def from_csv(path)
+      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+        customer = Customer.new(data_row)
+        @all_customers << customer
+      end
+    end
+    
+    def load_data(path)
+      if path.include? '.csv'
       CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
         customer = Customer.new(data_row)
         @all_customers << customer

@@ -3,6 +3,7 @@ require 'minitest/pride'
 require 'bigdecimal'
 require_relative '../lib/invoice_item'
 require 'pry'
+require 'time'
 
 class InvoiceItemTest < Minitest::Test
   def test_invoice_items_instantiates
@@ -33,8 +34,8 @@ class InvoiceItemTest < Minitest::Test
    assert_equal 8, ii.invoice_id
    assert_equal 1, ii.quantity
    assert_equal 0.1099, ii.unit_price.to_f
-   assert_equal "2015-03-13", ii.created_at
-   assert_equal "2015-04-13", ii.updated_at
+   assert_equal Time.parse("2015-03-13"), ii.created_at
+   assert_equal Time.parse("2015-04-13"), ii.updated_at
   end
 
   def test_it_returns_unit_price_to_dollars
