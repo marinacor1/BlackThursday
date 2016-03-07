@@ -265,16 +265,17 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_pending_invoices
     assert_equal 2, answer.count
-    assert_equal Merchant, answer[0].class 
+    assert_equal Merchant, answer[0].class
   end
 
   def test_sa_finds_all_merchants_with_one_item
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item
-    assert_equal 20, answer.count
+    assert_equal 1, answer.count
+    assert_equal Array, answer.class
+    assert_equal Merchant, answer[0].class
   end
 
   def test_sa_finds_all_merchants_with_one_sale_a_month

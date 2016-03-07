@@ -217,12 +217,12 @@ total
     m = @merchants.select do |id|
       merch_ids.include?(id.id)
     end
-    #returns array of all merchants with pending invoices
-    #pending - if no transactions are successful
   end
 
   def merchants_with_only_one_item
-    #returns array of merchants with only one item
+    singular_shops = @merchants.select do |content|
+      content.items.count == 1
+    end
   end
 
   def merchants_with_only_one_item_registered_in_month(month)
