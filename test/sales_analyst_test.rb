@@ -290,12 +290,12 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_total_revenue_for_merchant
-    skip
     #spec harness doesnt actually test the actual value haha
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = sa.revenue_by_merchant(12334194)
+    answer = sa.revenue_by_merchant(87665)
+    assert_equal 2099.16, answer.to_f 
     assert_equal BigDecimal, answer.class
   end
 

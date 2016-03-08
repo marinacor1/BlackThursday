@@ -270,6 +270,7 @@ class SalesAnalyst
      end
      end
    totals = total_sales.inject(:+)
+  #  binding.pry
     #multiplying quantity and unit price
     #returns Big Decimal answer of total revenue for merchant
   end
