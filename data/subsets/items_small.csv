@@ -1,7 +1,7 @@
 id,name,description,unit_price,merchant_id,created_at,updated_at
 263542298,"Giraffe Shoes","Pretty soft pattern",5678,87665,12-08-08,"05-12-12"
 263523644,"Melted Popsicles","Food",1123,24356,01-01-08,"11-02-12"
-263523644,"Diamond Studded Headphones","To listen to music",3232,11-03-09,"11-12-12"
+263523614,"Diamond Studded Headphones","To listen to music",3232,11-03-09,"11-12-12"
 1,"Apple","Fruit thing",200,24356,12-08-08,"11-12-12"
 2,"Bauble","Jewelry",100,43242,12-08-08,"10-12-12"
 3,"Shiny black shoes","leather pleather",800,87665,12-08-08,"11-12-12"

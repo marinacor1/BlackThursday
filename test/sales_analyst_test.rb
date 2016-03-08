@@ -314,7 +314,7 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = sa.most_sold_item_for_merchant(87665)
+    answer = sa.most_sold_item_for_merchant(24356)
     assert_equal Array, answer.class
     assert_equal 4, answer.count
   end
