@@ -284,23 +284,33 @@ class SalesAnalyst
 
   def most_sold_item_for_merchant(query_id)
     merchant = @merchants.find { |merchant| merchant.id == query_id}
-    item_ids = merchant_items = merchant.items.map do |thing|
-      thing.id
-    end
-    merchant_sold_items = @invoice_items.select do |sold_item|
+    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
+    merchant_sold_items = find_all_merchant_items(item_ids)
+    sorted_items = sort_merchant_items(merchant_sold_items)
+    most_sold = top_item_tie_or_not(sorted_items)
+  end
+
+
+  def find_all_merchant_items(item_ids)
+    @invoice_items.select do |sold_item|
       item_ids.include?(sold_item.item_id)
     end
-    sorted_items = merchant_sold_items.sort_by do |item|
+  end
+
+  def sort_merchant_items(merchant_sold_items)
+    merchant_sold_items.sort_by do |item|
       item.quantity
     end.reverse
-    most_sold = @items.select do |i|
+  end
+
+  def top_item_tie_or_not(sorted_items)
+    @items.select do |i|
       if sorted_items[0].quantity != sorted_items[1].quantity
         i.id == sorted_items[0].item_id
       else
-        i.id == merchant_sold_items[0].item_id || i.id == merchant_sold_items[1].item_id
+        i.id == sorted_items[0].item_id || i.id == sorted_items[1].item_id
       end
     end
-    most_sold
   end
 
   def best_item_for_merchant(merchant_id)
