@@ -28,11 +28,15 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant_standard_deviation
-    all_squared_deviations = @merchants.map do |merchant|
-      dev_sq = (merchant.item_count - (@avg_items))**2
-    end
+    all_squared_deviations = find_squared_deviations
     item_num_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))
     result = sprintf('%.2f', item_num_stdev).to_f
+  end
+
+  def find_squared_deviations
+    @merchants.map do |merchant|
+      dev_sq = (merchant.item_count - (@avg_items))**2
+    end
   end
 
   def merchants_with_high_item_count
