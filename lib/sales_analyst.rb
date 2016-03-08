@@ -43,7 +43,6 @@ class SalesAnalyst
     high_items = @merchants.select do |merchant|
       merchant if merchant.item_count > (@avg_items+@item_count_stdev)
     end
-
   end
 
   def merchants_know_their_average_item_price
@@ -51,7 +50,8 @@ class SalesAnalyst
       total_item_prices = merchant.items.map do |item|
         item.unit_price
       end.inject(0, :+)
-      merchant.avg_item_price = sprintf('%.2f', (total_item_prices.to_f/merchant.item_count)).to_f
+      avg_price = (total_item_prices.to_f/merchant.item_count)
+      merchant.avg_item_price = sprintf('%.2f', avg_price).to_f
       merchant
     end
   end
