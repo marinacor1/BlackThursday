@@ -4,9 +4,9 @@ require 'time'
 class Invoice
 attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :merchant, :customer, :items, :transactions, :total, :total_revenue
   def initialize(attributes)
-    @id = attributes[:id]
-    @customer_id = attributes[:customer_id]
-    @merchant_id = attributes[:merchant_id]
+    @id = attributes[:id].to_i
+    @customer_id = attributes[:customer_id].to_i
+    @merchant_id = attributes[:merchant_id].to_i
     @status = attributes[:status]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
@@ -16,7 +16,7 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
 
   def is_paid_in_full?
     array = all_transaction_status
-    if array.include?("failed")
+    if array.include?("failed") || array.empty?
       return false
     else
       return true

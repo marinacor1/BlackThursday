@@ -5,13 +5,13 @@ require 'time'
 class Item
 attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
   def initialize(attributes)
-    @id = attributes[:id]
+    @id = attributes[:id].to_i
     @name = attributes[:name]
     @description = attributes[:description]
-    @unit_price = BigDecimal(attributes[:unit_price], 8)
-    @merchant_id = attributes[:merchant_id]
-    @created_at_time = attributes[:created_at]
-    @updated_at_time = attributes[:updated_at]
+    @unit_price = BigDecimal(attributes[:unit_price])
+    @merchant_id = attributes[:merchant_id].to_i
+    @created_at = attributes[:created_at]
+    @updated_at = attributes[:updated_at]
     unit_price_to_dollars
   end
 
@@ -20,11 +20,11 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   end
 
   def created_at
-    Time.parse(@created_at_time)
+    Time.parse(@created_at)
   end
 
   def updated_at
-    Time.parse(@updated_at_time)
+    Time.parse(@updated_at)
   end
 
 end

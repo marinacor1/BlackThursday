@@ -1,15 +1,19 @@
 require 'pry'
 require 'bigdecimal'
+require 'time'
 require_relative 'sales_engine'
 
 class SalesAnalyst
 
-  attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev
+  attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev, :invoices, :transactions
 
   def initialize(se_data)
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
+    @transactions = se_data.transactions.all if se_data.transactions != nil
+    @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
+    @customers = se_data.customers.all if se_data.invoice_items != nil
     begin_analysis
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
     @transactions = se_data.transactions.all if se_data.invoice_items != nil
@@ -372,18 +376,39 @@ end
     end.reverse
   end
 
+  def total_revenue_by_date(date)
+    Time.parse(date)
+    invoice_array = find_all_successful_invoices_for_given_date(date)
+    find_total_revenue_of_invoices_by_day(invoice_array)
+    total_revenue_for_items_by_quantity(invoice_array)
+  end
 
+  def find_all_successful_invoices_for_given_date(date)
+    @invoices.select do |invoice|
+      invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
+    end
+  end
 
-
-
+  def find_total_revenue_of_invoices_for_day(array)
+    binding.pry
+    array.each do |invoice|
+      binding.pry
+  end
+end
 end
 
 if __FILE__ == $0
 
   se = SalesEngine.from_csv( {:items => "./data/items.csv",
                               :merchants => "./data/merchants.csv",
-                              :invoices => "./data/invoices.csv"} )
+                              :invoices => "./data/invoices.csv",
+                              :customers => "./data/customers.csv",
+                              :transactions => "./data/transactions.csv",
+                              :invoice_items => "./data/invoice_items.csv" } )
   sa = SalesAnalyst.new(se)
+
+
+  binding.pry
 
 
 end

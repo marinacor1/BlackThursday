@@ -48,8 +48,8 @@ class SalesEngine
   end
 
   def repositories_linked
-    merchants_linked_to_child_items
-    child_items_linked_to_parent
+    merchants_linked_to_child_items if merchants
+    merchants_invoices_and_customers_interrelated if merchants && invoices && items && customers
   end
 
   def merchants_linked_to_child_items
@@ -81,21 +81,14 @@ class SalesEngine
     merchant
   end
 
-  def child_items_linked_to_parent
-    if merchants
-
-      invoices_linked_to_customers_and_merchants_and_items if invoices && items && customers
-    end
-  end
-
-
-  def invoices_linked_to_customers_and_merchants_and_items
+  def merchants_invoices_and_customers_interrelated
     if @invoices != nil
       @invoices.all.map do |invoice|
         link_items_and_invoice(invoice)
         link_transaction_and_invoice(invoice)
         customer = link_customer_and_invoice(invoice)
         link_merchant_to_customers_via_invoice(invoice, customer)
+        remove_duplicate_customers_and_merchants
       end
     end
   end
@@ -108,12 +101,11 @@ class SalesEngine
       total += invoice_total
       populate_invoice_items_array(invoice, invoice_item)
     end
-    invoice.total = total
+    invoice.total = BigDecimal(total)
   end
 
   def total_invoice_prices(invoice, invoice_item)
     invoice_total = (invoice_item.unit_price*invoice_item.quantity)
-    invoice_total/100
   end
 
 
@@ -123,13 +115,13 @@ class SalesEngine
     item
   end
 
-    def link_transaction_and_invoice(invoice)
-      all_invoice_transactions = @transactions.find_all_by_invoice_id(invoice.id)
-      all_invoice_transactions.map do |transaction|
-        transaction.invoice = invoice
-        invoice.transactions << transaction
-      end
+  def link_transaction_and_invoice(invoice)
+    all_invoice_transactions = @transactions.find_all_by_invoice_id(invoice.id)
+    all_invoice_transactions.map do |transaction|
+      transaction.invoice = invoice
+      invoice.transactions << transaction
     end
+  end
 
 
   def link_customer_and_invoice(invoice)
@@ -144,7 +136,17 @@ class SalesEngine
     merchant.customers << invoice.customer
   end
 
+  def remove_duplicate_customers_and_merchants
+    @merchants.all.map do |merchant|
+      merchant.customers = merchant.customers.uniq
+    end
+    @customers.all.map do |customer|
+      customer.merchants = customer.merchants.uniq
+    end
+  end
+
 end
+
 
 
 if __FILE__ == $0
@@ -158,10 +160,8 @@ if __FILE__ == $0
     :invoice_items => "./data/invoice_items.csv"
     })
 
-    binding.pry
-    invoice = engine.invoices.find_by_id(106)
-    expected = invoice.items
-    expected.length == 7
-    expected.first.class == Item
 
-end
+    binding.pry
+
+
+  end
