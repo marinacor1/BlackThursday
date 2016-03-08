@@ -292,20 +292,15 @@ class SalesAnalyst
     end
     sorted_items = merchant_sold_items.sort_by do |item|
       item.quantity
-    end
-
+    end.reverse
     most_sold = @items.select do |i|
-      binding.pry
-      if sorted_items[0] != sorted_items[1]
-        binding.pry
+      if sorted_items[0].quantity != sorted_items[1].quantity
         i.id == sorted_items[0].item_id
       else
         i.id == merchant_sold_items[0].item_id || i.id == merchant_sold_items[1].item_id
       end
     end
     most_sold
-    #returns highest item in terms of quantity sold
-    #if tie it returns tie of items
   end
 
   def best_item_for_merchant(merchant_id)
