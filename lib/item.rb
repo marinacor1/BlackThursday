@@ -9,7 +9,7 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     @name = attributes[:name]
     @description = attributes[:description]
     @unit_price = BigDecimal(attributes[:unit_price], 8)
-    @merchant_id = attributes[:merchant_id]
+    @merchant_id = attributes[:merchant_id].to_i
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
     unit_price_to_dollars

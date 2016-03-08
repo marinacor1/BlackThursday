@@ -48,8 +48,18 @@ class SalesEngine
   end
 
   def repositories_linked
-    merchants_linked_to_child_items
-    child_items_linked_to_parent
+    merchants_linked_to_child_items if merchants
+    merchants_invoices_and_customers_interrelated if merchants && invoices && items && customers
+    remove_duplicate_customers_and_merchants
+  end
+
+  def remove_duplicate_customers_and_merchants
+    @merchants.all.map do |merchant|
+      merchant.customers = merchant.customers.uniq
+    end
+    @customers.all.map do |customer|
+      customer.merchants = customer.merchants.uniq
+    end
   end
 
   def merchants_linked_to_child_items
@@ -81,15 +91,8 @@ class SalesEngine
     merchant
   end
 #########################################
-  def child_items_linked_to_parent
-    if merchants
 
-      invoices_linked_to_customers_and_merchants_and_items if invoices && items && customers
-    end
-  end
-
-
-  def invoices_linked_to_customers_and_merchants_and_items
+  def merchants_invoices_and_customers_interrelated
     if @invoices != nil
       @invoices.all.map do |invoice|
         link_items_and_invoice(invoice)
@@ -160,6 +163,6 @@ if __FILE__ == $0
 
 
     binding.pry
-    engine.transactions.find_by_id(1)
+  
 
 end
