@@ -20,11 +20,11 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   end
 
   def created_at
-    Time.parse(@created_at_time)
+    Time.parse(@created_at)
   end
 
   def updated_at
-    Time.parse(@updated_at_time)
+    Time.parse(@updated_at)
   end
 
 end
