@@ -199,6 +199,25 @@ class SalesAnalyst
     total
   end
 
+  def merchants_ranked_by_revenue
+
+
+    @invoice
+    pry
+    revenue = []
+    @invoice_items.each do |item|
+      revenue << [item, item.unit_price * item.quantity]
+  end
+  sorted_rev = revenue.sort_by do |item_array|
+    item_array[1].to_f
+  end
+  binding.pry
+    #look in invoice_items and find the revenue for each id
+    #sort by highest revenue and connect that with item_id (array or hash)
+    #look in items, find the correct item and then connect with merchant_id
+    #look in merchants and return that merchant
+  end
+
   def find_merchant_by_item_id(merch, top_earner_ids)
     merch.items.find_all do |item|
       item.id == top_earner_ids[@index]
