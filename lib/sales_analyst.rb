@@ -225,22 +225,52 @@ class SalesAnalyst
 
   def merchants_with_only_one_item_registered_in_month(month)
     @merchants.each do |merchant| #there's only 3 merchants
-      items_with_correct_month = merchant.items.select do |item|
-        item.created_at.strftime("%B") == month
+      item_thing = []
+      merchant.items.each do |item|
+        #@created_at is a time, because of item class
+        if item.created_at.strftime("%B") == month
+          # item.created_at.month == Time.parse(month).month
+          item_thing << item
+        end
       end
     end
-    binding.pry
-    monthly_merchants = items_with_correct_month.map do |item|
+    #argument out of range error comes up
+    monthly_merchants = item_thing.map do |item|
       item.merchant
     end
-    binding.pry
     monthly_merchants
-      binding.pry
     #returns array with merchants that only sell one item by the month they registered
     #use merchant.created_at
   end
 
-  def revenue_by_merchant(merchant_id)
+  def revenue_by_merchant(query_id)
+    #look in invoices: find all invoices by merchant_id
+    invoice_ids = []
+    @invoices.each do |invoice|
+      if invoice.merchant_id == query_id
+        invoice_ids << invoice.id
+      end
+    end
+    #look in transactions: find all results by invoice_id
+    good_sales = []
+    @transactions.each do |sale|
+      if invoice_ids.include?(sale.invoice_id) && sale.result == 'success'
+        good_sales << sale.invoice_id
+      end
+    end
+    #if result is success, good. If result is failed, cannot use
+     #keep invoice id from transactions
+    #look in invoice_items: with invoice id calculate revenue by
+     total_sales = []
+     good_sales.each do |sale|
+     @invoice_items.each do |item|
+       if item.invoice_id == sale
+         total_sales << (item.quantity * item.unit_price)
+       end
+     end
+     end
+   totals = total_sales.inject(:+)
+    #multiplying quantity and unit price
     #returns Big Decimal answer of total revenue for merchant
   end
 

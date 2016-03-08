@@ -269,7 +269,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_merchants_with_one_item
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item
@@ -279,7 +279,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_merchants_with_one_sale_a_month
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item_registered_in_month("January")
@@ -291,9 +291,8 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_total_revenue_for_merchant
-    skip
     #spec harness doesnt actually test the actual value haha
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.revenue_by_merchant(12334194)
