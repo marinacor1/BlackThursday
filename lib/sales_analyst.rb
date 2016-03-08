@@ -248,20 +248,24 @@ end
   end
 
   def merchants_with_pending_invoices
-    binding.pry
     penders = @transactions.select do |sale|
       sale.result == 'failed'
+    end #827
+    invoice_ids = penders.map do |sales|
+      sales.invoice_id
+    end.uniq  #768
+    invoice_array = @invoices.select do |invoice|
+      invoice_ids.include?(invoice.id)
+    end.uniq #768
+    merchant_array = []
+    merchants = invoice_array.map do |i| #for each invoice find the merchant
+       @merchants.each do |m|
+        if m.id == i.merchant_id
+          merchant_array << m
+        end
     end
-    # penders = @invoices.select do |invoice|
-    #   invoice.status == :pending
-    # end
-    merch_ids = penders.map do |merch|
-      merch.merchant_id
-    end.uniq
-    merchant_instances = @merchants.select do |id|
-      merch_ids.include?(id.id)
-    end
-    merchant_instances
+  end #385
+  merchant_array.uniq
     binding.pry
   end
 
