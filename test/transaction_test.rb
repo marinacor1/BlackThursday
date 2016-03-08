@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/transaction'
 require 'pry'
+require 'time'
 
 class TransactionTest < Minitest::Test
   def test_transaction_instantiates
@@ -32,8 +33,8 @@ class TransactionTest < Minitest::Test
     assert_equal "4242424242424242", t.credit_card_number
     assert_equal "0220", t.credit_card_expiration_date
     assert_equal "success", t.result
-    assert_equal "2015-03-13", t.created_at
-    assert_equal "2015-04-05", t.updated_at
+    assert_equal Time.parse("2015-03-13"), t.created_at
+    assert_equal Time.parse("2015-04-05"), t.updated_at
   end
 
   def test_transaction_returns_data_in_string_format
@@ -52,8 +53,8 @@ class TransactionTest < Minitest::Test
         assert_equal "0210", t.credit_card_expiration_date
         assert_equal String, t.credit_card_expiration_date.class
         assert_equal "success", t.result
-        assert_equal "2015-03-13", t.created_at
-        assert_equal "2015-04-05", t.updated_at
+        assert_equal Time.parse("2015-03-13"), t.created_at
+        assert_equal Time.parse("2015-04-05"), t.updated_at
       end
 
 

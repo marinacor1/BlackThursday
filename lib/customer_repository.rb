@@ -16,7 +16,7 @@ end
     end
 
     def from_csv(path)
-      CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+      CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
         customer = Customer.new(data_row)
         @all_customers << customer
       end
