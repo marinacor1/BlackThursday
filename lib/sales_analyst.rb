@@ -242,14 +242,22 @@ class SalesAnalyst
     #returns array with merchants that only sell one item by the month they registered
     #use merchant.created_at
   end
+
+  def revenue_by_merchant(query_id)
+    invoice_ids = find_invoices_by_merchant_id(query_id)
+    good_sales = find_all_successful_sales(invoice_ids)
+    total_sales = find_total_for_good_sales(good_sales)
+    totals = total_sales.inject(:+)
+  end
+
   def find_invoices_by_merchant_id(query_id)
-      invoice_ids = []
-      @invoices.each do |invoice|
-        if invoice.merchant_id == query_id
-          invoice_ids << invoice.id
-        end
+    invoice_ids = []
+    @invoices.each do |invoice|
+      if invoice.merchant_id == query_id
+        invoice_ids << invoice.id
       end
-      invoice_ids
+    end
+    invoice_ids
   end
 
   def find_all_successful_sales(invoice_ids)
@@ -272,13 +280,6 @@ class SalesAnalyst
     end
     end
     total_sales
-  end
-
-  def revenue_by_merchant(query_id)
-    invoice_ids = find_invoices_by_merchant_id(query_id)
-    good_sales = find_all_successful_sales(invoice_ids)
-    total_sales = find_total_for_good_sales(good_sales)
-    totals = total_sales.inject(:+)
   end
 
   def most_sold_item_for_merchant(merchant_id)
