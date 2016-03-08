@@ -43,7 +43,7 @@ class SalesEngineTest < Minitest::Test
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     assert_equal 3, se.merchants.count
-    assert_equal 12, se.items.count
+    assert_equal 15, se.items.count
   end
 
   def test_sales_engine_can_receive_information_from_many_csvs

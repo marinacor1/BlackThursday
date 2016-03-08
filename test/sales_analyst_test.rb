@@ -4,6 +4,7 @@ require 'bigdecimal'
 require_relative '../lib/sales_analyst'
 require_relative '../lib/sales_engine'
 require 'pry'
+require 'time'
 
 class SalesAnalystTest < Minitest::Test
 
@@ -52,7 +53,7 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
-    answer = 3.67
+    answer = 3.16
     calculated = sa.average_items_per_merchant_standard_deviation
     assert_equal answer, calculated
     assert_equal Float, calculated.class
@@ -108,7 +109,6 @@ class SalesAnalystTest < Minitest::Test
     assert_equal BigDecimal(answer, 5), avg_avg
     assert avg_avg.instance_of? BigDecimal
   end
-
 
   def test_sa_finds_all_golden_items
     hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
@@ -198,6 +198,137 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 56.95, sa.invoice_status(:shipped)
     assert_equal 13.5, sa.invoice_status(:returned)
   end
+
+
+
+
+
+#iteration four methods
+
+  def test_sa_gives_total_revenue_for_given_date
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    assert_equal 8435.57, sa.total_revenue_by_date(Time.parse("2012-03-27"))
+  end
+
+  def test_sa_finds_top_3_performing_merchants_by_revenue
+    skip
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.top_revenue_earners(3)
+    assert_equal 3, answer.count
+    assert_equal Merchant, answer[0].class
+    assert_equal "blah", answer[0].name
+    assert_equal "wah", answer[1].name
+    assert_equal "zah", answer[2].name
+  end
+
+  def test_sa_finds_top_5_performing_merchants_by_revenue
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.top_revenue_earners(5)
+    assert_equal 5, answer.count
+    assert_equal "blah", answer[0].name
+    assert_equal "wah", answer[1].name
+    assert_equal "zah", answer[2].name
+  end
+
+  def test_sa_finds_top_5_performing_merchants_by_revenue
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/invoices.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.top_revenue_earners(5)
+    assert_equal 5, answer.count
+    assert_equal "blah", answer[0].name
+    assert_equal "wah", answer[1].name
+    assert_equal "zah", answer[2].name
+  end
+
+  def test_sa_finds_top_20_performing_merchants_by_revenue_if_no_num_given
+    skip
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.top_revenue_earners
+    assert_equal 20, answer.count
+    assert_equal "blah", answer[0].name
+    assert_equal "wah", answer[1].name
+    assert_equal "zah", answer[2].name
+  end
+
+  def test_sa_finds_all_merchants_with_pending_invoices
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.merchants_with_pending_invoices
+    assert_equal 2, answer.count
+    assert_equal Merchant, answer[0].class
+  end
+
+  def test_sa_finds_all_merchants_with_one_item
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.merchants_with_only_one_item
+    assert_equal 1, answer.count
+    assert_equal Array, answer.class
+    assert_equal Merchant, answer[0].class
+  end
+
+  def test_sa_finds_all_merchants_with_one_sale_a_month
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.merchants_with_only_one_item_registered_in_month("January")
+    assert_equal 20, answer.count
+    assert_equal Merchant, answer[0].class
+    answer2 = sa.merchants_with_only_one_item_registered_in_month("June")
+    assert_equal 18, answer2.count
+    assert_equal Merchant, answer2[0].class
+  end
+
+  def test_sa_finds_total_revenue_for_merchant
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.revenue_by_merchant(87665)
+    assert_equal 2099.16, answer.to_f
+    assert_equal BigDecimal, answer.class
+  end
+
+  def test_sa_finds_most_popular_item_for_merchants_qty_sold
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.most_sold_item_for_merchant(87665)
+    assert_equal Item, answer[0].class
+    assert_equal Array, answer.class
+  end
+
+  def test_sa_finds_most_popular_items_in_array_for_merchants_tie_qty_sold
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.most_sold_item_for_merchant(24356)
+    assert_equal Array, answer.class
+    assert_equal 2, answer.count
+    assert_equal Item, answer[0].class
+  end
+
+  def test_sa_finds_most_popular_items_in_array_for_merchants_tie_revenue_generated
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.best_item_for_merchant(87665)
+    assert_equal Item, answer.class
+  end
+
+
 
 
 end

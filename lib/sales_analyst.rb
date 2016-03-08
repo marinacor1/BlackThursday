@@ -8,7 +8,6 @@ class SalesAnalyst
   attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev, :invoices, :transactions
 
   def initialize(se_data)
-
     @merchants = se_data.merchants.all
     @items = se_data.items.all
     @invoices = se_data.invoices.all if se_data.invoices != nil
@@ -16,6 +15,8 @@ class SalesAnalyst
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
     @customers = se_data.customers.all if se_data.invoice_items != nil
     begin_analysis
+    @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
+    @transactions = se_data.transactions.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -31,18 +32,21 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant_standard_deviation
-    all_squared_deviations = @merchants.map do |merchant|
-      dev_sq = (merchant.item_count - (@avg_items))**2
-    end
+    all_squared_deviations = find_squared_deviations
     item_num_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))
     result = sprintf('%.2f', item_num_stdev).to_f
+  end
+
+  def find_squared_deviations
+    @merchants.map do |merchant|
+      dev_sq = (merchant.item_count - (@avg_items))**2
+    end
   end
 
   def merchants_with_high_item_count
     high_items = @merchants.select do |merchant|
       merchant if merchant.item_count > (@avg_items+@item_count_stdev)
     end
-
   end
 
   def merchants_know_their_average_item_price
@@ -50,8 +54,8 @@ class SalesAnalyst
       total_item_prices = merchant.items.map do |item|
         item.unit_price
       end.inject(0, :+)
-      merchant.avg_item_price = sprintf('%.2f', (total_item_prices.to_f/merchant.item_count)).to_f
-      merchant
+      avg_price = (total_item_prices.to_f/merchant.item_count)
+      merchant.avg_item_price = sprintf('%.2f', avg_price).to_f
     end
   end
 
@@ -95,7 +99,6 @@ class SalesAnalyst
 
   def average_invoices_per_merchant
     avg_inv = sprintf('%.2f', (@invoices.count.to_f/@merchants.count)).to_f
-    #returns float like 8.5
   end
 
   def average_invoices_per_merchant_standard_deviation
@@ -111,14 +114,12 @@ class SalesAnalyst
     high_invoice = @merchants.select do |merchant|
       merchant if merchant.invoice_count > (@avg_invoices+(2*@invoice_count_stdev))
     end
-    #returns array of merchants that are more than two std dev above mean
   end
 
   def bottom_merchants_by_invoice_count
     low_invoice = @merchants.select do |merchant|
       merchant if merchant.invoice_count < (@avg_invoices-(2*@invoice_count_stdev))
     end
-    #returns array with merchant that are more than two std dev below mean
   end
 
   def top_days_by_invoice_count
@@ -170,29 +171,168 @@ class SalesAnalyst
   end
 
   def total_revenue_by_date(date)
-    Time.parse(date)
-    invoice_array = find_all_successful_invoices_for_given_date(date)
-    find_total_revenue_of_invoices(invoice_array)
-    total_revenue_for_items_by_quantity(invoice_array)
+   date = date.strftime('%m-%e-%y')
+   correct_date = @invoice_items.select do |item|
+    item.updated_at.strftime('%m-%e-%y') == date
+    end
+    revenue = correct_date.inject(0) do |total, sale|
+      total = total + sale.unit_price
+    end
+    revenue.to_f
+    #TODO: is this a float or big decimal?
   end
 
-  def find_all_successful_invoices_for_given_date(date)
-    @invoices.select do |invoice|
-      invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
+  def top_revenue_earners(num = 20)
+    #TODO invoce_items don't always count because could be a failed
+    top_earners = @invoice_items.sort_by do |item|
+      earnings = (item.quantity * item.unit_price)
+    end
+    top = top_earners[0..(num-1)]
+
+    top_earner_ids = top.map do |item|
+      item.item_id
+    end
+    #have item ids for all top merchants
+    #[263542298, 263523644, 263529264]
+    total = []
+    find_a_match = @merchants.find do |merch|
+          @index = 0
+        total << find_merchant_by_item_id(merch, top_earner_ids)
+          @index += 1
+      end
+    total
+  end
+
+  def find_merchant_by_item_id(merch, top_earner_ids)
+    merch.items.find_all do |item|
+      item.id == top_earner_ids[@index]
     end
   end
 
-  def find_total_revenue_of_invoices(array)
-    array.each do |invoice|
-      binding.pry
+  def merchants_with_pending_invoices
+    penders = @invoices.select do |invoice|
+      invoice.status == :pending
+    end
+    merch_ids = penders.map do |merch|
+      merch.merchant_id
+    end.uniq
+    m = @merchants.select do |id|
+      merch_ids.include?(id.id)
+    end
   end
-end
 
-    #
-    # array.inject(0, :+) |invoice|
-    #
-    #   item_price =
-    #   item_quantity
+  def merchants_with_only_one_item
+    singular_shops = @merchants.select do |content|
+      content.items.count == 1
+    end
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    @merchants.each do |merchant| #there's only 3 merchants
+      item_thing = []
+      merchant.items.each do |item|
+        #@created_at is a time, because of item class
+        if item.created_at.strftime("%B") == month
+          # item.created_at.month == Time.parse(month).month
+          item_thing << item
+        end
+      end
+    end
+    #argument out of range error comes up
+    monthly_merchants = item_thing.map do |item|
+      item.merchant
+    end
+    monthly_merchants
+    #returns array with merchants that only sell one item by the month they registered
+    #use merchant.created_at
+  end
+
+  def revenue_by_merchant(query_id)
+    invoice_ids = find_invoices_by_merchant_id(query_id)
+    good_sales = find_all_successful_sales(invoice_ids)
+    total_sales = find_total_for_good_sales(good_sales)
+    totals = total_sales.inject(:+)
+  end
+
+  def find_invoices_by_merchant_id(query_id)
+    invoice_ids = []
+    @invoices.each do |invoice|
+      if invoice.merchant_id == query_id
+        invoice_ids << invoice.id
+      end
+    end
+    invoice_ids
+  end
+
+  def find_all_successful_sales(invoice_ids)
+    good_sales = []
+    @transactions.each do |sale|
+      if invoice_ids.include?(sale.invoice_id) && sale.result == 'success'
+        good_sales << sale.invoice_id
+      end
+    end
+    good_sales
+  end
+
+  def find_total_for_good_sales(good_sales)
+    total_sales = []
+    good_sales.each do |sale|
+    @invoice_items.each do |item|
+      if item.invoice_id == sale
+        total_sales << (item.quantity * item.unit_price)
+      end
+    end
+    end
+    total_sales
+  end
+
+  def most_sold_item_for_merchant(query_id)
+    merchant = @merchants.find { |merchant| merchant.id == query_id}
+    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
+    merchant_sold_items = find_all_merchant_items(item_ids)
+    sorted_items = sort_merchant_items(merchant_sold_items)
+    most_sold = top_item_tie_or_not(sorted_items)
+  end
+
+
+  def find_all_merchant_items(item_ids)
+    @invoice_items.select do |sold_item|
+      item_ids.include?(sold_item.item_id)
+    end
+  end
+
+  def sort_merchant_items(merchant_sold_items)
+    merchant_sold_items.sort_by do |item|
+      item.quantity
+    end.reverse
+  end
+
+  def top_item_tie_or_not(sorted_items)
+    @items.select do |i|
+      if sorted_items[0].quantity != sorted_items[1].quantity
+        i.id == sorted_items[0].item_id
+      else
+        i.id == sorted_items[0].item_id || i.id == sorted_items[1].item_id
+      end
+    end
+  end
+
+  def best_item_for_merchant(query_id)
+    merchant = @merchants.find { |merchant| merchant.id == query_id}
+    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
+    merchant_sold_items = find_all_merchant_items(item_ids)
+    sorted_items = sort_by_revenue(merchant_sold_items)
+    top = top_item_tie_or_not(sorted_items)
+    top[0]
+  end
+
+  def sort_by_revenue(merchant_sold_items)
+    merchant_sold_items.sort_by do |item|
+      (item.quantity * item.unit_price)
+    end.reverse
+  end
+
+
 
 end
 
@@ -206,11 +346,8 @@ if __FILE__ == $0
                               :invoice_items => "./data/invoice_items.csv" } )
   sa = SalesAnalyst.new(se)
 
+
   binding.pry
-  transactions =  sa.transactions.reduce(Hash.new(0)) do |hash, trans|
-  hash[trans.invoice_id] += 1
-  hash
-  end
-  binding.pry
+
 
 end

@@ -13,7 +13,7 @@ class MerchantTest < Minitest::Test
     hash = {:items => "./data/items.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     mr = se.merchants
-    assert_equal mr.all[1].name, "Candisart"
+    assert_equal mr.all[1].name, "CandieandFood"
     assert mr.all[0].instance_of? Merchant
   end
 
