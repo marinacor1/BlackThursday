@@ -321,7 +321,6 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_most_popular_items_in_array_for_merchants_tie_revenue_generated
-    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
