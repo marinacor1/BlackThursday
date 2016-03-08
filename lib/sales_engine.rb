@@ -80,7 +80,6 @@ class SalesEngine
     end
     merchant
   end
-  #########################################
 
   def merchants_invoices_and_customers_interrelated
     if @invoices != nil

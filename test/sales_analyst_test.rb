@@ -99,6 +99,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_can_find_average_average_price_across_all_merchants_with_subsets
+    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
@@ -261,6 +262,16 @@ class SalesAnalystTest < Minitest::Test
     assert_equal "zah", answer[2].name
   end
 
+  def test_merchant_ranks_by_revenue
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.merchants_ranked_by_revenue
+    assert_equal Array, answer.class
+    assert_equal 122, answer.first.id
+    assert_equal 333, answer.last.id
+  end
+
   def test_sa_finds_all_merchants_with_pending_invoices
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv"}
     se = SalesEngine.from_csv(hash)
@@ -268,6 +279,15 @@ class SalesAnalystTest < Minitest::Test
     answer = sa.merchants_with_pending_invoices
     assert_equal 2, answer.count
     assert_equal Merchant, answer[0].class
+  end
+
+  def test_sa_finds_all_merchants_with_pending_invoices_with_full_data
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :transactions => "./data/transactions.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.merchants_with_pending_invoices
+    assert_equal Merchant, answer[0].class
+    assert_equal 467, answer.count
   end
 
   def test_sa_finds_all_merchants_with_one_item
@@ -281,6 +301,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_merchants_with_one_sale_a_month
+    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
