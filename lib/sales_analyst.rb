@@ -290,11 +290,18 @@ class SalesAnalyst
     merchant_sold_items = @invoice_items.select do |sold_item|
       item_ids.include?(sold_item.item_id)
     end
-    merchant_sold_items.sort_by do |item|
+    sorted_items = merchant_sold_items.sort_by do |item|
       item.quantity
     end
-    most_sold = @items.find do |i|
-      i.id == merchant_sold_items[0].item_id
+
+    most_sold = @items.select do |i|
+      binding.pry
+      if sorted_items[0] != sorted_items[1]
+        binding.pry
+        i.id == sorted_items[0].item_id
+      else
+        i.id == merchant_sold_items[0].item_id || i.id == merchant_sold_items[1].item_id
+      end
     end
     most_sold
     #returns highest item in terms of quantity sold
