@@ -302,11 +302,10 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_most_popular_item_for_merchants_qty_sold
-    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = sa.most_sold_item_for_merchant(12334194)
+    answer = sa.most_sold_item_for_merchant(87665)
     assert_equal Item, answer.class
   end
 
@@ -315,7 +314,7 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = sa.most_sold_item_for_merchant(12337105)
+    answer = sa.most_sold_item_for_merchant(87665)
     assert_equal Array, answer.class
     assert_equal 4, answer.count
   end
@@ -325,7 +324,7 @@ class SalesAnalystTest < Minitest::Test
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = sa.best_item_for_merchant(12)
+    answer = sa.best_item_for_merchant(87665)
     assert_equal Item, answer.class
   end
 

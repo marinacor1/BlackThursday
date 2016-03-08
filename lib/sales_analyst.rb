@@ -282,7 +282,21 @@ class SalesAnalyst
     total_sales
   end
 
-  def most_sold_item_for_merchant(merchant_id)
+  def most_sold_item_for_merchant(query_id)
+    merchant = @merchants.find { |merchant| merchant.id == query_id}
+    item_ids = merchant_items = merchant.items.map do |thing|
+      thing.id
+    end
+    merchant_sold_items = @invoice_items.select do |sold_item|
+      item_ids.include?(sold_item.item_id)
+    end
+    merchant_sold_items.sort_by do |item|
+      item.quantity
+    end
+    most_sold = @items.find do |i|
+      i.id == merchant_sold_items[0].item_id
+    end
+    most_sold
     #returns highest item in terms of quantity sold
     #if tie it returns tie of items
   end
