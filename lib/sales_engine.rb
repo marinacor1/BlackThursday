@@ -102,12 +102,11 @@ class SalesEngine
       total += invoice_total
       populate_invoice_items_array(invoice, invoice_item)
     end
-    invoice.total = BigDecimal(sprintf('%.2f', (total)))
+    invoice.total = BigDecimal(total)
   end
 
   def total_invoice_prices(invoice, invoice_item)
     invoice_total = (invoice_item.unit_price*invoice_item.quantity)
-    invoice_total/100
   end
 
 
