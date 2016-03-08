@@ -281,6 +281,15 @@ class SalesAnalystTest < Minitest::Test
     assert_equal Merchant, answer[0].class
   end
 
+  def test_sa_finds_all_merchants_with_pending_invoices_with_full_data
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :transactions => "./data/transactions.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.merchants_with_pending_invoices
+    assert_equal Merchant, answer[0].class
+    assert_equal 467, answer.count
+  end
+
   def test_sa_finds_all_merchants_with_one_item
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv"}
     se = SalesEngine.from_csv(hash)

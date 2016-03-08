@@ -200,23 +200,42 @@ class SalesAnalyst
   end
 
   def merchants_ranked_by_revenue
+    @invoices.map do |invoice|
+      binding.pry
+    linked_ids = @invoice_items.select do |item|
+        item.invoice_id == invoice.id
+      end
+      invoice_total = linked_ids.map do |invoice_item|
+        invoice_item.quantity * invoice_item.unit_price
+      end
+      #getting the total revenue for a particular invoice
+      invoice.total_revenue = invoice_total #we need to create attribute
+    end
+    @merchants.each do |x|
+      x.invoices.map do |y|
+        y.total_revenue =
 
 
-    @invoice
-    pry
-    revenue = []
-    @invoice_items.each do |item|
-      revenue << [item, item.unit_price * item.quantity]
+
+      binding.pry
+    end
   end
-  sorted_rev = revenue.sort_by do |item_array|
-    item_array[1].to_f
-  end
-  binding.pry
+end
+
+  #   @invoice
+  #   pry
+  #   revenue = []
+  #   @invoice_items.each do |item|
+  #     revenue << [item, item.unit_price * item.quantity]
+  # end
+  # sorted_rev = revenue.sort_by do |item_array|
+  #   item_array[1].to_f
+  # end
     #look in invoice_items and find the revenue for each id
     #sort by highest revenue and connect that with item_id (array or hash)
     #look in items, find the correct item and then connect with merchant_id
     #look in merchants and return that merchant
-  end
+  # end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
     merch.items.find_all do |item|
@@ -225,15 +244,21 @@ class SalesAnalyst
   end
 
   def merchants_with_pending_invoices
-    penders = @invoices.select do |invoice|
-      invoice.status == :pending
+    binding.pry
+    penders = @transactions.select do |sale|
+      sale.result == 'failed'
     end
+    # penders = @invoices.select do |invoice|
+    #   invoice.status == :pending
+    # end
     merch_ids = penders.map do |merch|
       merch.merchant_id
     end.uniq
-    m = @merchants.select do |id|
+    merchant_instances = @merchants.select do |id|
       merch_ids.include?(id.id)
     end
+    merchant_instances
+    binding.pry
   end
 
   def merchants_with_only_one_item
