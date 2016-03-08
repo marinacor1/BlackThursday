@@ -12,6 +12,7 @@ class SalesAnalyst
     @invoices = se_data.invoices.all if se_data.invoices != nil
     begin_analysis
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
+    @transactions = se_data.transactions.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -178,10 +179,12 @@ class SalesAnalyst
   end
 
   def top_revenue_earners(num = 20)
+    #TODO invoce_items don't always count because could be a failed
     top_earners = @invoice_items.sort_by do |item|
       earnings = (item.quantity * item.unit_price)
     end
     top = top_earners[0..(num-1)]
+
     top_earner_ids = top.map do |item|
       item.item_id
     end
@@ -189,14 +192,11 @@ class SalesAnalyst
     #[263542298, 263523644, 263529264]
     total = []
     find_a_match = @merchants.find do |merch|
-      binding.pry
           @index = 0
         total << find_merchant_by_item_id(merch, top_earner_ids)
           @index += 1
       end
-total
-    #returns array for top merchant revenue earners
-    #calculate revenue using invoice_item.unit_price
+    total
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
@@ -206,20 +206,71 @@ total
   end
 
   def merchants_with_pending_invoices
-    #returns array of all merchants with pending invoices
-    #pending - if no transactions are successful
+    penders = @invoices.select do |invoice|
+      invoice.status == :pending
+    end
+    merch_ids = penders.map do |merch|
+      merch.merchant_id
+    end.uniq
+    m = @merchants.select do |id|
+      merch_ids.include?(id.id)
+    end
   end
 
   def merchants_with_only_one_item
-    #returns array of merchants with only one item
+    singular_shops = @merchants.select do |content|
+      content.items.count == 1
+    end
   end
 
   def merchants_with_only_one_item_registered_in_month(month)
+    @merchants.each do |merchant| #there's only 3 merchants
+      item_thing = []
+      merchant.items.each do |item|
+        #@created_at is a time, because of item class
+        if item.created_at.strftime("%B") == month
+          # item.created_at.month == Time.parse(month).month
+          item_thing << item
+        end
+      end
+    end
+    #argument out of range error comes up
+    monthly_merchants = item_thing.map do |item|
+      item.merchant
+    end
+    monthly_merchants
     #returns array with merchants that only sell one item by the month they registered
     #use merchant.created_at
   end
 
-  def revenue_by_merchant(merchant_id)
+  def revenue_by_merchant(query_id)
+    #look in invoices: find all invoices by merchant_id
+    invoice_ids = []
+    @invoices.each do |invoice|
+      if invoice.merchant_id == query_id
+        invoice_ids << invoice.id
+      end
+    end
+    #look in transactions: find all results by invoice_id
+    good_sales = []
+    @transactions.each do |sale|
+      if invoice_ids.include?(sale.invoice_id) && sale.result == 'success'
+        good_sales << sale.invoice_id
+      end
+    end
+    #if result is success, good. If result is failed, cannot use
+     #keep invoice id from transactions
+    #look in invoice_items: with invoice id calculate revenue by
+     total_sales = []
+     good_sales.each do |sale|
+     @invoice_items.each do |item|
+       if item.invoice_id == sale
+         total_sales << (item.quantity * item.unit_price)
+       end
+     end
+     end
+   totals = total_sales.inject(:+)
+    #multiplying quantity and unit price
     #returns Big Decimal answer of total revenue for merchant
   end
 
@@ -244,6 +295,5 @@ if __FILE__ == $0
                               :invoices => "./data/invoices.csv"} )
   sa = SalesAnalyst.new(se)
 
-  binding.pry
 
 end

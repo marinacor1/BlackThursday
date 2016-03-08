@@ -203,13 +203,14 @@ class SalesAnalystTest < Minitest::Test
 #iteration four methods
 
   def test_sa_gives_total_revenue_for_given_date
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     assert_equal 8435.57, sa.total_revenue_by_date(Time.parse("2012-03-27"))
   end
 
   def test_sa_finds_top_3_performing_merchants_by_revenue
+    skip
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
@@ -258,28 +259,26 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_all_merchants_with_pending_invoices
-    #invoice considered pending if none of its transactions are successful
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_pending_invoices
-    assert answer.all? {|merch| merch.status == 'pending'}
-    assert_equal 20, answer.count
+    assert_equal 2, answer.count
+    assert_equal Merchant, answer[0].class
   end
 
   def test_sa_finds_all_merchants_with_one_item
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item
-    assert_equal 20, answer.count
+    assert_equal 1, answer.count
+    assert_equal Array, answer.class
+    assert_equal Merchant, answer[0].class
   end
 
   def test_sa_finds_all_merchants_with_one_sale_a_month
-    skip
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_only_one_item_registered_in_month("January")
@@ -291,9 +290,8 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_total_revenue_for_merchant
-    skip
     #spec harness doesnt actually test the actual value haha
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :customers => "./data/subsets/customers_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.revenue_by_merchant(12334194)
