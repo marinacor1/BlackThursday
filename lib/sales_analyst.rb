@@ -244,35 +244,42 @@ class SalesAnalyst
   end
 
   def revenue_by_merchant(query_id)
-    #look in invoices: find all invoices by merchant_id
+    invoice_ids = find_invoices_by_merchant_id(query_id)
+    good_sales = find_all_successful_sales(invoice_ids)
+    total_sales = find_total_for_good_sales(good_sales)
+    totals = total_sales.inject(:+)
+  end
+
+  def find_invoices_by_merchant_id(query_id)
     invoice_ids = []
     @invoices.each do |invoice|
       if invoice.merchant_id == query_id
         invoice_ids << invoice.id
       end
     end
-    #look in transactions: find all results by invoice_id
+    invoice_ids
+  end
+
+  def find_all_successful_sales(invoice_ids)
     good_sales = []
     @transactions.each do |sale|
       if invoice_ids.include?(sale.invoice_id) && sale.result == 'success'
         good_sales << sale.invoice_id
       end
     end
-    #if result is success, good. If result is failed, cannot use
-     #keep invoice id from transactions
-    #look in invoice_items: with invoice id calculate revenue by
-     total_sales = []
-     good_sales.each do |sale|
-     @invoice_items.each do |item|
-       if item.invoice_id == sale
-         total_sales << (item.quantity * item.unit_price)
-       end
-     end
-     end
-   totals = total_sales.inject(:+)
-  #  binding.pry
-    #multiplying quantity and unit price
-    #returns Big Decimal answer of total revenue for merchant
+    good_sales
+  end
+
+  def find_total_for_good_sales(good_sales)
+    total_sales = []
+    good_sales.each do |sale|
+    @invoice_items.each do |item|
+      if item.invoice_id == sale
+        total_sales << (item.quantity * item.unit_price)
+      end
+    end
+    end
+    total_sales
   end
 
   def most_sold_item_for_merchant(merchant_id)
