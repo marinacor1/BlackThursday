@@ -48,9 +48,9 @@ class MerchantRepositoryTest < Minitest::Test
     :items     => "./data/subsets/items_small.csv",
     :merchants => "./data/subsets/merchants_small.csv"
     })
-  
+
     merchant = se.merchants.find_by_id(24356)
-    assert_equal "Candisart", merchant.name
+    assert_equal "CandieandFood", merchant.name
     assert_equal 24356, merchant.id
     assert_equal Merchant, merchant.class
   end

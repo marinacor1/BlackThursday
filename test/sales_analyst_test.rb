@@ -53,7 +53,7 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     sa.begin_analysis
 
-    answer = 3.67
+    answer = 3.81
     calculated = sa.average_items_per_merchant_standard_deviation
     assert_equal answer, calculated
     assert_equal Float, calculated.class
