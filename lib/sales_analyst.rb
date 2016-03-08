@@ -52,7 +52,6 @@ class SalesAnalyst
       end.inject(0, :+)
       avg_price = (total_item_prices.to_f/merchant.item_count)
       merchant.avg_item_price = sprintf('%.2f', avg_price).to_f
-      merchant
     end
   end
 
