@@ -92,7 +92,6 @@ class SalesAnalyst
 
   def average_invoices_per_merchant
     avg_inv = sprintf('%.2f', (@invoices.count.to_f/@merchants.count)).to_f
-    #returns float like 8.5
   end
 
   def average_invoices_per_merchant_standard_deviation
@@ -108,14 +107,12 @@ class SalesAnalyst
     high_invoice = @merchants.select do |merchant|
       merchant if merchant.invoice_count > (@avg_invoices+(2*@invoice_count_stdev))
     end
-    #returns array of merchants that are more than two std dev above mean
   end
 
   def bottom_merchants_by_invoice_count
     low_invoice = @merchants.select do |merchant|
       merchant if merchant.invoice_count < (@avg_invoices-(2*@invoice_count_stdev))
     end
-    #returns array with merchant that are more than two std dev below mean
   end
 
   def top_days_by_invoice_count
@@ -282,14 +279,52 @@ class SalesAnalyst
     total_sales
   end
 
-  def most_sold_item_for_merchant(merchant_id)
-    #returns highest item in terms of quantity sold
-    #if tie it returns tie of items
+  def most_sold_item_for_merchant(query_id)
+    merchant = @merchants.find { |merchant| merchant.id == query_id}
+    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
+    merchant_sold_items = find_all_merchant_items(item_ids)
+    sorted_items = sort_merchant_items(merchant_sold_items)
+    most_sold = top_item_tie_or_not(sorted_items)
   end
 
-  def best_item_for_merchant(merchant_id)
-    #returns highest item by revenue generated
+
+  def find_all_merchant_items(item_ids)
+    @invoice_items.select do |sold_item|
+      item_ids.include?(sold_item.item_id)
+    end
   end
+
+  def sort_merchant_items(merchant_sold_items)
+    merchant_sold_items.sort_by do |item|
+      item.quantity
+    end.reverse
+  end
+
+  def top_item_tie_or_not(sorted_items)
+    @items.select do |i|
+      if sorted_items[0].quantity != sorted_items[1].quantity
+        i.id == sorted_items[0].item_id
+      else
+        i.id == sorted_items[0].item_id || i.id == sorted_items[1].item_id
+      end
+    end
+  end
+
+  def best_item_for_merchant(query_id)
+    merchant = @merchants.find { |merchant| merchant.id == query_id}
+    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
+    merchant_sold_items = find_all_merchant_items(item_ids)
+    sorted_items = sort_by_revenue(merchant_sold_items)
+    top = top_item_tie_or_not(sorted_items)
+    top[0]
+  end
+
+  def sort_by_revenue(merchant_sold_items)
+    merchant_sold_items.sort_by do |item|
+      (item.quantity * item.unit_price)
+    end.reverse
+  end
+
 
 
 
