@@ -92,7 +92,6 @@ class SalesAnalyst
 
   def average_invoices_per_merchant
     avg_inv = sprintf('%.2f', (@invoices.count.to_f/@merchants.count)).to_f
-    #returns float like 8.5
   end
 
   def average_invoices_per_merchant_standard_deviation
@@ -108,14 +107,12 @@ class SalesAnalyst
     high_invoice = @merchants.select do |merchant|
       merchant if merchant.invoice_count > (@avg_invoices+(2*@invoice_count_stdev))
     end
-    #returns array of merchants that are more than two std dev above mean
   end
 
   def bottom_merchants_by_invoice_count
     low_invoice = @merchants.select do |merchant|
       merchant if merchant.invoice_count < (@avg_invoices-(2*@invoice_count_stdev))
     end
-    #returns array with merchant that are more than two std dev below mean
   end
 
   def top_days_by_invoice_count
@@ -320,7 +317,6 @@ class SalesAnalyst
     sorted_items = sort_by_revenue(merchant_sold_items)
     top = top_item_tie_or_not(sorted_items)
     top[0]
-    #returns highest item by revenue generated
   end
 
   def sort_by_revenue(merchant_sold_items)
