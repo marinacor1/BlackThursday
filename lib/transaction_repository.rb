@@ -2,6 +2,8 @@ require_relative 'transaction'
 require_relative 'sales_engine'
 require 'pry'
 require 'csv'
+
+
 class TransactionRepository
 
 
@@ -16,7 +18,8 @@ class TransactionRepository
   end
 
   def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
+      binding.pry
       transaction = Transaction.new(data_row)
       @all_transactions << transaction
     end
@@ -62,4 +65,10 @@ class TransactionRepository
   end
 
 
+end
+
+if __FILE__ == $0
+transaction = TransactionRepository.new
+transaction.from_csv("./data/transactions.csv")
+  binding.pry
 end

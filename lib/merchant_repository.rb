@@ -21,7 +21,7 @@ class MerchantRepository
 
   def from_csv(path)
     if path.include? '.csv'
-    CSV.foreach(path, { headers: true, header_converters: :symbol, converters: :all}) do |data_row|
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
       merchant = Merchant.new(data_row)
       @all_merchants << merchant
     end

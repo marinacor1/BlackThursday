@@ -158,14 +158,8 @@ if __FILE__ == $0
     :invoice_items => "./data/invoice_items.csv"
     })
 
+
     binding.pry
-    expected = engine.invoices.find_by_id(1).is_paid_in_full?
-     expect(expected).to eq true
-     expected = engine.invoices.find_by_id(200).is_paid_in_full?
-     expect(expected).to eq true
-     expected = engine.invoices.find_by_id(203).is_paid_in_full?
-     expect(expected).to eq false
-     expected = engine.invoices.find_by_id(204).is_paid_in_full?
-     expect(expected).to eq false
+    engine.transactions.find_by_id(1)
 
 end
