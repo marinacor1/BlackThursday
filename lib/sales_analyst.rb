@@ -313,9 +313,22 @@ class SalesAnalyst
     end
   end
 
-  def best_item_for_merchant(merchant_id)
+  def best_item_for_merchant(query_id)
+    merchant = @merchants.find { |merchant| merchant.id == query_id}
+    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
+    merchant_sold_items = find_all_merchant_items(item_ids)
+    sorted_items = sort_by_revenue(merchant_sold_items)
+    top = top_item_tie_or_not(sorted_items)
+    top[0]
     #returns highest item by revenue generated
   end
+
+  def sort_by_revenue(merchant_sold_items)
+    merchant_sold_items.sort_by do |item|
+      (item.quantity * item.unit_price)
+    end.reverse
+  end
+
 
 
 
