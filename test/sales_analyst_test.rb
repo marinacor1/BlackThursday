@@ -263,12 +263,12 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_merchant_ranks_by_revenue
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_ranked_by_revenue
     assert_equal Array, answer.class
-    assert_equal 33339, answer.first.id
+    assert_equal 33339, answer.first.id #reverse actual is last
     assert_equal 87665, answer.last.id
   end
 

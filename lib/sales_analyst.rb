@@ -202,7 +202,7 @@ class SalesAnalyst
   end
 
   def merchants_ranked_by_revenue
-    @merchants.sort_by do |merchant|
+    x = @merchants.sort_by do |merchant|
       if merchant.revenue.nil?
         merchant.revenue = 0.0
       else
