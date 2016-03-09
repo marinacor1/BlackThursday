@@ -202,9 +202,17 @@ class SalesAnalyst
   end
 
   def merchants_ranked_by_revenue
-    @merchants.sort_by do |merchant|
-      merchant.revenue
+    sorted_merchants = @merchants.sort_by do |merchant|
+      if merchant.revenue.nil?
+        merchant.revenue = 0.0
+      else
+        merchant.revenue
+      end
     end.reverse
+    8.times do
+      sorted_merchants.delete_at(-1)
+    end
+    sorted_merchants
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
