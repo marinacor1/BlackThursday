@@ -278,16 +278,23 @@ class SalesAnalyst
     successful_invoices = check_invoice_success(correct_invoices)
     correct_invoice_items = pull_all_invoice_items(successful_invoices)
     highest_quantity = find_highest_quantity(correct_invoice_items)
-    top_sellers = correct_invoice_items.select do |invoice_item|
+    top_sellers = finding_top_seller(highest_quantity, correct_invoice_items)
+    new_items = pull_items_into_array(top_sellers)
+end
+
+  def pull_items_into_array(top_sellers)
+    top_sellers.map do |invoice_item|
+      @items.select do |item|
+        item.id == invoice_item.item_id
+      end
+    end.flatten
+  end
+
+  def finding_top_seller(highest_quantity, correct_invoice_items)
+    correct_invoice_items.select do |invoice_item|
       invoice_item.quantity == highest_quantity
     end
-     new_items = top_sellers.map do |invoice_item|
-       @items.select do |item|
-         item.id == invoice_item.item_id
-       end
-     end.flatten
-    new_items
-end
+  end
 
   def find_highest_quantity(correct_invoice_items)
     correct_invoice_items.max_by do |invoice_item|
