@@ -94,7 +94,6 @@ class SalesAnalyst
     item_price_stdev = Math.sqrt(all_squared_deviations.inject(0, :+)/(all_squared_deviations.count-1))
   end
 
-
   def average_invoices_per_merchant
     avg_inv = sprintf('%.2f', (@invoices.count.to_f/@merchants.count)).to_f
   end
@@ -168,37 +167,20 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
-  def total_revenue_by_date(date)
-    date = date.strftime('%m-%e-%y')
-    correct_date = @invoice_items.select do |item|
-      item.updated_at.strftime('%m-%e-%y') == date
-    end
-    revenue = correct_date.inject(0) do |total, sale|
-      total = total + sale.unit_price
-    end
-    revenue.to_f
-    #TODO: is this a float or big decimal?
-  end
+  # def total_revenue_by_date(date)
+  #   date = date.strftime('%m-%e-%y')
+  #   correct_date = @invoice_items.select do |item|
+  #     item.updated_at.strftime('%m-%e-%y') == date
+  #   end
+  #   revenue = correct_date.inject(0) do |total, sale|
+  #     total = total + sale.unit_price
+  #   end
+  #   revenue.to_f
+  #   #TODO: is this a float or big decimal?
+  # end
 
   def top_revenue_earners(num = 20)
-    #TODO invoce_items don't always count because could be a failed
-    top_earners = @invoice_items.sort_by do |item|
-      earnings = (item.quantity * item.unit_price)
-    end
-    top = top_earners[0..(num-1)]
-
-    top_earner_ids = top.map do |item|
-      item.item_id
-    end
-    #have item ids for all top merchants
-    #[263542298, 263523644, 263529264]
-    total = []
-    find_a_match = @merchants.find do |merch|
-      @index = 0
-      total << find_merchant_by_item_id(merch, top_earner_ids)
-      @index += 1
-    end
-    total
+    x = merchants_ranked_by_revenue.first(num)
   end
 
   def merchants_ranked_by_revenue
@@ -209,9 +191,6 @@ class SalesAnalyst
         merchant.revenue
       end
     end.reverse
-    8.times do
-      sorted_merchants.delete_at(-1)
-    end
     sorted_merchants
   end
 
@@ -305,18 +284,11 @@ class SalesAnalyst
       invoice_ids.include?(item.invoice_id)
     end
     correct_revenues = correct_items.sort_by do |item|
-      item.unit_price * item.quantity
+      item.quantity
     end.reverse
     top = @items.find do |item|
       item.id == correct_revenues[0].item_id
     end
-    # merchant = @merchants.find { |merchant| merchant.id == query_id}
-    #invoices, transactions,
-    # item_ids = merchant.items.map { |thing| thing.id }
-
-    # merchant_sold_items = find_all_merchant_items(item_ids)
-    # sorted_items = sort_merchant_items(merchant_sold_items)
-    # most_sold = top_item_tie_or_not(sorted_items)
   end
 
 
