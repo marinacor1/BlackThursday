@@ -17,14 +17,15 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
   end
 
   def is_paid_in_full?
-    array = all_transaction_status
-    if array.include?("failed") || array.empty?
-      return false
-      @paid = false
-    else
-      return true
-      @paid = true
-    end
+    # array = all_transaction_status
+    # if array.include?("failed") || array.empty?
+    #   return false
+    #   @paid = false
+    # else
+    #   return true
+    #   @paid = true
+    # end
+    @paid
   end
 
   def is_pending?

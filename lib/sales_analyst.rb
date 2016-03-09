@@ -181,24 +181,7 @@ class SalesAnalyst
   end
 
   def top_revenue_earners(num = 20)
-    #TODO invoce_items don't always count because could be a failed
-    top_earners = @invoice_items.sort_by do |item|
-      earnings = (item.quantity * item.unit_price)
-    end
-    top = top_earners[0..(num-1)]
-
-    top_earner_ids = top.map do |item|
-      item.item_id
-    end
-    #have item ids for all top merchants
-    #[263542298, 263523644, 263529264]
-    total = []
-    find_a_match = @merchants.find do |merch|
-      @index = 0
-      total << find_merchant_by_item_id(merch, top_earner_ids)
-      @index += 1
-    end
-    total
+    merchants_ranked_by_revenue.first(num)
   end
 
   def merchants_ranked_by_revenue
@@ -294,6 +277,11 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(query_id)
+    #find all invoices with merchant id
+    #find highest quantity item in invoice_items of invoices
+    #take only paid invoices
+    #return item sold most often
+
     correct_invoices = @invoices.select do |invoice|
       invoice.merchant.id == query_id
     end
@@ -304,7 +292,7 @@ class SalesAnalyst
       invoice_ids.include?(item.invoice_id)
     end
     correct_revenues = correct_items.sort_by do |item|
-      item.unit_price * item.quantity
+      item.quantity
     end.reverse
     top = @items.find do |item|
       item.id == correct_revenues[0].item_id

@@ -119,6 +119,11 @@ class SalesEngine
     all_invoice_transactions.map do |transaction|
       transaction.invoice = invoice
       invoice.transactions << transaction
+      if transaction.result == "success"
+        invoice.paid = true
+      else
+        invoice.paid = false
+      end
     end
   end
 
