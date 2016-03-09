@@ -275,12 +275,8 @@ class SalesAnalyst
 
   def most_sold_item_for_merchant(query_id)
     correct_invoices = find_all_invoices(query_id)
-    successful_invoices = correct_invoices.map do |inv|
-      inv if inv.is_paid_in_full?
-    end.compact
-    correct_invoice_items = successful_invoices.map do |invoice|
-       invoice.invoice_items
-     end.flatten
+    successful_invoices = check_invoice_success(correct_invoices)
+    correct_invoice_items = pull_all_invoice_items(successful_invoices)
     highest_quantity = correct_invoice_items.max_by do |invoice_item|
       invoice_item.quantity
     end.quantity
@@ -294,6 +290,19 @@ class SalesAnalyst
      end.flatten
     new_items
 end
+
+  def pull_all_invoice_items(successful_invoices)
+    successful_invoices.map do |invoice|
+       invoice.invoice_items
+     end.flatten
+  end
+
+  def check_invoice_success(correct_invoices)
+    correct_invoices.map do |inv|
+      inv if inv.is_paid_in_full?
+    end.compact
+  end
+
   def find_all_invoices(merchant_id)
    @invoices.select do |invoice|
      invoice.merchant.id == merchant_id
