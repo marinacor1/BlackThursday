@@ -209,7 +209,7 @@ class SalesAnalyst
         merchant.revenue
       end
     end.reverse
-   sorted_merchants #merchant
+   sorted_merchants
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
