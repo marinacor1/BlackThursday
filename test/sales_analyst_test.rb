@@ -268,7 +268,7 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_ranked_by_revenue
     assert_equal Array, answer.class
-    assert_equal 12334634, answer.first.id #reverse actual is last
+    assert_equal 12334634, answer.first.id
     assert_equal 12336175, answer.last.id
   end
 
