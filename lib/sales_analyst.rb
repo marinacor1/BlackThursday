@@ -5,7 +5,7 @@ require_relative 'sales_engine'
 
 class SalesAnalyst
 
-  attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev, :invoices, :transactions
+  attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev, :invoices, :transactions, :merchants
 
   def initialize(se_data)
     @merchants = se_data.merchants.all
@@ -375,7 +375,7 @@ end
       (item.quantity * item.unit_price)
     end.reverse
   end
-  
+
   def total_revenue_by_date(date)
     Time.parse(date) if !date.instance_of? Time
     invoice_array = find_all_successful_invoices_for_given_date(date)
