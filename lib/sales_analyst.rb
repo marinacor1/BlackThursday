@@ -347,7 +347,7 @@ end
 
   def find_all_successful_invoices_for_given_date(date)
     @invoices.select do |invoice|
-      invoice if invoice.created_at == (date) && invoice.paid
+      invoice if invoice.created_at == (date) && invoice.is_paid_in_full?
     end
   end
 
