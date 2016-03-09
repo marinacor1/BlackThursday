@@ -274,29 +274,31 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(query_id)
-    correct_invoices = @invoices.map do |i|
-      i.find_all_by_merchant_id(query_id)
+    correct_invoices = @invoices.select do |invoice|
+      invoice.merchant.id == query_id
     end
-    correct_items = correct_invoices.map do |invoice|
-      invoice if invoice.is_paid_in_full?
+    successful_invoices = correct_invoices.map do |inv|
+      inv if inv.is_paid_in_full?
     end.compact
-    correct_ids = @invoices
-    binding.pry
-    correct_items = @invoice_items.select do |item|
-      invoice_ids.include?(item.invoice_id)
+    correct_invoice_items = successful_invoices.map do |invoice|
+       invoice.invoice_items
+     end.flatten
+    highest_quantity = correct_invoice_items.max_by do |invoice_item|
+      invoice_item.quantity
+    end.quantity
+    top_sellers = correct_invoice_items.select do |invoice_item|
+      invoice_item.quantity == highest_quantity
     end
-    binding.pry
-    correct_revenues = correct_items.sort_by do |item|
-      item.quantity
-    end.reverse
-    binding.pry
-    top = @items.select do |item|
-      item.id == correct_revenues[0].item_id
-    end
-    top
-    binding.pry
-  end
+     new_items = top_sellers.map do |invoice_item|
+       @items.select do |item|
+         item.id == invoice_item.item_id
+       end
+     end.flatten
+    new_items
+end
+  def find_all_invoices(merchant_id)
 
+  end
 
   def find_all_merchant_items(item_ids)
     @invoice_items.select do |sold_item|
@@ -321,6 +323,8 @@ class SalesAnalyst
   end
 
   def best_item_for_merchant(query_id)
+
+
     merchant = @merchants.find { |merchant| merchant.id == query_id}
     item_ids = merchant_items = merchant.items.map { |thing| thing.id }
     merchant_sold_items = find_all_merchant_items(item_ids)
