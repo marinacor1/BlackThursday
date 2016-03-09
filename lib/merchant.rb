@@ -16,10 +16,12 @@ class Merchant
 
   def revenue
     revs = invoices.inject(0) do |invoice|
-      invoice 
+      invoice
     end
   end
 
-
+  def inspect
+    "#<#{self.class}>"
+  end
 
 end

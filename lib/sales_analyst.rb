@@ -202,9 +202,16 @@ class SalesAnalyst
   end
 
   def merchants_ranked_by_revenue
-    @merchants.sort_by do |merchant|
-      merchant.revenue
+    sorted_merchants = @merchants.sort_by do |merchant|
+      if merchant.revenue.nil?
+        merchant.revenue = 0.0
+      else
+        merchant.revenue
+      end
     end.reverse
+   8.times do sorted_merchants.delete_at(-1)
+   end
+   sorted_merchants
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
@@ -302,7 +309,6 @@ class SalesAnalyst
     top = @items.find do |item|
       item.id == correct_revenues[0].item_id
     end
-    top
     # merchant = @merchants.find { |merchant| merchant.id == query_id}
     #invoices, transactions,
     # item_ids = merchant.items.map { |thing| thing.id }
@@ -358,7 +364,6 @@ class SalesAnalyst
 
   def find_all_successful_invoices_for_given_date(date)
     @invoices.select do |invoice|
-      # invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
       invoice if invoice.created_at == (date) && invoice.paid
     end
   end
@@ -381,6 +386,6 @@ if __FILE__ == $0
     :invoice_items => "./data/invoice_items.csv" } )
     sa = SalesAnalyst.new(se)
 
-
+binding.pry
 
   end
