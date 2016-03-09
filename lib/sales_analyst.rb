@@ -203,8 +203,12 @@ class SalesAnalyst
 
   def merchants_ranked_by_revenue
     @merchants.sort_by do |merchant|
-      merchant.revenue
-    end.reverse
+      if merchant.revenue.nil?
+        merchant.revenue = 0.0
+      else
+        merchant.revenue
+      end
+    end.reverse 
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
@@ -358,7 +362,6 @@ class SalesAnalyst
 
   def find_all_successful_invoices_for_given_date(date)
     @invoices.select do |invoice|
-      # invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
       invoice if invoice.created_at == (date) && invoice.paid
     end
   end
