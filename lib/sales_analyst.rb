@@ -284,18 +284,11 @@ class SalesAnalyst
       invoice_ids.include?(item.invoice_id)
     end
     correct_revenues = correct_items.sort_by do |item|
-      item.unit_price * item.quantity
+      item.quantity
     end.reverse
     top = @items.find do |item|
       item.id == correct_revenues[0].item_id
     end
-    # merchant = @merchants.find { |merchant| merchant.id == query_id}
-    #invoices, transactions,
-    # item_ids = merchant.items.map { |thing| thing.id }
-
-    # merchant_sold_items = find_all_merchant_items(item_ids)
-    # sorted_items = sort_merchant_items(merchant_sold_items)
-    # most_sold = top_item_tie_or_not(sorted_items)
   end
 
 
