@@ -16,7 +16,7 @@ class Merchant
 
   def revenue
     revs = invoices.inject(0) do |invoice|
-      invoice
+      invoice 
     end
   end
 
