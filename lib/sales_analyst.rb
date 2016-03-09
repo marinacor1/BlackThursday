@@ -210,7 +210,7 @@ class SalesAnalyst
 
   def merchants_with_only_one_item
     singular_shops = @merchants.select do |content|
-      content.items.count == 1
+      content.items_count == 1
     end
   end
 
@@ -274,9 +274,7 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(query_id)
-    correct_invoices = @invoices.select do |invoice|
-      invoice.merchant.id == query_id
-    end
+    correct_invoices = find_all_invoices(query_id)
     successful_invoices = correct_invoices.map do |inv|
       inv if inv.is_paid_in_full?
     end.compact
@@ -297,7 +295,9 @@ class SalesAnalyst
     new_items
 end
   def find_all_invoices(merchant_id)
-
+   @invoices.select do |invoice|
+     invoice.merchant.id == merchant_id
+   end
   end
 
   def find_all_merchant_items(item_ids)
