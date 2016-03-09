@@ -205,8 +205,6 @@ class SalesAnalyst
     @merchants.sort_by do |merchant|
       merchant.revenue
     end.reverse
-    #merchant knows its revenue
-    #in order for merchant knows invoices -> transactions
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)

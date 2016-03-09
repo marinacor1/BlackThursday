@@ -15,11 +15,10 @@ class Merchant
   end
 
   def revenue
-    binding.pry
-    invoices
-    invoice_items.map do |item|
-      item.unit_price * item.quantity
+    revs = invoices.map do |invoice|
+      invoice.total
     end
+    binding.pry
   end
 
 
