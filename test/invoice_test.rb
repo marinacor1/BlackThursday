@@ -45,7 +45,7 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_invoice_can_tell_if_not_paid_in_full
-    transaction1 = Transaction.new({ :id => 1, :result => "success" })
+    transaction1 = Transaction.new({ :id => 1, :result => "failed" })
     transaction2 = Transaction.new({ :id => 2, :result => "failed" })
     i = Invoice.new({ :id => 123, :transactions => [] })
     i.transactions << transaction1
