@@ -132,7 +132,7 @@ class SalesEngine
     all_invoice_transactions = @transactions.find_all_by_invoice_id(invoice.id)
     all_invoice_transactions.map do |transaction|
       transaction.invoice = invoice
-      invoice.transactions << transaction
+      invoice.transactions << transaction if !invoice.transactions.include?(transaction)
     end
   end
 
