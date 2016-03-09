@@ -262,14 +262,14 @@ class SalesAnalystTest < Minitest::Test
     assert_equal "zah", answer[2].name
   end
 
-  def test_merchant_ranks_by_revenue
-    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv"}
+  def test_merchant_ranks_by_revenue_all_data
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :invoice_items => "./data/invoice_items.csv", :transactions => "./data/transactions.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_ranked_by_revenue
     assert_equal Array, answer.class
-    assert_equal 33339, answer.first.id #reverse actual is last
-    assert_equal 87665, answer.last.id
+    assert_equal 12334634, answer.first.id #reverse actual is last
+    # assert_equal 12336175, answer.last.id
   end
 
   def test_sa_finds_all_merchants_with_pending_invoices
@@ -329,7 +329,6 @@ class SalesAnalystTest < Minitest::Test
     answer = sa.most_sold_item_for_merchant(12334768)
     assert_equal Item, answer[0].class
     assert_equal Array, answer.class
-    binding.pry
     assert answer.include?(263524984)
     assert answer.include?("Adult Princess Leia Hat")
   end
