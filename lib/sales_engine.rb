@@ -63,9 +63,6 @@ class SalesEngine
     if @items != nil
       merchant.items = @items.find_all_by_merchant_id(merchant.id)
       merchant.item_count = merchant.items.count
-      merchant.items.map do |item|
-        item.merchant = merchant
-      end
       merchant
     end
   end
@@ -129,20 +126,21 @@ class SalesEngine
     customer = @customers.find_by_id(invoice.customer_id)
     invoice.customer = customer
     customer.invoices << invoice
+    customer
   end
 
   def link_merchant_to_customers_via_invoice(invoice, customer)
     merchant = @merchants.find_by_id(invoice.merchant_id)
-    invoice.customer.merchants << merchant
-    merchant.customers << invoice.customer
+    invoice.customer.merchant_ids << merchant.id
+    merchant.customer_ids << invoice.customer.id
   end
 
   def remove_duplicate_customers_and_merchants
     @merchants.all.map do |merchant|
-      merchant.customers = merchant.customers.uniq
+      merchant.customer_ids = merchant.customer_ids.uniq
     end
     @customers.all.map do |customer|
-      customer.merchants = customer.merchants.uniq
+      customer.merchant_ids = customer.merchant_ids.uniq
     end
   end
 

@@ -2,6 +2,7 @@ require 'pry'
 require 'csv'
 require_relative 'item'
 require_relative 'repository'
+require_relative 'merchant_repository'
 
 class ItemRepository
 
@@ -36,6 +37,10 @@ class ItemRepository
 
   def all
     @all_items
+  end
+
+  def merchant
+    @all_merchants.find_by_id(self.merchant_id)
   end
 
   def find_by_name(query_name)

@@ -3,7 +3,8 @@ require 'pry'
 require 'time'
 
 class Item
-attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
+attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at
+attr_reader :merchant
   def initialize(attributes)
     @id = attributes[:id].to_i
     @name = attributes[:name]

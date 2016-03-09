@@ -1,8 +1,9 @@
 require 'pry'
 require 'time'
+require_relative 'merchant_repository'
 
 class Customer
-  attr_accessor :id, :first_name, :last_name, :created_at, :updated_at, :merchants, :invoices
+  attr_accessor :id, :first_name, :last_name, :created_at, :updated_at, :merchant_ids, :invoices
 
   def initialize(attributes)
     @id = attributes[:id].to_i
@@ -10,7 +11,7 @@ class Customer
     @last_name = attributes[:last_name]
     @created_at = attributes[:created_at]
     @updated_at = attributes[:updated_at]
-    @merchants = []
+    @merchant_ids = []
     @invoices = []
   end
 
@@ -20,6 +21,14 @@ class Customer
 
   def updated_at
     Time.parse(@updated_at)
+  end
+
+  def merchants
+    unless @merchant_ids.empty?
+    @merchant_ids.each do |merch_id|
+      merchant = @all_merchants.find_with_id(merch_id)
+    end
+  end
   end
 
 end

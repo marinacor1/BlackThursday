@@ -333,24 +333,23 @@ class SalesAnalyst
   end
 
   def total_revenue_by_date(date)
-    Time.parse(date)
+    Time.parse(date) if !date.instance_of? Time
     invoice_array = find_all_successful_invoices_for_given_date(date)
-    find_total_revenue_of_invoices_by_day(invoice_array)
-    total_revenue_for_items_by_quantity(invoice_array)
+    day_revenue = find_total_revenue_of_invoices_for_day(invoice_array)
   end
 
   def find_all_successful_invoices_for_given_date(date)
     @invoices.select do |invoice|
-      invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
+      invoice if invoice.created_at == (date) && invoice.paid
     end
   end
 
   def find_total_revenue_of_invoices_for_day(array)
-    binding.pry
-    array.each do |invoice|
-      binding.pry
+    array.map do |invoice|
+      invoice.total
+    end.inject(0, :+)
   end
-end
+
 end
 
 if __FILE__ == $0
