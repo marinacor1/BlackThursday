@@ -274,21 +274,27 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(query_id)
-    correct_invoices = @invoices.select do |invoice|
-      invoice.merchant.id == query_id
+    correct_invoices = @invoices.map do |i|
+      i.find_all_by_merchant_id(query_id)
     end
-    invoice_ids = correct_invoices.map do |inv|
-      inv.id
-    end
+    correct_items = correct_invoices.map do |invoice|
+      invoice if invoice.is_paid_in_full?
+    end.compact
+    correct_ids = @invoices
+    binding.pry
     correct_items = @invoice_items.select do |item|
       invoice_ids.include?(item.invoice_id)
     end
+    binding.pry
     correct_revenues = correct_items.sort_by do |item|
       item.quantity
     end.reverse
-    top = @items.find do |item|
+    binding.pry
+    top = @items.select do |item|
       item.id == correct_revenues[0].item_id
     end
+    top
+    binding.pry
   end
 
 
