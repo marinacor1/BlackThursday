@@ -50,26 +50,12 @@ class SalesEngine
   def repositories_linked
     merchants_linked_to_child_items if merchants
     merchants_invoices_and_customers_interrelated if merchants && invoices && items && customers
-    invoices_linked_to_transactions if invoices && transactions
-    invoices_linked_to_invoice_items if invoices && invoice_items
   end
 
   def merchants_linked_to_child_items
     @merchants.all.map do |merchant|
       link_merchant_to_items(merchant)
       link_merchant_to_invoices(merchant)
-    end
-  end
-
-  def invoices_linked_to_transactions
-    @invoices.all.map do |invoice|
-      link_transaction_and_invoice(invoice)
-    end
-  end
-
-  def invoices_linked_to_invoice_items
-    @invoices.all.map do |invoice|
-      link_invoice_items_and_invoice(invoice)
     end
   end
 
@@ -136,13 +122,6 @@ class SalesEngine
     end
   end
 
-  def link_invoice_items_and_invoice(invoice)
-    all_invoice_items = @invoice_items.find_all_by_invoice_id(invoice.id)
-    all_invoice_items.map do |invoice_item|
-      invoice_item.invoice = invoice
-      invoice.invoice_items << invoice_item
-    end
-  end
 
   def link_customer_and_invoice(invoice)
     customer = @customers.find_by_id(invoice.customer_id)

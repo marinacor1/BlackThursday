@@ -28,6 +28,8 @@ class Merchant
   end
     # end
 
-
+    def inspect
+  "#<#{self.class}>"
+end
 
 end

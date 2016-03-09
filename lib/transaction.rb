@@ -24,4 +24,8 @@ def updated_at
   Time.parse(@updated_at)
 end
 
+def inspect
+  "#<#{self.class}>"
+end
+
 end

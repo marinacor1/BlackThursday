@@ -33,6 +33,10 @@ class InvoiceItem
     Time.parse(@updated_at)
   end
 
+  def inspect
+  "#<#{self.class}>"
+end
+
 end
 
 if __FILE__ == $0

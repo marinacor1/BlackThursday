@@ -27,6 +27,10 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     Time.parse(@updated_at)
   end
 
+  def inspect
+  "#<#{self.class}>"
+end
+
 end
 
 if __FILE__ == $0
