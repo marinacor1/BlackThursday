@@ -15,9 +15,8 @@ class Merchant
   end
 
   def revenue
-    binding.pry
     revs = invoices.inject(0) do |invoice|
-      invoice.
+      invoice
     end
   end
 

@@ -268,8 +268,8 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_ranked_by_revenue
     assert_equal Array, answer.class
-    assert_equal 122, answer.first.id
-    assert_equal 333, answer.last.id
+    assert_equal 33339, answer.first.id
+    assert_equal 87665, answer.last.id
   end
 
   def test_sa_finds_all_merchants_with_pending_invoices
@@ -277,7 +277,7 @@ class SalesAnalystTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_pending_invoices
-    assert_equal 2, answer.count
+    assert_equal 3, answer.count
     assert_equal Merchant, answer[0].class
   end
 

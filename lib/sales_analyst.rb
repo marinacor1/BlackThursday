@@ -303,7 +303,6 @@ class SalesAnalyst
       item.id == correct_revenues[0].item_id
     end
     top
-  binding.pry
     # merchant = @merchants.find { |merchant| merchant.id == query_id}
     #invoices, transactions,
     # item_ids = merchant.items.map { |thing| thing.id }
@@ -367,7 +366,7 @@ class SalesAnalyst
 
   def find_total_revenue_of_invoices_for_day(array)
 
-end
+  end
 end
 
 if __FILE__ == $0
