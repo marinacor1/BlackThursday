@@ -209,9 +209,10 @@ class SalesAnalyst
         merchant.revenue
       end
     end.reverse
-   8.times do sorted_merchants.delete_at(-1)
-   end
-   sorted_merchants
+    8.times do
+      sorted_merchants.delete_at(-1)
+    end
+    sorted_merchants
   end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
