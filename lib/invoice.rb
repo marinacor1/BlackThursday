@@ -20,16 +20,6 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @transactions.any? do |transaction|
       transaction.result == 'success'
     end
-
-    # binding.pry
-    # array = all_transaction_status
-    # if array.include?("failed") || array.empty?
-    #   return false
-    #   # @paid = false
-    # else
-    #   return true
-    #   # @paid = true
-    # end
   end
 
   def is_pending?

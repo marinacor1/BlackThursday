@@ -191,9 +191,6 @@ class SalesAnalyst
         merchant.revenue
       end
     end.reverse
-    8.times do
-      sorted_merchants.delete_at(-1)
-    end
     sorted_merchants
   end
 
