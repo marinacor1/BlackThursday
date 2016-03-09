@@ -13,10 +13,8 @@ class SalesAnalyst
     @invoices = se_data.invoices.all if se_data.invoices != nil
     @transactions = se_data.transactions.all if se_data.transactions != nil
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
-    @customers = se_data.customers.all if se_data.invoice_items != nil
+    @customers = se_data.customers.all if se_data.customers != nil
     begin_analysis
-    @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
-    @transactions = se_data.transactions.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -206,7 +204,7 @@ class SalesAnalyst
   def merchants_ranked_by_revenue
     @merchants.sort_by do |merchant|
       merchant.revenue
-    end.reverse 
+    end.reverse
     #merchant knows its revenue
     #in order for merchant knows invoices -> transactions
   end

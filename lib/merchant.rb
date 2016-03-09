@@ -2,7 +2,7 @@ require 'pry'
 require 'time'
 
 class Merchant
-  attr_accessor :id, :name, :created_at, :updated_at, :items, :item_count, :avg_item_price, :invoices, :invoice_count, :customers, :revenue
+  attr_accessor :id, :name, :created_at, :updated_at, :items, :item_count, :avg_item_price, :invoices, :invoice_count, :customers, :revenue, :invoice_items
 
   def initialize(attributes)
     @id = attributes[:id].to_i
@@ -15,6 +15,8 @@ class Merchant
   end
 
   def revenue
+    binding.pry
+    invoices
     invoice_items.map do |item|
       item.unit_price * item.quantity
     end

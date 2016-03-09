@@ -51,6 +51,7 @@ class SalesEngine
     merchants_linked_to_child_items if merchants
     merchants_invoices_and_customers_interrelated if merchants && invoices && items && customers
     invoices_linked_to_transactions if invoices && transactions
+    invoices_linked_to_invoice_items if invoices && invoice_items
   end
 
   def merchants_linked_to_child_items
@@ -62,7 +63,13 @@ class SalesEngine
 
   def invoices_linked_to_transactions
     @invoices.all.map do |invoice|
-      link_transaction_and_invoice(invoice)
+      link_items_and_invoice(invoice)
+    end
+  end
+
+  def invoices_linked_to_invoice_items
+    @invoices.all.map do |invoice|
+      link_items_and_invoice(invoice)
     end
   end
 
