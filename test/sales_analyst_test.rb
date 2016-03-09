@@ -269,7 +269,7 @@ class SalesAnalystTest < Minitest::Test
     answer = sa.merchants_ranked_by_revenue
     assert_equal Array, answer.class
     assert_equal 12334634, answer.first.id #reverse actual is last
-    # assert_equal 12336175, answer.last.id
+    assert_equal 12336175, answer.last.id
   end
 
   def test_sa_finds_all_merchants_with_pending_invoices
