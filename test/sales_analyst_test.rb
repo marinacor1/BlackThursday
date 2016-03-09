@@ -268,8 +268,8 @@ class SalesAnalystTest < Minitest::Test
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_ranked_by_revenue
     assert_equal Array, answer.class
-    assert_equal 122, answer.first.id
-    assert_equal 333, answer.last.id
+    assert_equal 33339, answer.first.id
+    assert_equal 87665, answer.last.id
   end
 
   def test_sa_finds_all_merchants_with_pending_invoices
@@ -277,7 +277,7 @@ class SalesAnalystTest < Minitest::Test
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
     answer = sa.merchants_with_pending_invoices
-    assert_equal 2, answer.count
+    assert_equal 3, answer.count
     assert_equal Merchant, answer[0].class
   end
 
@@ -320,6 +320,18 @@ class SalesAnalystTest < Minitest::Test
     answer = sa.revenue_by_merchant(87665)
     assert_equal 2099.16, answer.to_f
     assert_equal BigDecimal, answer.class
+  end
+
+  def test_sa_finds_most_popular_item_for_merchants_qty_sold_with_all_data
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :invoice_items => "./data/invoice_items.csv", :transactions => "./data/transactions.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.most_sold_item_for_merchant(12334768)
+    assert_equal Item, answer[0].class
+    assert_equal Array, answer.class
+    binding.pry
+    assert answer.include?(263524984)
+    assert answer.include?("Adult Princess Leia Hat")
   end
 
   def test_sa_finds_most_popular_item_for_merchants_qty_sold

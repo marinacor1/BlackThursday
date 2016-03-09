@@ -13,10 +13,8 @@ class SalesAnalyst
     @invoices = se_data.invoices.all if se_data.invoices != nil
     @transactions = se_data.transactions.all if se_data.transactions != nil
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
-    @customers = se_data.customers.all if se_data.invoice_items != nil
+    @customers = se_data.customers.all if se_data.customers != nil
     begin_analysis
-    @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
-    @transactions = se_data.transactions.all if se_data.invoice_items != nil
   end
 
   def begin_analysis
@@ -204,42 +202,10 @@ class SalesAnalyst
   end
 
   def merchants_ranked_by_revenue
-    @invoices.map do |invoice|
-      binding.pry
-    linked_ids = @invoice_items.select do |item|
-        item.invoice_id == invoice.id
-      end
-      invoice_total = linked_ids.map do |invoice_item|
-        invoice_item.quantity * invoice_item.unit_price
-      end
-      #getting the total revenue for a particular invoice
-      invoice.total_revenue = invoice_total #we need to create attribute
-    end
-    @merchants.each do |x|
-      x.invoices.map do |y|
-        y.total_revenue =
-
-
-
-      binding.pry
-    end
+    @merchants.sort_by do |merchant|
+      merchant.revenue
+    end.reverse
   end
-end
-
-  #   @invoice
-  #   pry
-  #   revenue = []
-  #   @invoice_items.each do |item|
-  #     revenue << [item, item.unit_price * item.quantity]
-  # end
-  # sorted_rev = revenue.sort_by do |item_array|
-  #   item_array[1].to_f
-  # end
-    #look in invoice_items and find the revenue for each id
-    #sort by highest revenue and connect that with item_id (array or hash)
-    #look in items, find the correct item and then connect with merchant_id
-    #look in merchants and return that merchant
-  # end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
     merch.items.find_all do |item|
@@ -248,22 +214,12 @@ end
   end
 
   def merchants_with_pending_invoices
-    binding.pry
-    penders = @transactions.select do |sale|
-      sale.result == 'failed'
+    @merchants.select do |merchant|
+       merchant.invoices.any? do |invoice|
+         invoice.is_pending?
+       end
     end
-    # penders = @invoices.select do |invoice|
-    #   invoice.status == :pending
-    # end
-    merch_ids = penders.map do |merch|
-      merch.merchant_id
-    end.uniq
-    merchant_instances = @merchants.select do |id|
-      merch_ids.include?(id.id)
-    end
-    merchant_instances
-    binding.pry
-  end
+   end
 
   def merchants_with_only_one_item
     singular_shops = @merchants.select do |content|
@@ -331,11 +287,29 @@ end
   end
 
   def most_sold_item_for_merchant(query_id)
-    merchant = @merchants.find { |merchant| merchant.id == query_id}
-    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
-    merchant_sold_items = find_all_merchant_items(item_ids)
-    sorted_items = sort_merchant_items(merchant_sold_items)
-    most_sold = top_item_tie_or_not(sorted_items)
+    correct_invoices = @invoices.select do |invoice|
+      invoice.merchant.id == query_id
+    end
+    invoice_ids = correct_invoices.map do |inv|
+      inv.id
+    end
+    correct_items = @invoice_items.select do |item|
+      invoice_ids.include?(item.invoice_id)
+    end
+    correct_revenues = correct_items.sort_by do |item|
+      item.unit_price * item.quantity
+    end.reverse
+    top = @items.find do |item|
+      item.id == correct_revenues[0].item_id
+    end
+    top
+    # merchant = @merchants.find { |merchant| merchant.id == query_id}
+    #invoices, transactions,
+    # item_ids = merchant.items.map { |thing| thing.id }
+
+    # merchant_sold_items = find_all_merchant_items(item_ids)
+    # sorted_items = sort_merchant_items(merchant_sold_items)
+    # most_sold = top_item_tie_or_not(sorted_items)
   end
 
 
@@ -375,7 +349,7 @@ end
       (item.quantity * item.unit_price)
     end.reverse
   end
-  
+
   def total_revenue_by_date(date)
     Time.parse(date) if !date.instance_of? Time
     invoice_array = find_all_successful_invoices_for_given_date(date)
@@ -384,6 +358,7 @@ end
 
   def find_all_successful_invoices_for_given_date(date)
     @invoices.select do |invoice|
+      # invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
       invoice if invoice.created_at == (date) && invoice.paid
     end
   end
@@ -406,8 +381,6 @@ if __FILE__ == $0
     :invoice_items => "./data/invoice_items.csv" } )
     sa = SalesAnalyst.new(se)
 
-
-    binding.pry
 
 
   end
