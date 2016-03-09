@@ -3,7 +3,7 @@ require 'time'
 require 'bigdecimal'
 
 class InvoiceItem
-  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at, :invoice_items, :invoice_items_count
+  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at, :invoice_items, :invoice_items_count, :invoice
 
   def initialize(attributes)
     @id = attributes[:id].to_i
@@ -32,6 +32,10 @@ class InvoiceItem
   def updated_at
     Time.parse(@updated_at)
   end
+
+  def inspect
+  "#<#{self.class}>"
+end
 
 end
 
