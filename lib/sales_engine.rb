@@ -95,30 +95,33 @@ class SalesEngine
 
   def link_items_and_invoice(invoice)
     all_invoice_items = @invoice_items.find_all_by_invoice_id(invoice.id)
-    total = 0
-    all_invoice_items.map do |invoice_item|
-      invoice_total = total_invoice_prices(invoice, invoice_item)
-      total += invoice_total
-      populate_invoice_items_array(invoice, invoice_item)
-    end
-    invoice.total = BigDecimal(total)
+    invoice_total = all_invoice_items.map do |invoice_item|
+      invoice_item_total = total_invoice_item_prices(invoice, invoice_item)
+      invoice_item_total
+    end.inject(0, :+)
+    invoice.total = BigDecimal(invoice_total)
   end
 
-  def total_invoice_prices(invoice, invoice_item)
-    invoice_total = (invoice_item.unit_price*invoice_item.quantity)
+  def total_invoice_item_prices(invoice, invoice_item)
+    (invoice_item.unit_price*invoice_item.quantity)
   end
 
-  def populate_invoice_items_array(invoice, invoice_item)
-    item = @items.find_by_id(invoice_item.item_id)
-    invoice.items << item
-    item
-  end
+  # def populate_invoice_items_array(invoice, invoice_item)
+  #   item = @items.find_by_id(invoice_item.item_id)
+  #   invoice.items << item
+  #   item
+  # end
 
   def link_transaction_and_invoice(invoice)
     all_invoice_transactions = @transactions.find_all_by_invoice_id(invoice.id)
     all_invoice_transactions.map do |transaction|
       transaction.invoice = invoice
       invoice.transactions << transaction
+      if transaction.result = "success"
+        invoice.paid = true
+      else
+        invoice.paid = false
+      end
     end
   end
 

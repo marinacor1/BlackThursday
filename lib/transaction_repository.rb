@@ -53,8 +53,8 @@ class TransactionRepository
 
   def find_all_by_result(result)
     @all_transactions.select do |element|
-       element.result.downcase == result ? element : nil
-    end
+       element.result.downcase == result.downcase ? element : nil
+    end.compact
   end
 
   def find_all_by_credit_card_number(cc_query)

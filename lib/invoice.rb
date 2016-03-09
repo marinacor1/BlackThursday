@@ -13,23 +13,18 @@ attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
     @items = []
     @transactions = []
     @invoice_items = []
-    @paid = true
+    @paid = nil
   end
 
   def is_paid_in_full?
-    array = all_transaction_status
-    if array.include?("failed") || array.empty?
-      return false
-      @paid = false
-    else
-      return true
-      @paid = true
-    end
+    @paid
   end
 
   def is_pending?
-    transactions.all? do |transaction|
-      transaction.result == "failed"
+    if @status == "pending"
+      return true
+    else
+      return false
     end
   end
 

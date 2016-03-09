@@ -15,18 +15,22 @@ class Merchant
   end
 
   def revenue
-    invoice_revenue = []
-    all_revenues = invoices.map do |invoice|
-      if invoice.is_paid_in_full? && invoice.status != :returned
-        invoice.invoice_items.each do |item|
-          invoice_revenue << item.unit_price * item.quantity
-        end
-        invoice_revenue
-      end
-    end
-    invoice_revenue.inject(:+)
-  end
+    self.invoices.map do |invoice|
+      invoice.total if invoice.paid
+    end.compact.inject(0, :+)
+
+    # invoice_revenue = []
+    # all_revenues = invoices.map do |invoice|
+    #   if invoice.is_paid_in_full? && invoice.status != :returned
+    #     invoice.invoice_items.each do |item|
+    #       invoice_revenue << item.unit_price * item.quantity
+    #     end
+    #     invoice_revenue
+    #   end
     # end
+    # invoice_revenue.inject(:+)
+  end
+
 
     def inspect
   "#<#{self.class}>"
