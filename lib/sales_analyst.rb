@@ -123,23 +123,23 @@ class SalesAnalyst
   end
 
   def top_days_by_invoice_count
-   day_counts = find_sales_count_per_day
-   average_value = calculate_average_value(day_counts.values)
-   std_deviation = calculate_standard_deviation(day_counts.values, average_value)
-   metric = std_deviation + average_value
-   find_days_over_one_std_dev_higher_than_average(day_counts, metric)
- end
+    day_counts = find_sales_count_per_day
+    average_value = calculate_average_value(day_counts.values)
+    std_deviation = calculate_standard_deviation(day_counts.values, average_value)
+    metric = std_deviation + average_value
+    find_days_over_one_std_dev_higher_than_average(day_counts, metric)
+  end
 
- def find_sales_count_per_day
-   day_of_hash = @invoices.reduce(Hash.new(0)) do |hash, invoice|
-     date = invoice.created_at
-     date = date.strftime("%A")
-     hash[date] += 1
-     hash
-   end
- end
+  def find_sales_count_per_day
+    day_of_hash = @invoices.reduce(Hash.new(0)) do |hash, invoice|
+      date = invoice.created_at
+      date = date.strftime("%A")
+      hash[date] += 1
+      hash
+    end
+  end
 
- def calculate_average_value(array)
+  def calculate_average_value(array)
     number_of_items = array.count
     sum_of_items = array.inject(0, :+)
     average = sum_of_items/number_of_items
@@ -171,9 +171,9 @@ class SalesAnalyst
   end
 
   def total_revenue_by_date(date)
-   date = date.strftime('%m-%e-%y')
-   correct_date = @invoice_items.select do |item|
-    item.updated_at.strftime('%m-%e-%y') == date
+    date = date.strftime('%m-%e-%y')
+    correct_date = @invoice_items.select do |item|
+      item.updated_at.strftime('%m-%e-%y') == date
     end
     revenue = correct_date.inject(0) do |total, sale|
       total = total + sale.unit_price
@@ -196,10 +196,10 @@ class SalesAnalyst
     #[263542298, 263523644, 263529264]
     total = []
     find_a_match = @merchants.find do |merch|
-          @index = 0
-        total << find_merchant_by_item_id(merch, top_earner_ids)
-          @index += 1
-      end
+      @index = 0
+      total << find_merchant_by_item_id(merch, top_earner_ids)
+      @index += 1
+    end
     total
   end
 
@@ -277,11 +277,11 @@ class SalesAnalyst
   def find_total_for_good_sales(good_sales)
     total_sales = []
     good_sales.each do |sale|
-    @invoice_items.each do |item|
-      if item.invoice_id == sale
-        total_sales << (item.quantity * item.unit_price)
+      @invoice_items.each do |item|
+        if item.invoice_id == sale
+          total_sales << (item.quantity * item.unit_price)
+        end
       end
-    end
     end
     total_sales
   end
@@ -331,40 +331,39 @@ class SalesAnalyst
       (item.quantity * item.unit_price)
     end.reverse
   end
-
+  
   def total_revenue_by_date(date)
-    Time.parse(date)
+    Time.parse(date) if !date.instance_of? Time
     invoice_array = find_all_successful_invoices_for_given_date(date)
-    find_total_revenue_of_invoices_by_day(invoice_array)
-    total_revenue_for_items_by_quantity(invoice_array)
+    day_revenue = find_total_revenue_of_invoices_for_day(invoice_array)
   end
 
   def find_all_successful_invoices_for_given_date(date)
     @invoices.select do |invoice|
-      invoice if invoice.created_at == Time.parse(date) && invoice.is_paid_in_full?
+      invoice if invoice.created_at == (date) && invoice.paid
     end
   end
 
   def find_total_revenue_of_invoices_for_day(array)
-    binding.pry
-    array.each do |invoice|
-      binding.pry
+    array.map do |invoice|
+      invoice.total
+    end.inject(0, :+)
   end
-end
+
 end
 
 if __FILE__ == $0
 
   se = SalesEngine.from_csv( {:items => "./data/items.csv",
-                              :merchants => "./data/merchants.csv",
-                              :invoices => "./data/invoices.csv",
-                              :customers => "./data/customers.csv",
-                              :transactions => "./data/transactions.csv",
-                              :invoice_items => "./data/invoice_items.csv" } )
-  sa = SalesAnalyst.new(se)
+    :merchants => "./data/merchants.csv",
+    :invoices => "./data/invoices.csv",
+    :customers => "./data/customers.csv",
+    :transactions => "./data/transactions.csv",
+    :invoice_items => "./data/invoice_items.csv" } )
+    sa = SalesAnalyst.new(se)
 
 
-  binding.pry
+    binding.pry
 
 
-end
+  end
