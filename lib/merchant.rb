@@ -14,4 +14,6 @@ class Merchant
     @customers=[]
   end
 
+  
+
 end
