@@ -14,7 +14,7 @@ class Merchant
     @customers=[]
   end
 
-  def total_revenue
+  def revenue
     invoice_items.map do |item|
       item.unit_price * item.quantity
     end
