@@ -5,7 +5,7 @@ require_relative 'sales_engine'
 
 class SalesAnalyst
 
-  attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev, :invoices, :transactions
+  attr_reader :std_dev, :high_items, :avg_item_price, :item_price_stdev, :item_count_stdev, :avg_items, :avg_invoices, :invoice_count_stdev, :invoices, :transactions, :merchants, :invoice_items, :items, :customers
 
   def initialize(se_data)
     @merchants = se_data.merchants.all
@@ -210,7 +210,7 @@ class SalesAnalyst
 
   def merchants_with_only_one_item
     singular_shops = @merchants.select do |content|
-      content.items.count == 1
+      content.item.count == 1
     end
   end
 
