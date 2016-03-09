@@ -14,9 +14,9 @@ class SalesAnalyst
     @transactions = se_data.transactions.all if se_data.transactions != nil
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
     @customers = se_data.customers.all if se_data.invoice_items != nil
-    begin_analysis
     @invoice_items = se_data.invoice_items.all if se_data.invoice_items != nil
     @transactions = se_data.transactions.all if se_data.invoice_items != nil
+    begin_analysis
   end
 
   def begin_analysis
@@ -205,26 +205,22 @@ class SalesAnalyst
 
   def merchants_ranked_by_revenue
     @invoices.map do |invoice|
-      binding.pry
-    linked_ids = @invoice_items.select do |item|
-        item.invoice_id == invoice.id
-      end
-      invoice_total = linked_ids.map do |invoice_item|
-        invoice_item.quantity * invoice_item.unit_price
-      end
-      #getting the total revenue for a particular invoice
-      invoice.total_revenue = invoice_total #we need to create attribute
+      item.invoice_id == invoice.id
     end
+    invoice_total = linked_ids.map do |invoice_item|
+      invoice_item.quantity * invoice_item.unit_price
+    end
+    #getting the total revenue for a particular invoice
+    invoice.total_revenue = invoice_total #we need to create attribute
     @merchants.each do |x|
       x.invoices.map do |y|
-        y.total_revenue =
+        y.total_revenue
 
 
 
-      binding.pry
+      end
     end
   end
-end
 
   #   @invoice
   #   pry
@@ -235,10 +231,10 @@ end
   # sorted_rev = revenue.sort_by do |item_array|
   #   item_array[1].to_f
   # end
-    #look in invoice_items and find the revenue for each id
-    #sort by highest revenue and connect that with item_id (array or hash)
-    #look in items, find the correct item and then connect with merchant_id
-    #look in merchants and return that merchant
+  #look in invoice_items and find the revenue for each id
+  #sort by highest revenue and connect that with item_id (array or hash)
+  #look in items, find the correct item and then connect with merchant_id
+  #look in merchants and return that merchant
   # end
 
   def find_merchant_by_item_id(merch, top_earner_ids)
