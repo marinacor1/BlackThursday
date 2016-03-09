@@ -15,10 +15,10 @@ class Merchant
   end
 
   def revenue
-    revs = invoices.map do |invoice|
-      invoice.total
-    end
     binding.pry
+    revs = invoices.inject(0) do |invoice|
+      invoice.
+    end
   end
 
 

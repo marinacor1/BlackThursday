@@ -322,6 +322,18 @@ class SalesAnalystTest < Minitest::Test
     assert_equal BigDecimal, answer.class
   end
 
+  def test_sa_finds_most_popular_item_for_merchants_qty_sold_with_all_data
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :invoice_items => "./data/invoice_items.csv", :transactions => "./data/transactions.csv"}
+    se = SalesEngine.from_csv(hash)
+    sa = SalesAnalyst.new(se)
+    answer = sa.most_sold_item_for_merchant(12334768)
+    assert_equal Item, answer[0].class
+    assert_equal Array, answer.class
+    binding.pry
+    assert answer.include?(263524984)
+    assert answer.include?("Adult Princess Leia Hat")
+  end
+
   def test_sa_finds_most_popular_item_for_merchants_qty_sold
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)

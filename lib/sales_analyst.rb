@@ -287,11 +287,30 @@ class SalesAnalyst
   end
 
   def most_sold_item_for_merchant(query_id)
-    merchant = @merchants.find { |merchant| merchant.id == query_id}
-    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
-    merchant_sold_items = find_all_merchant_items(item_ids)
-    sorted_items = sort_merchant_items(merchant_sold_items)
-    most_sold = top_item_tie_or_not(sorted_items)
+    correct_invoices = @invoices.select do |invoice|
+      invoice.merchant.id == query_id
+    end
+    invoice_ids = correct_invoices.map do |inv|
+      inv.id
+    end
+    correct_items = @invoice_items.select do |item|
+      invoice_ids.include?(item.invoice_id)
+    end
+    correct_revenues = correct_items.sort_by do |item|
+      item.unit_price * item.quantity
+    end.reverse
+    top = @items.find do |item|
+      item.id == correct_revenues[0].item_id
+    end
+    top
+  binding.pry
+    # merchant = @merchants.find { |merchant| merchant.id == query_id}
+    #invoices, transactions,
+    # item_ids = merchant.items.map { |thing| thing.id }
+
+    # merchant_sold_items = find_all_merchant_items(item_ids)
+    # sorted_items = sort_merchant_items(merchant_sold_items)
+    # most_sold = top_item_tie_or_not(sorted_items)
   end
 
 
@@ -347,10 +366,7 @@ class SalesAnalyst
   end
 
   def find_total_revenue_of_invoices_for_day(array)
-    binding.pry
-    array.each do |invoice|
-      binding.pry
-  end
+
 end
 end
 
@@ -365,7 +381,6 @@ if __FILE__ == $0
   sa = SalesAnalyst.new(se)
 
 
-  binding.pry
 
 
 end
