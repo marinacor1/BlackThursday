@@ -1,25 +1,30 @@
+require 'csv'
+require 'pry'
+
 module DataParser
 
-  def initialize
-    if data[repos[repository]].include?('csv')
-      repository.from_csv(data[repos[repository]])
-    else
-      repository.from_array(data[repos[repository]])
-    end
+def load_data(data, destination, object)
+
+  if data.include?('.csv')
+    load_from_csv(data, destination, object)
+  else
+    load_from_array(data, destination, object)
   end
 
-  def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-      item = Item.new(data_row)
-      @all_items << item
-    end
-  end
+end
 
-  def from_array(array)
-    array.each do |attributes|
-      item = Item.new(attributes)
-      @all_items << item
-    end
+def load_from_csv(path, destination, object)
+  CSV.foreach(path, { headers: true, header_converters: :symbol} ) do |data_row|
+    new_object = object.new(data_row)
+    destination.all << new_object
   end
+end
+
+def from_array(data, destination, object)
+  data.each do |attributes|
+    new_object = object.new(attributes)
+    destination << new_object
+  end
+end
 
 end

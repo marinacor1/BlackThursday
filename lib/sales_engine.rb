@@ -39,12 +39,12 @@ class SalesEngine
   end
 
   def populate_repositories(data)
-    @items.from_csv(data[:items], @items, Item) if items
-    @merchants.from_csv(data[:merchants], @merchants, Merchant) if merchants
-    @invoices.from_csv(data[:invoices], @invoices, Invoice) if invoices
-    @invoice_items.from_csv(data[:invoice_items], @invoice_items, InvoiceItem) if invoice_items
-    @customers.from_csv(data[:customers], @customers, Customer) if customers
-    @transactions.from_csv(data[:transactions], @items, Transaction) if transactions
+    @items.load_data(data[:items], @items, Item) if items
+    @merchants.load_data(data[:merchants], @merchants, Merchant) if merchants
+    @invoices.load_data(data[:invoices], @invoices, Invoice) if invoices
+    @invoice_items.load_data(data[:invoice_items], @invoice_items, InvoiceItem) if invoice_items
+    @customers.load_data(data[:customers], @customers, Customer) if customers
+    @transactions.load_data(data[:transactions], @items, Transaction) if transactions
   end
 
   def repositories_linked
