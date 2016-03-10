@@ -280,7 +280,7 @@ class SalesAnalyst
     highest_quantity = find_highest_quantity(correct_invoice_items)
     top_sellers = finding_top_seller(highest_quantity, correct_invoice_items)
     new_items = pull_items_into_array(top_sellers)
-end
+  end
 
   def pull_items_into_array(top_sellers)
     top_sellers.map do |invoice_item|
@@ -296,6 +296,12 @@ end
     end
   end
 
+  def finding_top_item(highest_revenue, correct_invoice_items)
+    correct_invoice_items.select do |invoice_item|
+      (invoice_item.quantity * invoice_item.unit_price) == highest_revenue
+    end
+  end
+
   def find_highest_quantity(correct_invoice_items)
     correct_invoice_items.max_by do |invoice_item|
       invoice_item.quantity
@@ -304,8 +310,8 @@ end
 
   def pull_all_invoice_items(successful_invoices)
     successful_invoices.map do |invoice|
-       invoice.invoice_items
-     end.flatten
+      invoice.invoice_items
+    end.flatten
   end
 
   def check_invoice_success(correct_invoices)
@@ -315,9 +321,9 @@ end
   end
 
   def find_all_invoices(merchant_id)
-   @invoices.select do |invoice|
+    @invoices.select do |invoice|
      invoice.merchant.id == merchant_id
-   end
+    end
   end
 
   def find_all_merchant_items(item_ids)
@@ -326,13 +332,13 @@ end
     end
   end
 
-  def sort_merchant_items(merchant_sold_items)
+  def sort_merchant_items(merchant_sold_items) #may delete
     merchant_sold_items.sort_by do |item|
       item.quantity
     end.reverse
   end
 
-  def top_item_tie_or_not(sorted_items)
+  def top_item_tie_or_not(sorted_items) #maybe delete
     @items.select do |i|
       if sorted_items[0].quantity != sorted_items[1].quantity
         i.id == sorted_items[0].item_id
@@ -343,17 +349,27 @@ end
   end
 
   def best_item_for_merchant(query_id)
-
-
-    merchant = @merchants.find { |merchant| merchant.id == query_id}
-    item_ids = merchant_items = merchant.items.map { |thing| thing.id }
-    merchant_sold_items = find_all_merchant_items(item_ids)
-    sorted_items = sort_by_revenue(merchant_sold_items)
-    top = top_item_tie_or_not(sorted_items)
-    top[0]
+    correct_invoices = find_all_invoices(query_id)
+    #[#<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>]
+    successful_invoices = check_invoice_success(correct_invoices)
+    #[#<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>]
+    correct_invoice_items = pull_all_invoice_items(successful_invoices)
+    #[#<InvoiceItem>, #<InvoiceItem>,...]
+    highest_revenue = find_highest_revenue(correct_invoice_items)
+    ##<InvoiceItem>
+    top_sellers = finding_top_item(highest_revenue_, correct_invoice_items)
+    binding.pry
+    new_items = pull_items_into_array(top_sellers)
+    binding.pry
   end
 
-  def sort_by_revenue(merchant_sold_items)
+  def find_highest_revenue(correct_invoice_items)
+    correct_invoice_items.max_by do |invoice_item|
+      invoice_item.quantity * invoice_item.unit_price
+    end.quantity
+  end
+
+  def sort_by_revenue(merchant_sold_items) #maybe delete
     merchant_sold_items.sort_by do |item|
       (item.quantity * item.unit_price)
     end.reverse
