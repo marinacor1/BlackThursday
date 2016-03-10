@@ -210,28 +210,14 @@ class SalesAnalyst
 
   def merchants_with_only_one_item
     singular_shops = @merchants.select do |content|
-      content.items_count == 1
+      content.item_count == 1
     end
   end
 
   def merchants_with_only_one_item_registered_in_month(month)
-    @merchants.each do |merchant| #there's only 3 merchants
-      item_thing = []
-      merchant.items.each do |item|
-        #@created_at is a time, because of item class
-        if item.created_at.strftime("%B") == month
-          # item.created_at.month == Time.parse(month).month
-          item_thing << item
-        end
-      end
-    end
-    #argument out of range error comes up
-    monthly_merchants = item_thing.map do |item|
-      item.merchant
-    end
-    monthly_merchants
-    #returns array with merchants that only sell one item by the month they registered
-    #use merchant.created_at
+    one_item_merchants = merchants_with_only_one_item
+    month_of_hash = one_item_merchants.group_by { |merchant| (Time.parse(merchant.created_at)).strftime("%B") }
+    return month_of_hash[month]
   end
 
   def revenue_by_merchant(query_id)
