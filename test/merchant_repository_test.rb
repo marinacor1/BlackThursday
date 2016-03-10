@@ -46,9 +46,9 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_find_by_id_returns_correct_merchant_with_id
     se = SalesEngine.from_csv({
-    :items     => "./data/subsets/items_small.csv",
-    :merchants => "./data/subsets/merchants_small.csv"
-    })
+                              :items     => "./data/subsets/items_small.csv",
+                              :merchants => "./data/subsets/merchants_small.csv"
+                              })
 
     merchant = se.merchants.find_by_id(24356)
     assert_equal "CandieandFood", merchant.name
@@ -61,9 +61,9 @@ class MerchantRepositoryTest < Minitest::Test
     mr = MerchantRepository.new
     mr.from_array(data)
     se = SalesEngine.from_csv({
-    :items     => "./data/items.csv",
-    :merchants => "./data/merchants.csv"
-    })
+                              :items     => "./data/items.csv",
+                              :merchants => "./data/merchants.csv"
+                              })
     merchant = se.merchants.find_by_id(10)
     assert_equal nil, merchant
 
@@ -91,9 +91,9 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_merchants_all_works
     se = SalesEngine.from_csv({
-    :items     => "./data/items.csv",
-    :merchants => "./data/merchants.csv"
-    })
+                              :items     => "./data/items.csv",
+                              :merchants => "./data/merchants.csv"
+                              })
     merchant = se.merchants.all
     assert_equal 'Shopin1901', merchant[0].name
     assert_equal 475, se.merchants.all.count
@@ -103,9 +103,9 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_merchant_references_items_as_array_of_item_objects
     se = SalesEngine.from_csv({
-      :items => "./data/items.csv",
-      :merchants => "./data/merchants.csv"
-      })
+                              :items => "./data/items.csv",
+                              :merchants => "./data/merchants.csv"
+                              })
       merchant = se.merchants.find_by_id(12334141)
       assert merchant.items.instance_of? Array
       assert merchant.items[0].instance_of? Item
@@ -113,9 +113,9 @@ class MerchantRepositoryTest < Minitest::Test
 
     def test_item_references_its_merchant_as_merchant_object
       se = SalesEngine.from_csv({
-        :items => "./data/items.csv",
-        :merchants => "./data/merchants.csv"
-        })
+                                :items => "./data/items.csv",
+                                :merchants => "./data/merchants.csv"
+                                })
         item = se.items.find_by_id(263395237)
       assert item.merchant.instance_of? Merchant
     end

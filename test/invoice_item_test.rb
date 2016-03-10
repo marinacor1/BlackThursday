@@ -9,27 +9,27 @@ require 'time'
 class InvoiceItemTest < Minitest::Test
   def test_invoice_items_instantiates
     ii = InvoiceItem.new({
-  :id => 6,
-  :item_id => 7,
-  :invoice_id => 8,
-  :quantity => 1,
-  :unit_price => BigDecimal.new(10.99, 4),
-  :created_at => Time.now,
-  :updated_at => Time.now
-})
+                        :id => 6,
+                        :item_id => 7,
+                        :invoice_id => 8,
+                        :quantity => 1,
+                        :unit_price => BigDecimal.new(10.99, 4),
+                        :created_at => Time.now,
+                        :updated_at => Time.now
+                      })
    assert ii.instance_of? InvoiceItem
   end
 
   def test_invoice_items_knows_its_attributes
     ii = InvoiceItem.new({
-  :id => 6,
-  :item_id => 7,
-  :invoice_id => 8,
-  :quantity => 1,
-  :unit_price => BigDecimal.new(10.99, 4),
-  :created_at => "2015-03-13",
-  :updated_at => "2015-04-13"
-})
+                          :id => 6,
+                          :item_id => 7,
+                          :invoice_id => 8,
+                          :quantity => 1,
+                          :unit_price => BigDecimal.new(10.99, 4),
+                          :created_at => "2015-03-13",
+                          :updated_at => "2015-04-13"
+                        })
    assert_equal 6, ii.id
    assert_equal 7, ii.item_id
    assert_equal 8, ii.invoice_id
@@ -41,14 +41,14 @@ class InvoiceItemTest < Minitest::Test
 
   def test_it_returns_unit_price_to_dollars
     ii = InvoiceItem.new({
-  :id => 6,
-  :item_id => 7,
-  :invoice_id => 8,
-  :quantity => 1,
-  :unit_price => BigDecimal.new(1099, 4),
-  :created_at => Time.now,
-  :updated_at => Time.now
-  })
+                          :id => 6,
+                          :item_id => 7,
+                          :invoice_id => 8,
+                          :quantity => 1,
+                          :unit_price => BigDecimal.new(1099, 4),
+                          :created_at => Time.now,
+                          :updated_at => Time.now
+                          })
   expected = 10.99
 
   assert_equal expected, ii.unit_price.to_f

@@ -5,13 +5,15 @@ require_relative 'sales_engine'
 require_relative 'repository'
 
 class InvoiceRepository
-
   attr_accessor :all
+
+  def inspect
+    "#<#{self.class}>"
+  end
 
   def initialize
     @all_invoices = []
   end
-
 
   def count
     @all_invoices.count

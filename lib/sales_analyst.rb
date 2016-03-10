@@ -272,7 +272,6 @@ class SalesAnalyst
 
   def finding_top_item(highest_revenue, correct_invoice_items)
     correct_invoice_items.select do |invoice_item|
-      binding.pry
       (invoice_item.quantity * invoice_item.unit_price) == highest_revenue
     end
   end

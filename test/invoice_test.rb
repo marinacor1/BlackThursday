@@ -10,25 +10,25 @@ class InvoiceTest < Minitest::Test
 
   def test_invoice_class_instantiates
     i = Invoice.new({
-  :id          => 6,
-  :customer_id => 7,
-  :merchant_id => 8,
-  :status      => "pending",
-  :created_at  => Time.now,
-  :updated_at  => Time.now,
-  })
+                    :id          => 6,
+                    :customer_id => 7,
+                    :merchant_id => 8,
+                    :status      => "pending",
+                    :created_at  => Time.now,
+                    :updated_at  => Time.now,
+                    })
     i.instance_of? Invoice
   end
 
   def test_invoice_knows_its_information
   i = Invoice.new({
-:id          => 6,
-:customer_id => 1,
-:merchant_id => 12334389,
-:status      => "pending",
-:created_at  => "2015-03-13",
-:updated_at  => "2015-04-05",
-})
+                  :id          => 6,
+                  :customer_id => 1,
+                  :merchant_id => 12334389,
+                  :status      => "pending",
+                  :created_at  => "2015-03-13",
+                  :updated_at  => "2015-04-05",
+                  })
   assert_equal 6, i.id
   assert_equal 1, i.customer_id
   assert_equal :pending, i.status
