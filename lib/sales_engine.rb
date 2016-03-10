@@ -152,7 +152,7 @@ class SalesEngine
   def link_merchant_to_customers_via_invoice(invoice, customer)
     merchant = @merchants.find_by_id(invoice.merchant_id)
     invoice.customer.merchants << merchant
-    merchant.customers << invoice.customer
+    merchant.customers << invoice.customer if merchant && invoice 
   end
 
   def remove_duplicate_customers_and_merchants

@@ -167,17 +167,6 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
-  # def total_revenue_by_date(date)
-  #   date = date.strftime('%m-%e-%y')
-  #   correct_date = @invoice_items.select do |item|
-  #     item.updated_at.strftime('%m-%e-%y') == date
-  #   end
-  #   revenue = correct_date.inject(0) do |total, sale|
-  #     total = total + sale.unit_price
-  #   end
-  #   revenue.to_f
-  #   #TODO: is this a float or big decimal?
-  # end
 
   def top_revenue_earners(num = 20)
     x = merchants_ranked_by_revenue.first(num)
