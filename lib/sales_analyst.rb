@@ -298,6 +298,7 @@ class SalesAnalyst
 
   def finding_top_item(highest_revenue, correct_invoice_items)
     correct_invoice_items.select do |invoice_item|
+      binding.pry
       (invoice_item.quantity * invoice_item.unit_price) == highest_revenue
     end
   end
@@ -307,6 +308,8 @@ class SalesAnalyst
       invoice_item.quantity
     end.quantity
   end
+
+
 
   def pull_all_invoice_items(successful_invoices)
     successful_invoices.map do |invoice|
@@ -355,18 +358,18 @@ class SalesAnalyst
     #[#<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>]
     correct_invoice_items = pull_all_invoice_items(successful_invoices)
     #[#<InvoiceItem>, #<InvoiceItem>,...]
-    highest_revenue = find_highest_revenue(correct_invoice_items)
-    ##<InvoiceItem>
-    top_sellers = finding_top_item(highest_revenue_, correct_invoice_items)
-    binding.pry
-    new_items = pull_items_into_array(top_sellers)
-    binding.pry
+    highest_revenue_item_id = find_highest_revenue(correct_invoice_items).item_id
+    ##Fixnum but should be a Big Decimal
+    best_item = @items.find do |item|
+      item.id == highest_revenue_item_id
+    end
+    best_item
   end
 
   def find_highest_revenue(correct_invoice_items)
-    correct_invoice_items.max_by do |invoice_item|
+    max_revenue_item = correct_invoice_items.max_by do |invoice_item|
       invoice_item.quantity * invoice_item.unit_price
-    end.quantity
+    end
   end
 
   def sort_by_revenue(merchant_sold_items) #maybe delete
@@ -405,6 +408,5 @@ if __FILE__ == $0
     :invoice_items => "./data/invoice_items.csv" } )
     sa = SalesAnalyst.new(se)
 
-binding.pry
 
   end
