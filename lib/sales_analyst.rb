@@ -190,11 +190,11 @@ class SalesAnalyst
 
   def merchants_with_pending_invoices
     @merchants.select do |merchant|
-       merchant.invoices.any? do |invoice|
-         invoice.is_pending?
-       end
+      merchant.invoices.any? do |invoice|
+        invoice.is_pending?
+      end
     end
-   end
+  end
 
   def merchants_with_only_one_item
     singular_shops = @merchants.select do |content|
@@ -298,7 +298,7 @@ class SalesAnalyst
 
   def find_all_invoices(merchant_id)
     @invoices.select do |invoice|
-     invoice.merchant.id == merchant_id
+      invoice.merchant.id == merchant_id
     end
   end
 

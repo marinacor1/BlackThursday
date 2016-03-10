@@ -16,16 +16,16 @@ class Transaction
     @invoice = nil
   end
 
-def created_at
-  Time.parse(@created_at)
-end
+  def created_at
+    Time.parse(@created_at)
+  end
 
-def updated_at
-  Time.parse(@updated_at)
-end
+  def updated_at
+    Time.parse(@updated_at)
+  end
 
-def inspect
-  "#<#{self.class}>"
-end
+  def inspect
+    "#<#{self.class}>"
+  end
 
 end

@@ -23,19 +23,7 @@ class Customer
   end
 
   def inspect
-  "#<#{self.class}>"
-end
+    "#<#{self.class}>"
+  end
 
-end
-
-if __FILE__ == $0
-  c = Customer.new({
-  :id => 6,
-  :first_name => "Joan",
-  :last_name => "Clarke",
-  :created_at  => "2007-06-04 21:35:10 UTC",
-  :updated_at  => "2015-10-12 21:35:10 UTC",
-  })
-
-binding.pry
 end
