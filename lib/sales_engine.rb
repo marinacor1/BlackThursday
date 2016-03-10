@@ -152,7 +152,7 @@ class SalesEngine
   def link_merchant_to_customers_via_invoice(invoice, customer)
     merchant = @merchants.find_by_id(invoice.merchant_id)
     invoice.customer.merchants << merchant
-    merchant.customers << invoice.customer if merchant && invoice 
+    merchant.customers << invoice.customer if merchant && invoice
   end
 
   def remove_duplicate_customers_and_merchants
@@ -165,22 +165,3 @@ class SalesEngine
   end
 
 end
-
-
-
-if __FILE__ == $0
-
-  engine = SalesEngine.from_csv({
-    :items => "./data/items.csv",
-    :merchants => "./data/merchants.csv",
-    :invoices => "./data/invoices.csv",
-    :customers => "./data/customers.csv",
-    :transactions => "./data/transactions.csv",
-    :invoice_items => "./data/invoice_items.csv"
-    })
-
-
-    binding.pry
-
-
-  end

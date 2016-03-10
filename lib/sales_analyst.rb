@@ -167,9 +167,8 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
-
   def top_revenue_earners(num = 20)
-    x = merchants_ranked_by_revenue.first(num)
+    merchants_ranked_by_revenue.first(num)
   end
 
   def merchants_ranked_by_revenue
@@ -285,7 +284,6 @@ class SalesAnalyst
   end
 
 
-
   def pull_all_invoice_items(successful_invoices)
     successful_invoices.map do |invoice|
       invoice.invoice_items
@@ -310,21 +308,7 @@ class SalesAnalyst
     end
   end
 
-  def sort_merchant_items(merchant_sold_items) #may delete
-    merchant_sold_items.sort_by do |item|
-      item.quantity
-    end.reverse
-  end
 
-  def top_item_tie_or_not(sorted_items) #maybe delete
-    @items.select do |i|
-      if sorted_items[0].quantity != sorted_items[1].quantity
-        i.id == sorted_items[0].item_id
-      else
-        i.id == sorted_items[0].item_id || i.id == sorted_items[1].item_id
-      end
-    end
-  end
 
   def best_item_for_merchant(query_id)
     correct_invoices = find_all_invoices(query_id)
@@ -341,12 +325,6 @@ class SalesAnalyst
     max_revenue_item = correct_invoice_items.max_by do |invoice_item|
       invoice_item.quantity * invoice_item.unit_price
     end
-  end
-
-  def sort_by_revenue(merchant_sold_items) #maybe delete
-    merchant_sold_items.sort_by do |item|
-      (item.quantity * item.unit_price)
-    end.reverse
   end
 
   def total_revenue_by_date(date)
@@ -368,16 +346,3 @@ class SalesAnalyst
   end
 
 end
-
-if __FILE__ == $0
-
-  se = SalesEngine.from_csv( {:items => "./data/items.csv",
-    :merchants => "./data/merchants.csv",
-    :invoices => "./data/invoices.csv",
-    :customers => "./data/customers.csv",
-    :transactions => "./data/transactions.csv",
-    :invoice_items => "./data/invoice_items.csv" } )
-    sa = SalesAnalyst.new(se)
-
-
-  end
