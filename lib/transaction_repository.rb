@@ -5,13 +5,12 @@ require 'csv'
 
 
 class TransactionRepository
-
+  attr_accessor :all, :name
 
   def inspect
     "#<#{self.class}>"
   end
 
-  attr_accessor :all, :name
 
   def initialize
     @all_transactions = []
@@ -64,18 +63,4 @@ class TransactionRepository
   end
 
 
-end
-
-if __FILE__ == $0
-transaction = TransactionRepository.new
-transaction.from_csv("./data/transactions.csv")
-
-  binding.pry
-engine.transactions.find_all_by_credit_card_number(4848466917766329)
-expect(expected.length).to eq 1
-expect(expected.first.class).to eq Transaction
-expect(expected.first.credit_card_number).to eq credit_card_number
-
-credit_card_number = 4848466917766328
-expected = engine.transactions.find_all_by_credit_card_number(credit_card_number)
 end
