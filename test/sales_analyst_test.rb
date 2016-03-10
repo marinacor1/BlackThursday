@@ -318,11 +318,15 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_sa_finds_most_popular_items_in_array_for_merchants_tie_revenue_generated
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
+    hash = {:items => "./data/items.csv", :merchants => "./data/merchants.csv", :invoices => "./data/invoices.csv", :invoice_items => "./data/invoice_items.csv", :transactions => "./data/transactions.csv"}
     se = SalesEngine.from_csv(hash)
     sa = SalesAnalyst.new(se)
-    answer = sa.best_item_for_merchant(87665)
+    answer = sa.best_item_for_merchant(12334189)
+    assert_equal Item, answer[0].class
+    assert_equal 263516130, answer[0].id
+    answer = sa.best_item_for_merchant(12337105)
     assert_equal Item, answer.class
+    assert_equal 263463003, answer[0].id
   end
 
 
