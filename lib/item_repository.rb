@@ -16,20 +16,6 @@ class ItemRepository
     @all_items = []
   end
 
-  def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-      item = Item.new(data_row)
-      @all_items << item
-    end
-  end
-
-  def from_array(array)
-    array.each do |attributes|
-      item = Item.new(attributes)
-      @all_items << item
-    end
-  end
-
   def count
     @all_items.count
   end

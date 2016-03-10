@@ -1,5 +1,6 @@
 require 'pry'
 require 'csv'
+require_relative 'data_parser'
 require_relative 'item_repository'
 require_relative 'merchant_repository'
 require_relative 'invoice_repository'
@@ -8,43 +9,42 @@ require_relative 'customer_repository'
 require_relative 'transaction_repository'
 
 class SalesEngine
-  attr_accessor :items, :merchants, :invoices, :invoice_items, :customers, :transactions
+  include DataParser
+  attr_accessor :items,
+                :merchants,
+                :invoices,
+                :invoice_items,
+                :customers,
+                :transactions
 
   def initialize(data)
-    if data != nil
-      repos = create_repositories(data)
-      populate_repositories_appropriately(data, repos)
+    if data
+      create_repositories(data)
+      populate_repositories(data, repos)
       repositories_linked
     end
   end
 
   def create_repositories(data)
-    repos = Hash.new
-    repos[@items = ItemRepository.new] = :items if data[:items] != nil
-    repos[@merchants = MerchantRepository.new] = :merchants if data[:merchants] != nil
-    repos[@invoices = InvoiceRepository.new] = :invoices if data[:invoices] != nil
-    repos[@invoice_items = InvoiceItemRepository.new] = :invoice_items if data[:invoice_items] != nil
-    repos[@customers = CustomerRepository.new] = :customers if data[:customers] != nil
-    repos[@transactions = TransactionRepository.new] = :transactions if data[:transactions] != nil
-    return repos
+    @items = ItemRepository.new if data[:items]
+    @merchants = MerchantRepository.new if data[:merchants]
+    @invoices = InvoiceRepository.new if data[:invoices]
+    @invoice_items = InvoiceItemRepository.new :invoice_items if data[:invoice_items]
+    @customers = CustomerRepository.new if data[:customers] != nil
+    @transactions = TransactionRepository.new if data[:transactions]
   end
 
   def self.from_csv(data)
     self.new(data)
   end
 
-  def populate_repositories_appropriately(data, repos)
-    repos.keys.each do |repository|
-      redirect_csv_and_hash_data(data, repos, repository)
-    end
-  end
-
-  def redirect_csv_and_hash_data(data, repos, repository)
-    if data[repos[repository]].include?('csv')
-      repository.from_csv(data[repos[repository]])
-    else
-      repository.from_array(data[repos[repository]])
-    end
+  def populate_repositories(data)
+    @items.from_csv(data[:items], @items, Item) if items
+    @merchants.from_csv(data[:merchants], @merchants, Merchant) if merchants
+    @invoices.from_csv(data[:invoices], @invoices, Invoice) if invoices
+    @invoice_items.from_csv(data[:invoice_items], @invoice_items, InvoiceItem) if invoice_items
+    @customers.from_csv(data[:customers], @customers, Customer) if customers
+    @transactions.from_csv(data[:transactions], @items, Transaction) if transactions
   end
 
   def repositories_linked
