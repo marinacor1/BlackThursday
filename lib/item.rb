@@ -3,7 +3,7 @@ require 'pry'
 require 'time'
 
 class Item
-attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
+  attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at, :merchant
   def initialize(attributes)
     @id = attributes[:id].to_i
     @name = attributes[:name]
@@ -28,20 +28,7 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   end
 
   def inspect
-  "#<#{self.class}>"
-end
-
-end
-
-if __FILE__ == $0
-
-  data = {
-    :name        => "Pencil",
-    :description => "You can use it to write things",
-    :unit_price  => BigDecimal.new(10.99, 4),
-    :created_at  => Time.now,
-    :updated_at  => Time.now,
-  }
-  item = Item.new(data)
+    "#<#{self.class}>"
+  end
 
 end

@@ -6,29 +6,12 @@ require_relative 'repository'
 
 class InvoiceRepository
 
-  def inspect
-    "#<#{self.class}>"
-  end
-
   attr_accessor :all
 
   def initialize
     @all_invoices = []
   end
 
-  def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-      invoice = Invoice.new(data_row)
-      @all_invoices << invoice
-    end
-  end
-
-  def from_array(array)
-    array.each do |attributes|
-      invoice = Invoice.new(attributes)
-      @all_invoices << invoice
-    end
-  end
 
   def count
     @all_invoices.count
@@ -58,10 +41,27 @@ class InvoiceRepository
 
   def find_all_by_status(status)
     @all_invoices.select do |element|
-       element.status.to_s.downcase == status.to_s.downcase ? element : nil
+      element.status.to_s.downcase == status.to_s.downcase ? element : nil
+    end
+  end
+
+  def from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
+      invoice = Invoice.new(data_row)
+      @all_invoices << invoice
+    end
+  end
+
+  def from_array(array)
+    array.each do |attributes|
+      invoice = Invoice.new(attributes)
+      @all_invoices << invoice
     end
   end
 
 
+  def inspect
+    "#<#{self.class}>"
+  end
 
 end

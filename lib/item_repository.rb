@@ -5,29 +5,11 @@ require_relative 'repository'
 
 class ItemRepository
 
-  def inspect
-    "#<#{self.class}>"
-  end
-
   include Repository
   attr_accessor :all
 
   def initialize
     @all_items = []
-  end
-
-  def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-      item = Item.new(data_row)
-      @all_items << item
-    end
-  end
-
-  def from_array(array)
-    array.each do |attributes|
-      item = Item.new(attributes)
-      @all_items << item
-    end
   end
 
   def count
@@ -65,26 +47,21 @@ class ItemRepository
     end
   end
 
+  def from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
+      item = Item.new(data_row)
+      @all_items << item
+    end
+  end
 
-end
+  def from_array(array)
+    array.each do |attributes|
+      item = Item.new(attributes)
+      @all_items << item
+    end
+  end
 
-
-
-
-if __FILE__ == $0
-  #
-  # se = SalesEngine.from_csv({
-  #   :items     => "./data/items.csv",
-  #   :merchants => "./data/merchants.csv"
-  # })
-  #
-  # ir   = se.items
-  # item = ir.find_by_name("Item Repellat Dolorum")
-
-  # data = [{:name => "Pencil", :description => "You can use it to write things", :unit_price  => BigDecimal.new(200, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Paper", :description => "You can write things on it", :unit_price  => BigDecimal.new(100, 4), :created_at  => Time.now, :updated_at  => Time.now },{:name => "Stapler", :description => "Red Swingline", :unit_price  => BigDecimal.new(700, 4), :created_at  => Time.now, :updated_at  => Time.now, }]
-
-  ir = ItemRepository.new
-  binding.pry
-  ir.from_csv('./data/subsets/items_small.csv')
-
+  def inspect
+    "#<#{self.class}>"
+  end
 end
