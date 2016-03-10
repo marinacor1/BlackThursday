@@ -1,8 +1,8 @@
 module Repository
 
-    def inspect
-      "#<#{self.class}>"
-    end
+  def inspect
+    "#<#{self.class}>"
+  end
 
   def find_with_name(all_contents, query_name)
     all_contents.find do |element|
@@ -18,7 +18,7 @@ module Repository
 
   def find_all_by_string(all_contents, query_name, query_type)
     all_contents.select do |element|
-       element.send(query_type).downcase.include?(query_name.downcase) ? element : nil
+      element.send(query_type).downcase.include?(query_name.downcase) ? element : nil
     end
   end
 

@@ -34,8 +34,8 @@ class InvoiceItem
   end
 
   def inspect
-  "#<#{self.class}>"
-end
+    "#<#{self.class}>"
+  end
 
 end
 

@@ -3,31 +3,13 @@ require_relative 'customer'
 require 'pry'
 
 class CustomerRepository
-include Repository
-
-def inspect
-    "#<#{self.class}>"
-end
+  include Repository
 
   attr_accessor :all
-
-    def initialize
-      @all_customers = []
-    end
-
-    def from_csv(path)
-      CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-        customer = Customer.new(data_row)
-        @all_customers << customer
-      end
-    end
-
-    def from_array(array)
-      array.each do |attributes|
-        customer = Customer.new(attributes)
-        @all_customers << customer
-      end
-    end
+  
+  def initialize
+    @all_customers = []
+  end
 
   def all
     @all_customers
@@ -45,17 +27,32 @@ end
 
   def find_all_by_first_name(fragment)
     @all_customers.select do |element|
-       element.first_name.to_s.downcase.include?(fragment.to_s.downcase) ? element : nil
+      element.first_name.to_s.downcase.include?(fragment.to_s.downcase) ? element : nil
     end
   end
 
   def find_all_by_last_name(fragment)
     @all_customers.select do |element|
-       element.last_name.to_s.downcase.include?(fragment.to_s.downcase) ? element : nil
+      element.last_name.to_s.downcase.include?(fragment.to_s.downcase) ? element : nil
     end
   end
 
+  def from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
+      customer = Customer.new(data_row)
+      @all_customers << customer
+    end
+  end
 
+  def from_array(array)
+    array.each do |attributes|
+      customer = Customer.new(attributes)
+      @all_customers << customer
+    end
+  end
 
+  def inspect
+    "#<#{self.class}>"
+  end
 
 end

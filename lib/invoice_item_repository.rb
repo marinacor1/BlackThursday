@@ -6,7 +6,7 @@ require 'pry'
 class InvoiceItemRepository
 
   def inspect
-      "#<#{self.class}>"
+    "#<#{self.class}>"
   end
 
   attr_accessor :all, :name
@@ -15,19 +15,6 @@ class InvoiceItemRepository
     @all_invoice_items = []
   end
 
-  def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-      invoice_item = InvoiceItem.new(data_row)
-      @all_invoice_items << invoice_item
-    end
-  end
-
-  def from_array(array)
-    array.each do |attributes|
-      invoice_item = InvoiceItem.new(attributes)
-      @all_invoice_items << invoice_item
-    end
-  end
   def all
     @all_invoice_items
   end
@@ -49,8 +36,22 @@ class InvoiceItemRepository
   end
 
   def find_all_by_invoice_id(invoice_num)
-      @all_invoice_items.select do |item|
+    @all_invoice_items.select do |item|
       item.invoice_id == invoice_num
+    end
+  end
+
+  def from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
+      invoice_item = InvoiceItem.new(data_row)
+      @all_invoice_items << invoice_item
+    end
+  end
+
+  def from_array(array)
+    array.each do |attributes|
+      invoice_item = InvoiceItem.new(attributes)
+      @all_invoice_items << invoice_item
     end
   end
 

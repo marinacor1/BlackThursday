@@ -16,20 +16,6 @@ class TransactionRepository
     @all_transactions = []
   end
 
-  def from_csv(path)
-    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
-      transaction = Transaction.new(data_row)
-      @all_transactions << transaction
-    end
-  end
-
-  def from_array(array)
-    array.each do |attributes|
-      transaction = Transaction.new(attributes)
-      @all_transactions << transaction
-    end
-  end
-
   def all
     @all_transactions
   end
@@ -52,7 +38,7 @@ class TransactionRepository
 
   def find_all_by_result(result)
     @all_transactions.select do |element|
-       element.result.downcase == result ? element : nil
+      element.result.downcase == result ? element : nil
     end
   end
 
@@ -62,5 +48,18 @@ class TransactionRepository
     end
   end
 
+  def from_csv(path)
+    CSV.foreach(path, { headers: true, header_converters: :symbol}) do |data_row|
+      transaction = Transaction.new(data_row)
+      @all_transactions << transaction
+    end
+  end
+
+  def from_array(array)
+    array.each do |attributes|
+      transaction = Transaction.new(attributes)
+      @all_transactions << transaction
+    end
+  end
 
 end
