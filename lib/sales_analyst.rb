@@ -353,13 +353,9 @@ class SalesAnalyst
 
   def best_item_for_merchant(query_id)
     correct_invoices = find_all_invoices(query_id)
-    #[#<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>]
     successful_invoices = check_invoice_success(correct_invoices)
-    #[#<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>, #<Invoice>]
     correct_invoice_items = pull_all_invoice_items(successful_invoices)
-    #[#<InvoiceItem>, #<InvoiceItem>,...]
     highest_revenue_item_id = find_highest_revenue(correct_invoice_items).item_id
-    ##Fixnum but should be a Big Decimal
     best_item = @items.find do |item|
       item.id == highest_revenue_item_id
     end
