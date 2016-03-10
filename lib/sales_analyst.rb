@@ -167,7 +167,6 @@ class SalesAnalyst
     percentage = sprintf('%.2f', (percentage_status*100)).to_f
   end
 
-
   def top_revenue_earners(num = 20)
     merchants_ranked_by_revenue.first(num)
   end
