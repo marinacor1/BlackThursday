@@ -199,13 +199,6 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 13.5, sa.invoice_status(:returned)
   end
 
-  # def test_sa_gives_total_revenue_for_given_date
-  #   hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
-  #   se = SalesEngine.from_csv(hash)
-  #   sa = SalesAnalyst.new(se)
-  #   assert_equal 8435.57, sa.total_revenue_by_date('2012-03-27')
-  # end
-
   def test_sa_finds_top_3_performing_merchants_by_revenue
     hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
     se = SalesEngine.from_csv(hash)
@@ -264,16 +257,6 @@ class SalesAnalystTest < Minitest::Test
     assert_equal Array, answer.class
     assert answer[0].id == (263524984) #item_id Princess Leia hat
     assert answer[0].name.include?("Adult Princess Leia Hat")
-  end
-
-  def test_sa_finds_most_popular_items_in_array_for_merchants_tie_qty_sold
-    hash = {:items => "./data/subsets/items_small.csv", :merchants => "./data/subsets/merchants_small.csv", :invoices => "./data/subsets/invoices_small.csv", :invoice_items => "./data/subsets/invoice_items_small.csv", :transactions => "./data/subsets/transactions_small.csv"}
-    se = SalesEngine.from_csv(hash)
-    sa = SalesAnalyst.new(se)
-    answer = sa.most_sold_item_for_merchant(24356)
-    assert_equal Array, answer.class
-    assert_equal 2, answer.count
-    assert_equal Item, answer[0].class
   end
 
   def test_sa_finds_most_popular_items_in_array_for_merchants
